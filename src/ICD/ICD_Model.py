@@ -22,7 +22,7 @@ class WordLevelAttention(nn.Module):
         scores = self.w_at(u_i).squeeze(-1) # Shape: (batch_size, seq_len)
         
         # Masking: Gán điểm cực kỳ thấp cho các padding tokens để softmax trả về 0
-        scores = scores.masked_fill(attention_mask == 0, -1e9)
+        scores = scores.masked_fill(attention_mask == 0, -1e4)
         
         # Tính trọng số attention (alpha)
         alpha = torch.softmax(scores, dim=-1) # Shape: (batch_size, seq_len)
@@ -80,7 +80,7 @@ class CharacterLevelAttention(nn.Module):
         scores = self.w_at(u_i).squeeze(-1) # Shape: (batch_size, seq_len)
         
         # Masking: Gán điểm cực kỳ thấp cho các padding tokens
-        scores = scores.masked_fill(attention_mask == 0, -1e9)
+        scores = scores.masked_fill(attention_mask == 0, -1e4)
         
         # Tính trọng số attention (alpha)
         alpha = torch.softmax(scores, dim=-1) # Shape: (batch_size, seq_len)
@@ -151,13 +151,13 @@ class InteractionModelingModule(nn.Module):
         lead_mask_exp = lead_mask.unsqueeze(1)
         
         # Masking padding của đoạn dẫn (lead) bằng cách gắn giá trị rất âm
-        S_T = S.masked_fill(lead_mask_exp == 0, -1e9)
+        S_T = S.masked_fill(lead_mask_exp == 0, -1e4)
         # Tính A_T: chú ý của đoạn dẫn đối với tiêu đề
         A_T = torch.softmax(S_T, dim=-1) # Shape: (batch_size, N, P)
         
         # Masking padding của tiêu đề (title). Lưu ý ta phải transpose S để có shape (batch_size, P, N)
         # title_mask.unsqueeze(1) có shape (batch_size, 1, N)
-        S_L = S.transpose(1, 2).masked_fill(title_mask.unsqueeze(1) == 0, -1e9)
+        S_L = S.transpose(1, 2).masked_fill(title_mask.unsqueeze(1) == 0, -1e4)
         # Tính A_L: chú ý của tiêu đề đối với đoạn dẫn
         A_L = torch.softmax(S_L, dim=-1) # Shape: (batch_size, P, N)
         
@@ -183,9 +183,9 @@ class InteractionModelingModule(nn.Module):
         sum_title = torch.bmm(title_mask.unsqueeze(1).float(), R_title).squeeze(1)
         sum_lead = torch.bmm(lead_mask.unsqueeze(1).float(), R_lead).squeeze(1)
         
-        # Đếm số token thực sự. Dùng clamp_min=1e-9 để tránh lỗi chia cho 0
-        len_title = torch.clamp(torch.sum(title_mask, dim=1, keepdim=True), min=1e-9)
-        len_lead = torch.clamp(torch.sum(lead_mask, dim=1, keepdim=True), min=1e-9)
+        # Đếm số token thực sự. Dùng clamp_min=1e-4 để tránh lỗi chia cho 0
+        len_title = torch.clamp(torch.sum(title_mask, dim=1, keepdim=True), min=1e-4)
+        len_lead = torch.clamp(torch.sum(lead_mask, dim=1, keepdim=True), min=1e-4)
         
         # Chia trung bình chỉ trên các token thực
         r_title = sum_title / len_title # (batch_size, 2 * hidden_size)
@@ -241,11 +241,8 @@ class ClickbaitDetectionModel(nn.Module):
         # Bước 5: Tổng hợp điểm logits
         logits = self.alpha_t * y_t + self.alpha_b * y_b + self.alpha_s * y_s + self.alpha_r * y_r
         
-        # Áp dụng hàm sigmoid để lấy xác suất [0, 1]
-        preds = torch.sigmoid(logits)
-        
-        # Trả về preds cho dự đoán, e_title và e_lead cho Joint Loss
-        return preds, e_title, e_lead
+        # Trả về logits cho dự đoán, e_title và e_lead cho Joint Loss
+        return logits, e_title, e_lead
 
 class JointLoss(nn.Module):
     def __init__(self, margin=1.0, lambda_weight=0.3):
@@ -253,17 +250,17 @@ class JointLoss(nn.Module):
         self.margin = margin
         self.lambda_weight = lambda_weight
         # Hàm Binary Cross Entropy cho dự đoán chính
-        self.bce = nn.BCELoss()
+        self.bce = nn.BCEWithLogitsLoss()
 
-    def forward(self, preds: torch.Tensor, labels: torch.Tensor, e_title: torch.Tensor, e_lead: torch.Tensor):
+    def forward(self, logits: torch.Tensor, labels: torch.Tensor, e_title: torch.Tensor, e_lead: torch.Tensor):
         """
-        preds: (batch_size, 1) - Xác suất dự đoán
+        logits: (batch_size, 1) - Logits chưa qua sigmoid
         labels: (batch_size, 1) - Nhãn thực tế (0 hoặc 1)
         e_title: (batch_size, hidden_size) - Đặc trưng content tiêu đề
         e_lead: (batch_size, hidden_size) - Đặc trưng content đoạn dẫn
         """
         # 1. Tính toán loss dự đoán chính (BCE Loss)
-        bce_loss = self.bce(preds, labels)
+        bce_loss = self.bce(logits, labels)
         
         # 2. Tính toán Contrastive Loss (L_CL)
         # Tính khoảng cách Cosine

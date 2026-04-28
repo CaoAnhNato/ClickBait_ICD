@@ -134,12 +134,13 @@ def evaluate(model, dataloader, loss_fn, device):
             char_mask = batch["char_mask"].to(device)
             labels = batch["labels"].to(device)
             
-            preds, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
+            logits, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
             
-            loss, _, _ = loss_fn(preds, labels, e_title, e_lead)
+            loss, _, _ = loss_fn(logits, labels, e_title, e_lead)
             total_loss += loss.item()
             
             # Convert xác suất sang nhãn nhị phân
+            preds = torch.sigmoid(logits)
             pred_labels = (preds >= 0.5).int().cpu().numpy()
             all_preds.extend(pred_labels)
             all_labels.extend(labels.cpu().numpy())
@@ -239,10 +240,10 @@ def main():
             char_mask = batch["char_mask"].to(device)
             labels = batch["labels"].to(device)
             
-            # Forward pass with AMP
-            with torch.cuda.amp.autocast(enabled=USE_AMP):
-                preds, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
-                loss, bce_loss, L_CL = loss_fn(preds, labels, e_title, e_lead)
+            # Forward pass with AMP (using BFloat16 for better stability and avoiding overflow)
+            with torch.cuda.amp.autocast(enabled=USE_AMP, dtype=torch.bfloat16):
+                logits, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
+                loss, bce_loss, L_CL = loss_fn(logits, labels, e_title, e_lead)
                 
                 # Normalize loss based on gradient accumulation steps
                 loss = loss / GRAD_ACCUMULATION
