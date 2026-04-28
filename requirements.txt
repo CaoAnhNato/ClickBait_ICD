@@ -1,0 +1,21 @@
+# PyTorch for GPU (Linux default installs CUDA 12.1/11.8 bundled, but you can specify using extra-index-url if needed)
+--extra-index-url https://download.pytorch.org/whl/cu121
+
+# Deep Learning & Models
+torch>=2.0.0
+transformers>=4.30.0
+accelerate>=0.21.0
+
+# Data Processing & Metrics
+pandas
+numpy
+scikit-learn
+
+# Vietnamese NLP processing
+underthesea
+pyvi
+
+# Utilities
+tqdm
+torchinfo
+jupyter
