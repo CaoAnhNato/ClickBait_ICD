@@ -249,7 +249,7 @@ class EarlyStopping:
 
 def main():
     parser = argparse.ArgumentParser(description="Train Multi-Attention ICD Model v2")
-    parser.add_argument('--hw_profile', type=str, choices=['rtx3050', 'ada5000'], default='rtx3050', 
+    parser.add_argument('--hw_profile', type=str, choices=['rtx3050', 'ada5000', 'rtxa4000'], default='rtx3050', 
                         help="Hardware profile to automatically configure batch size and accumulation steps")
     parser.add_argument('--epochs', type=int, default=30, help="Number of training epochs")
     parser.add_argument('--lr', type=float, default=2e-5, help="Learning rate")
@@ -275,7 +275,13 @@ def main():
         GRAD_ACCUMULATION = 1
         NUM_WORKERS = 16
         USE_AMP = True
-        print("[*] Using Hardware Profile: RTX ADA 5000 (High VRAM). Batch=32, Grad_Acc=1, AMP=True")
+        print("[*] Using Hardware Profile: RTX ADA 5000 (High VRAM 32GB). Batch=32, Grad_Acc=1, AMP=True")
+    elif args.hw_profile == 'rtxa4000':
+        BATCH_SIZE = 16
+        GRAD_ACCUMULATION = 2
+        NUM_WORKERS = 16
+        USE_AMP = True
+        print("[*] Using Hardware Profile: RTX A4000 (Mid VRAM 16GB). Batch=16, Grad_Acc=2 (Eff_Batch=32), AMP=True")
         
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     print(f"[*] Compute Device: {device}")
