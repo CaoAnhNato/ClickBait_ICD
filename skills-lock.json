@@ -1,0 +1,11 @@
+{
+  "version": 1,
+  "skills": {
+    "mlflow": {
+      "source": "davila7/claude-code-templates",
+      "sourceType": "github",
+      "skillPath": "cli-tool/components/skills/ai-research/mlops-mlflow/SKILL.md",
+      "computedHash": "02648fc2be5a445fe059d958873739c8123d375828ed19925599a49aef55caef"
+    }
+  }
+}
