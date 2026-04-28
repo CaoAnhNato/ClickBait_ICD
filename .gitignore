@@ -1,0 +1,21 @@
+# Python caches
+__pycache__/
+*.py[cod]
+*$py.class
+.ipynb_checkpoints/
+
+# Model weights and checkpoints
+*.safetensors
+*.pth
+*.pt
+*.bin
+checkpoint-*/
+rng_state.pth
+scaler.pt
+scheduler.pt
+training_args.bin
+trainer_state.json
+
+# User specific exclusions
+test/
+project_structure.yaml
