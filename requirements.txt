@@ -1,8 +1,6 @@
-# PyTorch for GPU (Linux default installs CUDA 12.1/11.8 bundled, but you can specify using extra-index-url if needed)
---extra-index-url https://download.pytorch.org/whl/cu121
-
 # Deep Learning & Models
-torch>=2.0.0
+# Ghi chú: Đã loại bỏ thư viện `torch` do môi trường máy ảo đã cài đặt sẵn PyTorch 2.9.1 và CUDA 12.8.
+# Việc giữ `torch` ở đây có thể khiến pip ghi đè hoặc hạ cấp phiên bản PyTorch gây lỗi không nhận GPU.
 transformers>=4.30.0
 accelerate>=0.21.0
 
