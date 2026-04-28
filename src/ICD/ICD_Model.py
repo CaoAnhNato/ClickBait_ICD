@@ -91,7 +91,14 @@ class CharacterLevelAttention(nn.Module):
         return e_out, alpha
 
 class StyleModelingModule(nn.Module):
-    def __init__(self, vocab_size: int, d_c: int = 128, nhead: int = 4, num_layers: int = 2):
+    """
+    Module trích xuất đặc trưng văn phong từ chuỗi ký tự của tiêu đề.
+    
+    [v2] Giảm d_c từ 128→64 để giảm noise, phù hợp với thông tin style thực tế
+    không quá phức tạp (chủ yếu là pattern dấu câu, viết hoa, cảm thán).
+    Lưu ý: vocab_size phải phù hợp với CharTokenizer bên train_ICD.py.
+    """
+    def __init__(self, vocab_size: int, d_c: int = 64, nhead: int = 4, num_layers: int = 2):
         super(StyleModelingModule, self).__init__()
         # Lớp Embedding để chuyển ID ký tự thành vector nhúng
         self.char_embedding = nn.Embedding(num_embeddings=vocab_size, embedding_dim=d_c)
@@ -126,10 +133,33 @@ class StyleModelingModule(nn.Module):
         return e_style
 
 class InteractionModelingModule(nn.Module):
+    """
+    Module tương tác chéo giữa Title và Lead sử dụng Co-Attention.
+    
+    [v2] Thêm projection layers (2*hidden→hidden) để giảm chiều đầu ra,
+    tránh dot product explosion khi tổng hợp score ở ClickbaitDetectionModel.
+    Output bây giờ là r_title, r_lead có cùng dimension hidden_size (768),
+    thay vì 2*hidden_size (1536) như v1.
+    Ref: ORCD (WWW'26) - sử dụng cross-attention + projection trước khi aggregation.
+    """
     def __init__(self, hidden_size: int = 768):
         super(InteractionModelingModule, self).__init__()
         # Khởi tạo ma trận trọng số tương tác W_c
         self.W_c = nn.Linear(hidden_size, hidden_size, bias=False)
+        
+        # [v2] Projection layers để giảm chiều từ 2*hidden_size → hidden_size
+        # Thay vì output trực tiếp concatenated vector 1536-dim, ta project xuống 768-dim
+        # Điều này đảm bảo output cùng scale với e_title, e_lead từ Content Module
+        self.title_projection = nn.Sequential(
+            nn.Linear(2 * hidden_size, hidden_size),
+            nn.LayerNorm(hidden_size),
+            nn.GELU()
+        )
+        self.lead_projection = nn.Sequential(
+            nn.Linear(2 * hidden_size, hidden_size),
+            nn.LayerNorm(hidden_size),
+            nn.GELU()
+        )
 
     def forward(self, H_title: torch.Tensor, title_mask: torch.Tensor, H_lead: torch.Tensor, lead_mask: torch.Tensor):
         """
@@ -187,33 +217,63 @@ class InteractionModelingModule(nn.Module):
         len_title = torch.clamp(torch.sum(title_mask, dim=1, keepdim=True), min=1e-4)
         len_lead = torch.clamp(torch.sum(lead_mask, dim=1, keepdim=True), min=1e-4)
         
-        # Chia trung bình chỉ trên các token thực
-        r_title = sum_title / len_title # (batch_size, 2 * hidden_size)
-        r_lead = sum_lead / len_lead    # (batch_size, 2 * hidden_size)
+        # Chia trung bình chỉ trên các token thực → (batch_size, 2 * hidden_size)
+        r_title_raw = sum_title / len_title
+        r_lead_raw = sum_lead / len_lead
+        
+        # [v2] 6. Projection: giảm chiều từ 2*hidden_size → hidden_size
+        # Đảm bảo output cùng scale với e_title, e_lead (768-dim) thay vì 1536-dim
+        r_title = self.title_projection(r_title_raw) # (batch_size, hidden_size)
+        r_lead = self.lead_projection(r_lead_raw)    # (batch_size, hidden_size)
         
         return r_title, r_lead
 
 class ClickbaitDetectionModel(nn.Module):
-    def __init__(self, vocab_size: int, content_model_name="vinai/phobert-base", hidden_size=768, d_c=128):
+    """
+    Model chính tổng hợp 3 module: Content, Style, Interaction.
+    
+    [v2] Thay đổi kiến trúc tổng hợp:
+    - v1: logits = alpha_t*y_t + alpha_b*y_b + alpha_s*y_s + alpha_r*y_r (dot product explosion)
+    - v2: Concatenation [e_title, e_lead, e_style_proj, r_title, r_lead, interaction_feats] → MLP
+    
+    Interaction features bao gồm element-wise difference và element-wise product
+    giữa r_title và r_lead (theo ESIM pattern, đã được chứng minh hiệu quả
+    trong NLI/sentence pair tasks).
+    
+    Ref: ORCD (WWW'26) - concatenation of multiple representation vectors → MLP
+    Ref: ESIM (ACL'17) - element-wise difference/product for sentence interaction
+    """
+    def __init__(self, vocab_size: int, content_model_name="vinai/phobert-base", hidden_size=768, d_c=64):
         super(ClickbaitDetectionModel, self).__init__()
         # 1. Khởi tạo 3 module con
         self.content_module = ContentModelingModule(model_name=content_model_name)
         self.style_module = StyleModelingModule(vocab_size=vocab_size, d_c=d_c)
         self.interaction_module = InteractionModelingModule(hidden_size=hidden_size)
         
-        # 2. Tạo các lớp tuyến tính để tính điểm riêng lẻ
-        # W_t: content title -> in: 768, out: 1
-        self.W_t = nn.Linear(hidden_size, 1)
-        # W_b: content lead -> in: 768, out: 1
-        self.W_b = nn.Linear(hidden_size, 1)
-        # W_s: style -> in: 128, out: 1
-        self.W_s = nn.Linear(d_c, 1)
+        # [v2] 2. Projection layer cho style embedding: d_c → hidden_size
+        # Để đồng bộ dimension trước khi concatenate
+        self.style_projection = nn.Linear(d_c, hidden_size)
         
-        # 3. Khởi tạo các siêu tham số có thể học (learnable weights) cho việc tổng hợp
-        self.alpha_t = nn.Parameter(torch.ones(1))
-        self.alpha_b = nn.Parameter(torch.ones(1))
-        self.alpha_s = nn.Parameter(torch.ones(1))
-        self.alpha_r = nn.Parameter(torch.ones(1))
+        # [v2] 3. MLP Classifier thay cho learnable alpha weights
+        # Input features:
+        #   - e_title: (hidden_size) = 768
+        #   - e_lead: (hidden_size) = 768
+        #   - e_style_proj: (hidden_size) = 768
+        #   - r_title: (hidden_size) = 768  (đã projected trong InteractionModule)
+        #   - r_lead: (hidden_size) = 768
+        #   - r_diff: (hidden_size) = 768  (element-wise difference: |r_title - r_lead|)
+        #   - r_prod: (hidden_size) = 768  (element-wise product: r_title * r_lead)
+        # Total: 7 * hidden_size = 5376
+        classifier_input_dim = 7 * hidden_size
+        
+        self.classifier = nn.Sequential(
+            nn.LayerNorm(classifier_input_dim),
+            nn.Dropout(0.3),
+            nn.Linear(classifier_input_dim, 256),
+            nn.GELU(),
+            nn.Dropout(0.1),
+            nn.Linear(256, 1)
+        )
 
     def forward(self, title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask):
         # Bước 1: Trích xuất đặc trưng từ Content Module
@@ -225,32 +285,101 @@ class ClickbaitDetectionModel(nn.Module):
         # e_style có shape (batch_size, d_c)
         e_style = self.style_module(char_ids, char_mask)
         
+        # [v2] Project style embedding lên cùng dimension với content embeddings
+        e_style_proj = self.style_projection(e_style) # (batch_size, hidden_size)
+        
         # Bước 3: Tính toán tương tác chéo từ Interaction Module
-        # r_title, r_lead có shape (batch_size, 2 * hidden_size)
+        # [v2] r_title, r_lead giờ đã có shape (batch_size, hidden_size) thay vì (batch_size, 2*hidden_size)
         r_title, r_lead = self.interaction_module(H_title, title_mask, H_lead, lead_mask)
         
-        # Bước 4: Tính các điểm số riêng biệt
-        y_t = self.W_t(e_title) # (batch_size, 1)
-        y_b = self.W_b(e_lead)  # (batch_size, 1)
-        y_s = self.W_s(e_style) # (batch_size, 1)
+        # [v2] Bước 4: Tính interaction features theo ESIM pattern
+        # Element-wise difference: nắm bắt sự khác biệt ngữ nghĩa giữa title/lead qua co-attention
+        r_diff = torch.abs(r_title - r_lead) # (batch_size, hidden_size)
+        # Element-wise product: nắm bắt sự tương đồng ngữ nghĩa
+        r_prod = r_title * r_lead # (batch_size, hidden_size)
         
-        # Điểm tương tác y_r bằng tích vô hướng của r_title và r_lead
-        # dim=-1 để tính tổng theo chiều feature, keepdim=True để giữ shape (batch_size, 1)
-        y_r = torch.sum(r_title * r_lead, dim=-1, keepdim=True) 
+        # [v2] Bước 5: Concatenate tất cả features → MLP Classifier
+        # Thay vì: logits = alpha_t*y_t + alpha_b*y_b + alpha_s*y_s + alpha_r*y_r (v1 - bị explosion)
+        combined = torch.cat([
+            e_title,        # Content representation của title
+            e_lead,         # Content representation của lead
+            e_style_proj,   # Style representation (projected)
+            r_title,        # Interaction-aware title representation
+            r_lead,         # Interaction-aware lead representation
+            r_diff,         # Semantic difference (clickbait signal)
+            r_prod          # Semantic similarity
+        ], dim=-1) # (batch_size, 7 * hidden_size)
         
-        # Bước 5: Tổng hợp điểm logits
-        logits = self.alpha_t * y_t + self.alpha_b * y_b + self.alpha_s * y_s + self.alpha_r * y_r
+        logits = self.classifier(combined) # (batch_size, 1)
         
         # Trả về logits cho dự đoán, e_title và e_lead cho Joint Loss
         return logits, e_title, e_lead
 
+class FocalLoss(nn.Module):
+    """
+    Focal Loss cho bài toán binary classification mất cân bằng.
+    
+    Ref: Lin et al. (2017) "Focal Loss for Dense Object Detection"
+    Ref: CoGate-LSTM (2510.17018) - sử dụng weighted focal loss cho toxic text classification
+    
+    Với dataset ViClickbait: 68.8% non-clickbait, 31.2% clickbait
+    → alpha=0.6 (weight cao hơn cho minority class - clickbait)
+    → gamma=2.0 (focus vào hard examples, giảm loss cho easy examples)
+    
+    Công thức: FL(p_t) = -alpha_t * (1 - p_t)^gamma * log(p_t)
+    """
+    def __init__(self, alpha=0.6, gamma=2.0):
+        super(FocalLoss, self).__init__()
+        self.alpha = alpha
+        self.gamma = gamma
+    
+    def forward(self, logits: torch.Tensor, labels: torch.Tensor):
+        """
+        logits: (batch_size, 1) - Raw logits chưa qua sigmoid
+        labels: (batch_size, 1) - Binary labels (0 hoặc 1)
+        """
+        # Tính BCE loss element-wise (không reduce)
+        bce_loss = F.binary_cross_entropy_with_logits(logits, labels, reduction='none')
+        
+        # Tính p_t (probability of correct class)
+        probs = torch.sigmoid(logits)
+        p_t = probs * labels + (1 - probs) * (1 - labels)
+        
+        # Tính alpha_t (class-specific weight)
+        # alpha cho clickbait (label=1), (1-alpha) cho non-clickbait (label=0)
+        alpha_t = self.alpha * labels + (1 - self.alpha) * (1 - labels)
+        
+        # Focal modulating factor: (1 - p_t)^gamma
+        focal_weight = (1 - p_t) ** self.gamma
+        
+        # Final focal loss
+        focal_loss = alpha_t * focal_weight * bce_loss
+        
+        return focal_loss.mean()
+
 class JointLoss(nn.Module):
-    def __init__(self, margin=1.0, lambda_weight=0.3):
+    """
+    Joint Loss = Focal Loss + lambda * Contrastive Loss
+    
+    [v2] Thay đổi so với v1:
+    - Sử dụng FocalLoss thay vì BCEWithLogitsLoss (xử lý class imbalance)
+    - Giảm margin: 1.0 → 0.5 (phù hợp với word overlap gap ~12% trong dataset)
+    - Thêm learnable temperature parameter cho contrastive loss
+    
+    Ref: RoCliCo (2310.06540) - sử dụng contrastive learning với temperature scaling
+    Ref: CVM (IJCAI'22) - contrastive variational modelling cho clickbait
+    """
+    def __init__(self, margin=0.5, lambda_weight=0.3, focal_alpha=0.6, focal_gamma=2.0):
         super(JointLoss, self).__init__()
         self.margin = margin
         self.lambda_weight = lambda_weight
-        # Hàm Binary Cross Entropy cho dự đoán chính
-        self.bce = nn.BCEWithLogitsLoss()
+        
+        # [v2] Focal Loss thay vì BCE
+        self.focal_loss = FocalLoss(alpha=focal_alpha, gamma=focal_gamma)
+        
+        # [v2] Learnable temperature cho contrastive loss (init=0.07, theo SimCLR)
+        # Temperature thấp → phân tách mạnh hơn, temperature cao → phân tách mềm hơn
+        self.log_temperature = nn.Parameter(torch.log(torch.tensor(0.07)))
 
     def forward(self, logits: torch.Tensor, labels: torch.Tensor, e_title: torch.Tensor, e_lead: torch.Tensor):
         """
@@ -259,29 +388,31 @@ class JointLoss(nn.Module):
         e_title: (batch_size, hidden_size) - Đặc trưng content tiêu đề
         e_lead: (batch_size, hidden_size) - Đặc trưng content đoạn dẫn
         """
-        # 1. Tính toán loss dự đoán chính (BCE Loss)
-        bce_loss = self.bce(logits, labels)
+        # 1. Tính Focal Loss (thay vì BCE)
+        cls_loss = self.focal_loss(logits, labels)
         
-        # 2. Tính toán Contrastive Loss (L_CL)
-        # Tính khoảng cách Cosine
-        # cosine_similarity trả về shape (batch_size,), cần unsqueeze để đồng bộ với labels (batch_size, 1)
-        cosine_sim = F.cosine_similarity(e_title, e_lead, dim=-1).unsqueeze(-1) 
+        # 2. Tính toán Contrastive Loss (L_CL) với temperature scaling
+        # [v2] Temperature scaling: chia cosine similarity cho temperature
+        temperature = torch.exp(self.log_temperature).clamp(min=0.01, max=1.0)
+        
+        # Tính cosine similarity và scale bằng temperature
+        cosine_sim = F.cosine_similarity(e_title, e_lead, dim=-1).unsqueeze(-1)
         
         # Khoảng cách D_cos: Khi similarity cao -> D_cos thấp (ngược lại)
         D_cos = 1 - cosine_sim
         
         # Nhãn 0 (Non-Clickbait): title và lead phải có tính tương đồng cao -> D_cos phải thấp
         # Phạt D_cos nếu nó lớn (tức là 2 vector khác nhau)
-        loss_0 = (1 - labels) * D_cos
+        loss_0 = (1 - labels) * (D_cos / temperature)
         
         # Nhãn 1 (Clickbait): title và lead lạc đề hoặc tạo khoảng trống -> D_cos phải lớn (vượt margin)
-        # Phạt nếu D_cos nhỏ hơn margin
-        loss_1 = labels * torch.clamp(self.margin - D_cos, min=0.0)
+        # [v2] Margin giảm từ 1.0 → 0.5: phù hợp hơn với word overlap gap thực tế (~12%)
+        loss_1 = labels * torch.clamp(self.margin - D_cos, min=0.0) / temperature
         
         # Tổng hợp Contrastive Loss của lô (batch)
         L_CL = torch.mean(loss_0 + loss_1)
         
         # 3. Tính Total Loss
-        total_loss = bce_loss + self.lambda_weight * L_CL
+        total_loss = cls_loss + self.lambda_weight * L_CL
         
-        return total_loss, bce_loss, L_CL
+        return total_loss, cls_loss, L_CL

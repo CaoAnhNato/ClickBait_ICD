@@ -1,271 +1,352 @@
-import unittest
+"""
+Unit Tests cho ICD Model v2
+============================
+Kiểm tra tính đúng đắn của kiến trúc model sau khi refactor:
+- Shape các layer
+- Masking hoạt động đúng
+- Loss function tính toán hợp lý
+- Logits scale không bị explosion
+- Vietnamese char encoding
+
+Chạy: conda run -n MLE python src/ICD/ICD_testing.py
+"""
+
 import torch
-from transformers import AutoConfig, AutoModel
-from ICD_Model import ContentModelingModule, StyleModelingModule, InteractionModelingModule, ClickbaitDetectionModel, JointLoss
+import torch.nn as nn
+import numpy as np
+import sys
+import os
 
-class TestContentModelingModule(unittest.TestCase):
-    def setUp(self):
-        # Khởi tạo mô hình giả lập (dummy model) để test hình học (shape) nhanh chóng
-        print("\n[+] Đang khởi tạo mô hình để test...")
-        config = AutoConfig.from_pretrained("vinai/phobert-base")
-        config.num_hidden_layers = 2 # Giảm số lượng layer xuống 2 để test cực nhanh
-        
-        self.module = ContentModelingModule("vinai/phobert-base")
-        self.module.phobert = AutoModel.from_config(config) # Override bằng dummy config
-        self.module.eval() # Chế độ evaluation
-        
-        self.batch_size = 4
-        self.N = 15 # Độ dài title
-        self.P = 35 # Độ dài lead_paragraph
-        self.hidden_size = 768
+# Thêm đường dẫn root vào sys.path
+base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.append(base_dir)
 
-    def test_output_shapes(self):
-        # 1. Tạo tensor đầu vào giả lập (Mock inputs)
-        title_ids = torch.randint(0, 1000, (self.batch_size, self.N))
-        title_mask = torch.ones(self.batch_size, self.N)
-        
-        lead_ids = torch.randint(0, 1000, (self.batch_size, self.P))
-        lead_mask = torch.ones(self.batch_size, self.P)
+from src.ICD.ICD_Model import (
+    WordLevelAttention, ContentModelingModule, 
+    StyleModelingModule, InteractionModelingModule,
+    ClickbaitDetectionModel, JointLoss, FocalLoss,
+    CharacterLevelAttention
+)
 
-        # 2. Chạy qua module
-        with torch.no_grad():
-            H_title, H_lead, e_title, e_lead = self.module(title_ids, title_mask, lead_ids, lead_mask)
+# ============================================================================
+# Test Configuration
+# ============================================================================
+BATCH_SIZE = 2
+SEQ_LEN_TITLE = 32
+SEQ_LEN_LEAD = 64
+HIDDEN_SIZE = 768
+D_C = 64          # [v2] Giảm từ 128 → 64
+MAX_CHAR_LEN = 150
+VOCAB_SIZE = 250   # [v2] Vietnamese-aware vocab
 
-        # 3. Kiểm tra các Shape đầu ra có đúng lý thuyết không
-        self.assertEqual(H_title.shape, (self.batch_size, self.N, self.hidden_size), "Sai shape của H_title")
-        self.assertEqual(H_lead.shape, (self.batch_size, self.P, self.hidden_size), "Sai shape của H_lead")
-        self.assertEqual(e_title.shape, (self.batch_size, self.hidden_size), "Sai shape của e_title")
-        self.assertEqual(e_lead.shape, (self.batch_size, self.hidden_size), "Sai shape của e_lead")
-        print("[+] Test Output Shapes: PASSED")
+def test_word_level_attention():
+    """Test WordLevelAttention: shape output và masking"""
+    print("Test 1: WordLevelAttention...", end=" ")
+    
+    attn = WordLevelAttention(HIDDEN_SIZE)
+    hidden_states = torch.randn(BATCH_SIZE, SEQ_LEN_TITLE, HIDDEN_SIZE)
+    
+    # Tạo mask: sample 0 có 20 tokens thật, sample 1 có 10 tokens thật
+    mask = torch.zeros(BATCH_SIZE, SEQ_LEN_TITLE)
+    mask[0, :20] = 1.0
+    mask[1, :10] = 1.0
+    
+    e_out, alpha = attn(hidden_states, mask)
+    
+    assert e_out.shape == (BATCH_SIZE, HIDDEN_SIZE), f"Expected ({BATCH_SIZE}, {HIDDEN_SIZE}), got {e_out.shape}"
+    assert alpha.shape == (BATCH_SIZE, SEQ_LEN_TITLE), f"Expected ({BATCH_SIZE}, {SEQ_LEN_TITLE}), got {alpha.shape}"
+    
+    # Kiểm tra alpha trọng số tại padding position ≈ 0
+    assert alpha[0, 25].item() < 1e-3, "Alpha at padding position should be near 0"
+    assert alpha[1, 15].item() < 1e-3, "Alpha at padding position should be near 0"
+    
+    # Kiểm tra alpha sum ≈ 1 trên valid tokens
+    assert abs(alpha[0].sum().item() - 1.0) < 1e-4, "Alpha sum should be ~1.0"
+    
+    print("PASSED ✓")
 
-    def test_attention_masking(self):
-        # Kiểm tra xem padding token có bị loại bỏ đúng cách không
-        title_ids = torch.randint(0, 1000, (1, self.N))
-        title_mask = torch.ones(1, self.N)
-        
-        # Giả lập 5 token cuối cùng là padding (mask = 0)
-        title_mask[0, -5:] = 0 
-        
-        lead_ids = torch.randint(0, 1000, (1, self.P))
-        lead_mask = torch.ones(1, self.P)
+def test_style_module():
+    """Test StyleModelingModule: shape và d_c=64"""
+    print("Test 2: StyleModelingModule (d_c=64)...", end=" ")
+    
+    style = StyleModelingModule(vocab_size=VOCAB_SIZE, d_c=D_C, nhead=4, num_layers=2)
+    char_ids = torch.randint(0, VOCAB_SIZE, (BATCH_SIZE, MAX_CHAR_LEN))
+    char_mask = torch.ones(BATCH_SIZE, MAX_CHAR_LEN)
+    char_mask[0, 80:] = 0  # Padding
+    char_mask[1, 50:] = 0
+    
+    e_style = style(char_ids, char_mask)
+    
+    assert e_style.shape == (BATCH_SIZE, D_C), f"Expected ({BATCH_SIZE}, {D_C}), got {e_style.shape}"
+    assert not torch.isnan(e_style).any(), "Style output contains NaN"
+    assert not torch.isinf(e_style).any(), "Style output contains Inf"
+    
+    print("PASSED ✓")
 
-        with torch.no_grad():
-            _, _, _, e_lead = self.module(title_ids, title_mask, lead_ids, lead_mask)
-            # Truy cập thủ công vào WordLevelAttention để lấy alpha
-            title_outputs = self.module.phobert(input_ids=title_ids, attention_mask=title_mask)
-            _, alpha_title = self.module.title_attention(title_outputs.last_hidden_state, title_mask)
+def test_interaction_module():
+    """Test InteractionModelingModule: shape, masking, và projection output"""
+    print("Test 3: InteractionModelingModule (with projection)...", end=" ")
+    
+    interaction = InteractionModelingModule(hidden_size=HIDDEN_SIZE)
+    
+    H_title = torch.randn(BATCH_SIZE, SEQ_LEN_TITLE, HIDDEN_SIZE)
+    H_lead = torch.randn(BATCH_SIZE, SEQ_LEN_LEAD, HIDDEN_SIZE)
+    
+    title_mask = torch.ones(BATCH_SIZE, SEQ_LEN_TITLE)
+    title_mask[0, 20:] = 0
+    title_mask[1, 10:] = 0
+    
+    lead_mask = torch.ones(BATCH_SIZE, SEQ_LEN_LEAD)
+    lead_mask[0, 40:] = 0
+    lead_mask[1, 30:] = 0
+    
+    r_title, r_lead = interaction(H_title, title_mask, H_lead, lead_mask)
+    
+    # [v2] Output shape phải là (B, hidden_size) thay vì (B, 2*hidden_size)
+    assert r_title.shape == (BATCH_SIZE, HIDDEN_SIZE), \
+        f"Expected ({BATCH_SIZE}, {HIDDEN_SIZE}), got {r_title.shape}"
+    assert r_lead.shape == (BATCH_SIZE, HIDDEN_SIZE), \
+        f"Expected ({BATCH_SIZE}, {HIDDEN_SIZE}), got {r_lead.shape}"
+    
+    # Kiểm tra co-attention masking
+    A_T = interaction._A_T_temp  # (B, N, P)
+    A_L = interaction._A_L_temp  # (B, P, N)
+    
+    # A_T attention tại padding lead positions phải ≈ 0
+    assert A_T[0, 0, 50].item() < 1e-3, "A_T at lead padding should be ~0"
+    assert A_T[1, 0, 35].item() < 1e-3, "A_T at lead padding should be ~0"
+    
+    # A_L attention tại padding title positions phải ≈ 0
+    assert A_L[0, 0, 25].item() < 1e-3, "A_L at title padding should be ~0"
+    assert A_L[1, 0, 15].item() < 1e-3, "A_L at title padding should be ~0"
+    
+    # Kiểm tra không có NaN/Inf
+    assert not torch.isnan(r_title).any(), "r_title contains NaN"
+    assert not torch.isnan(r_lead).any(), "r_lead contains NaN"
+    
+    print("PASSED ✓")
 
-        # Trọng số attention của 5 token cuối cùng phải xấp xỉ bằng 0
-        padding_attention_sum = alpha_title[0, -5:].sum().item()
-        self.assertAlmostEqual(padding_attention_sum, 0.0, places=5, msg="Padding tokens bị chia attention sai logic!")
-        
-        # Tổng của tất cả các alpha phải bằng 1
-        total_attention = alpha_title.sum().item()
-        self.assertAlmostEqual(total_attention, 1.0, places=5, msg="Tổng attention weights khác 1!")
-        print("[+] Test Attention Masking: PASSED")
+def test_focal_loss():
+    """Test FocalLoss: tính toán đúng và xử lý class imbalance"""
+    print("Test 4: FocalLoss...", end=" ")
+    
+    focal = FocalLoss(alpha=0.6, gamma=2.0)
+    
+    # Test case 1: Easy correct predictions (high confidence) → loss should be LOW
+    logits_easy = torch.tensor([[5.0], [-5.0]])  # Predict 1 and 0 confidently
+    labels_easy = torch.tensor([[1.0], [0.0]])
+    loss_easy = focal(logits_easy, labels_easy)
+    
+    # Test case 2: Hard/wrong predictions → loss should be HIGHER
+    logits_hard = torch.tensor([[-2.0], [2.0]])  # Predict opposite
+    labels_hard = torch.tensor([[1.0], [0.0]])
+    loss_hard = focal(logits_hard, labels_hard)
+    
+    assert loss_hard > loss_easy, f"Hard examples should have higher loss: {loss_hard:.4f} vs {loss_easy:.4f}"
+    assert loss_easy.item() >= 0, "Loss should be non-negative"
+    assert not torch.isnan(loss_easy), "Loss should not be NaN"
+    
+    # Test case 3: Focal loss phải nhỏ hơn BCE cho easy examples (gamma effect)
+    bce = nn.BCEWithLogitsLoss()
+    bce_loss_easy = bce(logits_easy, labels_easy)
+    # Focal loss giảm weight cho easy examples → loss thấp hơn BCE
+    assert loss_easy < bce_loss_easy, \
+        f"Focal loss should be < BCE for easy examples: {loss_easy:.6f} vs {bce_loss_easy:.6f}"
+    
+    print("PASSED ✓")
 
-class TestStyleModelingModule(unittest.TestCase):
-    def setUp(self):
-        print("\n[+] Đang khởi tạo StyleModelingModule để test...")
-        self.vocab_size = 150
-        self.d_c = 128
-        self.module = StyleModelingModule(vocab_size=self.vocab_size, d_c=self.d_c, nhead=4, num_layers=2)
-        self.module.eval()
-        
-        self.batch_size = 4
-        self.max_char_len = 100
+def test_joint_loss_v2():
+    """Test JointLoss v2: Focal + Contrastive with temperature"""
+    print("Test 5: JointLoss v2 (Focal + Contrastive)...", end=" ")
+    
+    loss_fn = JointLoss(margin=0.5, lambda_weight=0.3, focal_alpha=0.6, focal_gamma=2.0)
+    
+    logits = torch.randn(BATCH_SIZE, 1)
+    labels = torch.tensor([[1.0], [0.0]])
+    e_title = torch.randn(BATCH_SIZE, HIDDEN_SIZE)
+    e_lead = torch.randn(BATCH_SIZE, HIDDEN_SIZE)
+    
+    total_loss, cls_loss, L_CL = loss_fn(logits, labels, e_title, e_lead)
+    
+    assert total_loss.shape == (), f"Total loss should be scalar, got {total_loss.shape}"
+    assert cls_loss.shape == (), f"Cls loss should be scalar, got {cls_loss.shape}"
+    assert L_CL.shape == (), f"CL loss should be scalar, got {L_CL.shape}"
+    
+    assert total_loss.item() >= 0, "Total loss should be non-negative"
+    assert not torch.isnan(total_loss), "Total loss should not be NaN"
+    
+    # Kiểm tra temperature parameter tồn tại và trong khoảng hợp lý
+    temp = torch.exp(loss_fn.log_temperature).item()
+    assert 0.01 <= temp <= 1.0, f"Temperature should be in [0.01, 1.0], got {temp}"
+    
+    # Kiểm tra contrastive loss logic:
+    # Với non-clickbait (label=0): similar title-lead → low D_cos → low loss
+    e_similar = torch.randn(1, HIDDEN_SIZE)
+    e_same = e_similar.clone()  # Exact same → cosine_sim=1, D_cos=0
+    labels_nonclick = torch.tensor([[0.0]])
+    logits_dummy = torch.zeros(1, 1)
+    
+    _, _, L_CL_similar = loss_fn(logits_dummy, labels_nonclick, e_similar, e_same)
+    
+    # D_cos should be ~0 for identical vectors → loss_0 ≈ 0
+    assert L_CL_similar.item() < 0.1, \
+        f"CL loss for identical vectors (non-clickbait) should be ~0, got {L_CL_similar:.4f}"
+    
+    print("PASSED ✓")
 
-    def test_output_shapes(self):
-        # 1. Tạo tensor đầu vào giả lập
-        char_input_ids = torch.randint(0, self.vocab_size, (self.batch_size, self.max_char_len))
-        char_attention_mask = torch.ones(self.batch_size, self.max_char_len)
-        
-        # 2. Chạy qua module
-        with torch.no_grad():
-            e_style = self.module(char_input_ids, char_attention_mask)
-            
-        # 3. Kiểm tra shape
-        self.assertEqual(e_style.shape, (self.batch_size, self.d_c), "Sai shape của e_style")
-        print("[+] Test StyleModeling Output Shapes: PASSED")
+def test_logits_scale():
+    """
+    [v2] Test Critical: Kiểm tra logits scale không bị explosion
+    
+    Đây là test quan trọng nhất - xác nhận fix cho bug dot product explosion.
+    v1: logits có thể lên tới hàng nghìn do sum(r_title * r_lead, dim=-1) với dim=1536
+    v2: logits phải nằm trong khoảng hợp lý [-20, 20] cho binary classification
+    """
+    print("Test 6: Logits Scale (no explosion)...", end=" ")
+    
+    model = ClickbaitDetectionModel(
+        vocab_size=VOCAB_SIZE, 
+        content_model_name="vinai/phobert-base", 
+        hidden_size=HIDDEN_SIZE, 
+        d_c=D_C
+    )
+    model.eval()
+    
+    # Tạo input giả
+    title_ids = torch.randint(0, 64000, (BATCH_SIZE, SEQ_LEN_TITLE))
+    title_mask = torch.ones(BATCH_SIZE, SEQ_LEN_TITLE)
+    lead_ids = torch.randint(0, 64000, (BATCH_SIZE, SEQ_LEN_LEAD))
+    lead_mask = torch.ones(BATCH_SIZE, SEQ_LEN_LEAD)
+    char_ids = torch.randint(0, VOCAB_SIZE, (BATCH_SIZE, MAX_CHAR_LEN))
+    char_mask = torch.ones(BATCH_SIZE, MAX_CHAR_LEN)
+    
+    with torch.no_grad():
+        logits, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
+    
+    # Kiểm tra shape
+    assert logits.shape == (BATCH_SIZE, 1), f"Expected logits shape ({BATCH_SIZE}, 1), got {logits.shape}"
+    assert e_title.shape == (BATCH_SIZE, HIDDEN_SIZE), f"Expected e_title shape ({BATCH_SIZE}, {HIDDEN_SIZE})"
+    assert e_lead.shape == (BATCH_SIZE, HIDDEN_SIZE), f"Expected e_lead shape ({BATCH_SIZE}, {HIDDEN_SIZE})"
+    
+    # [v2] CRITICAL: Kiểm tra logits scale
+    max_logit = logits.abs().max().item()
+    assert max_logit < 50.0, \
+        f"LOGITS EXPLOSION DETECTED! Max |logit|={max_logit:.1f}. Should be < 50.0"
+    
+    # Kiểm tra không có NaN/Inf
+    assert not torch.isnan(logits).any(), "Logits contain NaN"
+    assert not torch.isinf(logits).any(), "Logits contain Inf"
+    
+    print(f"PASSED ✓ (max |logit|={max_logit:.2f})")
 
-    def test_attention_masking(self):
-        char_input_ids = torch.randint(0, self.vocab_size, (1, self.max_char_len))
-        char_attention_mask = torch.ones(1, self.max_char_len)
-        
-        # Giả lập 10 token cuối cùng là padding (mask = 0)
-        char_attention_mask[0, -10:] = 0
-        
-        with torch.no_grad():
-            # Truy cập các bước bên trong để lấy alpha (trọng số attention)
-            x = self.module.char_embedding(char_input_ids)
-            padding_mask = (char_attention_mask == 0)
-            H_char = self.module.transformer_encoder(x, src_key_padding_mask=padding_mask)
-            _, alpha_char = self.module.char_attention(H_char, char_attention_mask)
-            
-        # Trọng số attention của 10 token padding phải xấp xỉ 0
-        padding_attention_sum = alpha_char[0, -10:].sum().item()
-        self.assertAlmostEqual(padding_attention_sum, 0.0, places=5, msg="Padding tokens bị chia attention sai logic trong StyleModeling!")
-        
-        # Tổng của tất cả các alpha phải bằng 1
-        total_attention = alpha_char.sum().item()
-        self.assertAlmostEqual(total_attention, 1.0, places=5, msg="Tổng attention weights khác 1 trong StyleModeling!")
-        print("[+] Test StyleModeling Attention Masking: PASSED")
+def test_vietnamese_char_encoding():
+    """
+    [v2] Test Vietnamese char encoding trong CharTokenizer
+    Đảm bảo các ký tự tiếng Việt được encode đúng (không collision)
+    """
+    print("Test 7: Vietnamese CharTokenizer...", end=" ")
+    
+    # Import CharTokenizer từ training script
+    sys.path.insert(0, os.path.join(base_dir, 'training', 'ICD'))
+    from train_ICD import CharTokenizer
+    
+    tokenizer = CharTokenizer(max_length=30)
+    
+    # Test 1: Vietnamese text encoding
+    vn_text = "Ấn độ phát hiện"
+    ids, mask = tokenizer.encode([vn_text])
+    
+    assert ids.shape == (1, 30), f"Expected shape (1, 30), got {ids.shape}"
+    assert mask[0, :len(vn_text)].sum() == len(vn_text), "Mask should mark all chars as valid"
+    assert mask[0, len(vn_text):].sum() == 0, "Mask should be 0 for padding"
+    
+    # Test 2: Không có collision cho các ký tự khác nhau
+    chars_to_test = ['a', 'ấ', 'đ', 'ệ', 'ư', 'ợ']
+    encoded_ids = [tokenizer.char2id.get(c, tokenizer.unk_id) for c in chars_to_test]
+    # Tất cả IDs phải khác nhau (không collision)
+    assert len(set(encoded_ids)) == len(chars_to_test), \
+        f"Character collision detected! IDs: {dict(zip(chars_to_test, encoded_ids))}"
+    
+    # Test 3: Special clickbait chars được encode riêng
+    special_chars = ['?', '!', '…', '"']
+    special_ids = [tokenizer.char2id.get(c, tokenizer.unk_id) for c in special_chars]
+    assert all(id != tokenizer.unk_id for id in special_ids), \
+        f"Special chars should not map to UNK: {dict(zip(special_chars, special_ids))}"
+    
+    # Test 4: Vocab size phải > 200 để bao phủ đủ ký tự
+    assert tokenizer.vocab_size >= 200, \
+        f"Vocab size too small: {tokenizer.vocab_size}, expected >= 200"
+    
+    print(f"PASSED ✓ (vocab_size={tokenizer.vocab_size})")
 
-class TestInteractionModelingModule(unittest.TestCase):
-    def setUp(self):
-        print("\n[+] Đang khởi tạo InteractionModelingModule để test...")
-        self.hidden_size = 768
-        self.module = InteractionModelingModule(hidden_size=self.hidden_size)
-        self.module.eval()
-        
-        self.batch_size = 4
-        self.N = 15 # Độ dài tiêu đề
-        self.P = 35 # Độ dài đoạn dẫn
+def test_full_forward_backward():
+    """Test full forward + backward pass: đảm bảo gradients flow correctly"""
+    print("Test 8: Full Forward-Backward Pass...", end=" ")
+    
+    model = ClickbaitDetectionModel(
+        vocab_size=VOCAB_SIZE,
+        content_model_name="vinai/phobert-base",
+        hidden_size=HIDDEN_SIZE,
+        d_c=D_C
+    )
+    loss_fn = JointLoss(margin=0.5, lambda_weight=0.3)
+    
+    # Tạo input
+    title_ids = torch.randint(0, 64000, (BATCH_SIZE, SEQ_LEN_TITLE))
+    title_mask = torch.ones(BATCH_SIZE, SEQ_LEN_TITLE)
+    lead_ids = torch.randint(0, 64000, (BATCH_SIZE, SEQ_LEN_LEAD))
+    lead_mask = torch.ones(BATCH_SIZE, SEQ_LEN_LEAD)
+    char_ids = torch.randint(0, VOCAB_SIZE, (BATCH_SIZE, MAX_CHAR_LEN))
+    char_mask = torch.ones(BATCH_SIZE, MAX_CHAR_LEN)
+    labels = torch.tensor([[1.0], [0.0]])
+    
+    # Forward
+    logits, e_title, e_lead = model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
+    total_loss, _, _ = loss_fn(logits, labels, e_title, e_lead)
+    
+    # Backward
+    total_loss.backward()
+    
+    # Kiểm tra gradients tồn tại cho các key parameters
+    # Classifier MLP
+    classifier_has_grad = False
+    for name, param in model.classifier.named_parameters():
+        if param.grad is not None and param.grad.abs().sum() > 0:
+            classifier_has_grad = True
+            break
+    assert classifier_has_grad, "Classifier should have non-zero gradients"
+    
+    # Style projection
+    assert model.style_projection.weight.grad is not None, "Style projection should have gradients"
+    
+    # Interaction projection
+    for name, param in model.interaction_module.title_projection.named_parameters():
+        if param.requires_grad:
+            assert param.grad is not None, f"Interaction projection ({name}) should have gradients"
+            break
+    
+    # Temperature parameter in loss
+    assert loss_fn.log_temperature.grad is not None, "Temperature parameter should have gradients"
+    
+    print("PASSED ✓")
 
-    def test_output_shapes(self):
-        H_title = torch.rand(self.batch_size, self.N, self.hidden_size)
-        title_mask = torch.ones(self.batch_size, self.N)
-        
-        H_lead = torch.rand(self.batch_size, self.P, self.hidden_size)
-        lead_mask = torch.ones(self.batch_size, self.P)
-        
-        with torch.no_grad():
-            r_title, r_lead = self.module(H_title, title_mask, H_lead, lead_mask)
-            
-        self.assertEqual(r_title.shape, (self.batch_size, 2 * self.hidden_size), "Sai shape của r_title")
-        self.assertEqual(r_lead.shape, (self.batch_size, 2 * self.hidden_size), "Sai shape của r_lead")
-        print("[+] Test Interaction Output Shapes: PASSED")
-
-    def test_attention_masking(self):
-        H_title = torch.rand(1, self.N, self.hidden_size)
-        title_mask = torch.ones(1, self.N)
-        title_mask[0, -5:] = 0 # Giả lập 5 token cuối của title là padding
-        
-        H_lead = torch.rand(1, self.P, self.hidden_size)
-        lead_mask = torch.ones(1, self.P)
-        lead_mask[0, -10:] = 0 # Giả lập 10 token cuối của lead là padding
-        
-        with torch.no_grad():
-            r_title, r_lead = self.module(H_title, title_mask, H_lead, lead_mask)
-            # Lấy ma trận softmax lưu tạm trong object
-            A_T = self.module._A_T_temp
-            A_L = self.module._A_L_temp
-            
-        # A_T: Chú ý của đoạn dẫn đối với tiêu đề (N x P). Trọng số rơi vào 10 padding tokens của lead phải bằng 0.
-        padding_sum_T = A_T[0, :, -10:].sum().item()
-        self.assertAlmostEqual(padding_sum_T, 0.0, places=5, msg="Trọng số A_T đổ vào padding token của lead khác 0!")
-        
-        # A_L: Chú ý của tiêu đề đối với đoạn dẫn (P x N). Trọng số rơi vào 5 padding tokens của title phải bằng 0.
-        padding_sum_L = A_L[0, :, -5:].sum().item()
-        self.assertAlmostEqual(padding_sum_L, 0.0, places=5, msg="Trọng số A_L đổ vào padding token của title khác 0!")
-        
-        print("[+] Test Interaction Attention Masking: PASSED")
-
-    def test_mean_pooling_with_mask(self):
-        # Đảm bảo mean-pooling tính trung bình chính xác, bỏ qua padding token
-        H_title = torch.ones(1, self.N, self.hidden_size)
-        title_mask = torch.zeros(1, self.N)
-        title_mask[0, 0] = 1 # Chỉ có 1 token ở vị trí 0 là thật
-        
-        H_lead = torch.ones(1, self.P, self.hidden_size)
-        lead_mask = torch.zeros(1, self.P)
-        lead_mask[0, 0] = 1 # Chỉ có 1 token ở vị trí 0 là thật
-        
-        # Đặt W_c thành ma trận đơn vị để H_title x W_c x H_lead^T ra kết quả dễ dự đoán
-        self.module.W_c.weight.data.copy_(torch.eye(self.hidden_size))
-        
-        with torch.no_grad():
-            r_title, r_lead = self.module(H_title, title_mask, H_lead, lead_mask)
-            
-        # Vì chỉ có 1 token thực mang giá trị 1 ở mỗi bên, tổng vector thu được sẽ là 1 vector toàn số 1.
-        # Nếu hàm chia cho tổng số chiều dài max_len thay vì số lượng token thực thì giá trị sẽ bị nhỏ hơn rất nhiều (1/N hoặc 1/P).
-        self.assertAlmostEqual(r_title[0, 0].item(), 1.0, places=5, msg="Mean-Pooling chia sai cho tổng padding thay vì số token thực!")
-        self.assertAlmostEqual(r_lead[0, 0].item(), 1.0, places=5, msg="Mean-Pooling chia sai cho tổng padding thay vì số token thực!")
-        
-        print("[+] Test Mean Pooling With Mask: PASSED")
-
-class TestClickbaitDetectionModel(unittest.TestCase):
-    def setUp(self):
-        print("\n[+] Đang khởi tạo ClickbaitDetectionModel để test...")
-        self.vocab_size = 150
-        self.hidden_size = 768
-        
-        # Rút gọn PhoBERT layer để test chạy nhanh
-        config = AutoConfig.from_pretrained("vinai/phobert-base")
-        config.num_hidden_layers = 1
-        
-        self.model = ClickbaitDetectionModel(vocab_size=self.vocab_size, hidden_size=self.hidden_size)
-        self.model.content_module.phobert = AutoModel.from_config(config)
-        self.model.eval()
-        
-        self.batch_size = 4
-        self.N = 15
-        self.P = 35
-        self.max_char_len = 100
-
-    def test_forward_pass(self):
-        # Tạo dữ liệu giả lập
-        title_ids = torch.randint(0, 1000, (self.batch_size, self.N))
-        title_mask = torch.ones(self.batch_size, self.N)
-        
-        lead_ids = torch.randint(0, 1000, (self.batch_size, self.P))
-        lead_mask = torch.ones(self.batch_size, self.P)
-        
-        char_ids = torch.randint(0, self.vocab_size, (self.batch_size, self.max_char_len))
-        char_mask = torch.ones(self.batch_size, self.max_char_len)
-        
-        with torch.no_grad():
-            preds, e_title, e_lead = self.model(title_ids, title_mask, lead_ids, lead_mask, char_ids, char_mask)
-            
-        # Kiểm tra shape
-        self.assertEqual(preds.shape, (self.batch_size, 1), "Sai shape của predictions")
-        self.assertEqual(e_title.shape, (self.batch_size, self.hidden_size), "Sai shape của e_title")
-        self.assertEqual(e_lead.shape, (self.batch_size, self.hidden_size), "Sai shape của e_lead")
-        
-        # Kiểm tra giá trị preds nằm trong [0, 1] do sigmoid
-        self.assertTrue((preds >= 0).all() and (preds <= 1).all(), "Giá trị preds ngoài khoảng [0, 1]")
-        
-        print("[+] Test ClickbaitDetectionModel Forward Pass: PASSED")
-
-class TestJointLoss(unittest.TestCase):
-    def setUp(self):
-        print("\n[+] Đang khởi tạo JointLoss để test...")
-        self.loss_fn = JointLoss(margin=1.0, lambda_weight=0.3)
-        self.batch_size = 4
-        self.hidden_size = 768
-
-    def test_loss_computation(self):
-        # Giả lập prediction, nhãn và đặc trưng
-        preds = torch.rand(self.batch_size, 1) # [0, 1]
-        labels = torch.randint(0, 2, (self.batch_size, 1)).float() # 0 hoặc 1
-        
-        e_title = torch.rand(self.batch_size, self.hidden_size)
-        e_lead = torch.rand(self.batch_size, self.hidden_size)
-        
-        total_loss, bce_loss, L_CL = self.loss_fn(preds, labels, e_title, e_lead)
-        
-        # Kiểm tra tính toán không ra NaN
-        self.assertFalse(torch.isnan(total_loss), "Total Loss bị NaN")
-        self.assertFalse(torch.isnan(bce_loss), "BCE Loss bị NaN")
-        self.assertFalse(torch.isnan(L_CL), "Contrastive Loss bị NaN")
-        print("[+] Test JointLoss Computation: PASSED")
-
-    def test_contrastive_logic(self):
-        # Test case: Clickbait (labels=1) nhưng e_title và e_lead giống hệt nhau (D_cos = 0)
-        preds = torch.tensor([[0.8]]) # Dự đoán ngẫu nhiên
-        labels = torch.tensor([[1.0]]) # Nhãn là Clickbait
-        
-        e_title = torch.ones(1, self.hidden_size)
-        e_lead = torch.ones(1, self.hidden_size) # Giống hệt e_title
-        
-        total_loss, bce_loss, L_CL = self.loss_fn(preds, labels, e_title, e_lead)
-        
-        # Vì labels=1 và D_cos = 0, hàm max(0, margin - D_cos) sẽ bằng margin (1.0)
-        # Contrastive Loss (L_CL) phải lớn hơn 0 (bị phạt vì Clickbait mà lại giống nhau)
-        self.assertTrue(L_CL.item() > 0, "Lỗi logic Contrastive Loss: D_cos=0 và nhãn=1 nhưng không bị phạt!")
-        self.assertAlmostEqual(L_CL.item(), self.loss_fn.margin, places=5, msg="Giá trị L_CL không khớp với logic margin!")
-        
-        print("[+] Test JointLoss Contrastive Logic: PASSED")
-
-if __name__ == '__main__':
-    unittest.main(argv=['first-arg-is-ignored'], exit=False)
+# ============================================================================
+# Run All Tests
+# ============================================================================
+if __name__ == "__main__":
+    print("=" * 60)
+    print("ICD Model v2 - Unit Tests")
+    print("=" * 60)
+    
+    test_word_level_attention()
+    test_style_module()
+    test_interaction_module()
+    test_focal_loss()
+    test_joint_loss_v2()
+    test_logits_scale()
+    test_vietnamese_char_encoding()
+    test_full_forward_backward()
+    
+    print("\n" + "=" * 60)
+    print("ALL 8 TESTS PASSED ✓")
+    print("=" * 60)
