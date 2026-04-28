@@ -13,6 +13,7 @@ import numpy as np
 import sys
 import mlflow
 import mlflow.pytorch
+import wandb
 
 # Thêm đường dẫn root vào sys.path để có thể import từ src
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -259,6 +260,7 @@ def main():
     parser.add_argument('--patience', type=int, default=5, help="Early stopping patience")
     parser.add_argument('--experiment_name', type=str, default="ICD-ClickbaitDetection", help="MLflow experiment name")
     parser.add_argument('--run_name', type=str, default=None, help="MLflow run name")
+    parser.add_argument('--wandb_run_name', type=str, default=None, help="WandB run name (experiment name)")
     args = parser.parse_args()
 
     # Hardware Configuration Profiles
@@ -294,6 +296,8 @@ def main():
     # Tạo run name tự động nếu không chỉ định
     if args.run_name is None:
         args.run_name = f"ICD-v2_lr{args.lr}_m{args.margin}_λ{args.lambda_cl}_α{args.focal_alpha}_γ{args.focal_gamma}"
+    if args.wandb_run_name is None:
+        args.wandb_run_name = args.run_name
 
     # 1. Load Tokenizers
     print("[*] Preparing tokenizers...")
@@ -356,34 +360,44 @@ def main():
     best_f1 = 0.0
     best_model_path = os.path.join(checkpoint_dir, "best_model_v2.pth")
     
+    config_dict = {
+        "model_version": "v2",
+        "backbone": model_name,
+        "d_c": 64,
+        "char_vocab_size": char_tokenizer.vocab_size,
+        "hidden_size": 768,
+        "classifier_input_dim": 7 * 768,
+        "learning_rate": args.lr,
+        "batch_size": BATCH_SIZE,
+        "effective_batch_size": BATCH_SIZE * GRAD_ACCUMULATION,
+        "grad_accumulation": GRAD_ACCUMULATION,
+        "epochs": args.epochs,
+        "margin": args.margin,
+        "lambda_cl": args.lambda_cl,
+        "focal_alpha": args.focal_alpha,
+        "focal_gamma": args.focal_gamma,
+        "weight_decay": 0.01,
+        "scheduler": "CosineAnnealingWarmRestarts",
+        "scheduler_T0": 5,
+        "early_stopping_patience": args.patience,
+        "hw_profile": args.hw_profile,
+        "use_amp": USE_AMP,
+        "train_samples": len(train_dataset),
+        "val_samples": len(val_dataset),
+        "test_samples": len(test_dataset),
+    }
+
+    # Initialize WandB
+    wandb_run = wandb.init(
+        entity="caoanhdoan130605-ho-chi-minh-city-university-of-industry",
+        project="ICD_Model",
+        name=args.wandb_run_name,
+        config=config_dict
+    )
+    
     with mlflow.start_run(run_name=args.run_name):
         # Log hyperparameters
-        mlflow.log_params({
-            "model_version": "v2",
-            "backbone": model_name,
-            "d_c": 64,
-            "char_vocab_size": char_tokenizer.vocab_size,
-            "hidden_size": 768,
-            "classifier_input_dim": 7 * 768,
-            "learning_rate": args.lr,
-            "batch_size": BATCH_SIZE,
-            "effective_batch_size": BATCH_SIZE * GRAD_ACCUMULATION,
-            "grad_accumulation": GRAD_ACCUMULATION,
-            "epochs": args.epochs,
-            "margin": args.margin,
-            "lambda_cl": args.lambda_cl,
-            "focal_alpha": args.focal_alpha,
-            "focal_gamma": args.focal_gamma,
-            "weight_decay": 0.01,
-            "scheduler": "CosineAnnealingWarmRestarts",
-            "scheduler_T0": 5,
-            "early_stopping_patience": args.patience,
-            "hw_profile": args.hw_profile,
-            "use_amp": USE_AMP,
-            "train_samples": len(train_dataset),
-            "val_samples": len(val_dataset),
-            "test_samples": len(test_dataset),
-        })
+        mlflow.log_params(config_dict)
         
         # Log dataset info as tags
         mlflow.set_tags({
@@ -452,8 +466,8 @@ def main():
             print(f"  Val Loss: {val_loss:.4f} | LR: {current_lr:.2e}")
             print(f"  Val Acc: {val_acc:.4f} | Val Prec: {val_prec:.4f} | Val Rec: {val_rec:.4f} | Val F1: {val_f1:.4f}")
             
-            # [v2] MLflow: Log metrics per epoch
-            mlflow.log_metrics({
+            # [v2] MLflow & WandB: Log metrics per epoch
+            metrics_dict = {
                 "train/total_loss": avg_train_loss,
                 "train/focal_loss": avg_cls_loss,
                 "train/contrastive_loss": avg_cl_loss,
@@ -463,12 +477,15 @@ def main():
                 "val/precision": val_prec,
                 "val/recall": val_rec,
                 "val/f1_score": val_f1,
-            }, step=epoch)
+            }
+            mlflow.log_metrics(metrics_dict, step=epoch)
+            wandb.log(metrics_dict, step=epoch)
             
             # Log contrastive loss temperature
             if hasattr(loss_fn, 'log_temperature'):
                 temperature = torch.exp(loss_fn.log_temperature).item()
                 mlflow.log_metric("train/cl_temperature", temperature, step=epoch)
+                wandb.log({"train/cl_temperature": temperature}, step=epoch)
             
             # Checkpoint
             if val_f1 > best_f1:
@@ -482,6 +499,7 @@ def main():
             if early_stopping.should_stop:
                 print(f"\n[!] Early stopping triggered at epoch {epoch}. Best F1: {best_f1:.4f}")
                 mlflow.log_metric("early_stopped_epoch", epoch)
+                wandb.log({"early_stopped_epoch": epoch}, step=epoch)
                 break
                 
         # 6. Final Testing
@@ -507,22 +525,32 @@ def main():
         for k, v in test_results.items():
             print(f"  {k}: {v:.4f}")
         
-        # [v2] MLflow: Log final test metrics
-        mlflow.log_metrics({
+        # [v2] MLflow & WandB: Log final test metrics
+        test_metrics_dict = {
             "test/loss": test_loss,
             "test/accuracy": test_acc,
             "test/precision": test_prec,
             "test/recall": test_rec,
             "test/f1_score": test_f1,
-        })
+        }
+        mlflow.log_metrics(test_metrics_dict)
+        wandb.log(test_metrics_dict)
         
         # [v2] MLflow: Log model artifact
         mlflow.log_artifact(best_model_path, artifact_path="model")
+        
+        # [v2] WandB: Log model artifact
+        wandb_artifact = wandb.Artifact(f"best_model_{wandb_run.id}", type="model")
+        wandb_artifact.add_file(best_model_path)
+        wandb_run.log_artifact(wandb_artifact)
             
         save_metrics(test_results, output_dir, file_name="test_metrics_v2.csv")
         
         print(f"\n[*] MLflow Run ID: {mlflow.active_run().info.run_id}")
         print(f"[*] View results: mlflow ui --backend-store-uri file://{mlflow_tracking_dir}")
+        print(f"[*] WandB Run URL: {wandb_run.url}")
+
+    wandb.finish()
 
 if __name__ == "__main__":
     main()
