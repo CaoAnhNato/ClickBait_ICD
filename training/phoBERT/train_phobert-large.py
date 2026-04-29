@@ -72,6 +72,7 @@ def main():
     parser.add_argument('-lr', '--learning-rate', type=float, default=1e-5, help="Learning rate. Default is 1e-5.")
     parser.add_argument('-m', '--max-length', type=int, default=256, help="Maximum sequence length. Default is 256.")
     parser.add_argument('-wd', '--weight-decay', type=float, default=0.01, help="Weight decay. Default is 0.01.")
+    parser.add_argument('-w', '--workers', type=int, default=4, help="Number of workers for data loading. Default is 4.")
     args = parser.parse_args()
 
     # Paths
@@ -124,6 +125,7 @@ def main():
         logging_dir=os.path.join(output_dir, 'logs_phobert_large'),
         logging_steps=50,
         report_to="none",
+        dataloader_num_workers=args.workers,
         **strategy_kwargs
     )
 
