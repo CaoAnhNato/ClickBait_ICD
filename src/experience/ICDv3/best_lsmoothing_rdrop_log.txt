@@ -1,0 +1,21 @@
+=== GRID SEARCH RESULTS ===
+Threshold used: 0.45
+
+Best Configuration:
+  Label Smoothing: 0.05
+  R-Drop Alpha:    1.0
+  Validation F1:   0.7944
+
+All Results (Sorted by F1-Score):
+  LS: 0.05, R-Drop: 1.0 => F1: 0.7944
+  LS: 0.0, R-Drop: 0.5 => F1: 0.7836
+  LS: 0.05, R-Drop: 0.5 => F1: 0.7755
+  LS: 0.1, R-Drop: 1.0 => F1: 0.7709
+  LS: 0.1, R-Drop: 0.5 => F1: 0.7671
+  LS: 0.1, R-Drop: 5.0 => F1: 0.7661
+  LS: 0.05, R-Drop: 2.0 => F1: 0.7598
+  LS: 0.0, R-Drop: 1.0 => F1: 0.7569
+  LS: 0.1, R-Drop: 2.0 => F1: 0.7549
+  LS: 0.05, R-Drop: 5.0 => F1: 0.7521
+  LS: 0.0, R-Drop: 2.0 => F1: 0.7427
+  LS: 0.0, R-Drop: 5.0 => F1: 0.7419
