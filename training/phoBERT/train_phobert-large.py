@@ -138,6 +138,7 @@ def main():
         learning_rate=args.learning_rate,
         weight_decay=args.weight_decay,
         save_strategy="epoch",
+        save_total_limit=1,
         load_best_model_at_end=True,
         metric_for_best_model="f1_score",
         fp16=torch.cuda.is_available(),
