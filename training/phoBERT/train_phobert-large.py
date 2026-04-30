@@ -3,7 +3,7 @@ import os
 import pandas as pd
 from underthesea import word_tokenize
 from sklearn.metrics import accuracy_score, precision_recall_fscore_support, classification_report
-from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments
+from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trainer, TrainingArguments, EarlyStoppingCallback
 import torch
 from torch.utils.data import Dataset
 import numpy as np
@@ -135,6 +135,7 @@ def main():
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
         compute_metrics=compute_metrics,
+        callbacks=[EarlyStoppingCallback(early_stopping_patience=5)]
     )
 
     print("Starting training...")
