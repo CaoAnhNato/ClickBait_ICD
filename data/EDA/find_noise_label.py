@@ -39,16 +39,25 @@ def train_and_predict_fold(fold_idx, train_idx, val_idx, full_data, device, toke
         tokenizer
     )
     
-    train_loader = DataLoader(train_dataset, batch_size=8, shuffle=True)
-    val_loader = DataLoader(val_dataset, batch_size=16, shuffle=False)
+    # Tối ưu hóa cấu hình DataLoader cho 28 Cores và 40GB RAM
+    train_loader = DataLoader(train_dataset, batch_size=64, shuffle=True, num_workers=24, pin_memory=True, prefetch_factor=2)
+    val_loader = DataLoader(val_dataset, batch_size=128, shuffle=False, num_workers=24, pin_memory=True, prefetch_factor=2)
     
     # Init model
     model = ClickbaitDetectorV3_1(model_name=model_name, sep_token_id=sep_token_id)
+    
+    # Freeze lower layers to speed up since we just need a decent predictor for noise finding
+    if hasattr(model, 'freeze_backbone_layers'):
+        model.freeze_backbone_layers(freeze_until=8)
+    
     model.to(device)
     
     # Optimizer & Loss
     optimizer = torch.optim.AdamW(model.parameters(), lr=5e-5)
     loss_fn = nn.BCEWithLogitsLoss()
+    
+    # PyTorch AMP (Automatic Mixed Precision) cho RTX ADA 6000
+    scaler = torch.amp.GradScaler('cuda')
     
     # Train nhanh (vài epochs là đủ để cleanlab bắt được noise)
     epochs = 4
@@ -56,27 +65,33 @@ def train_and_predict_fold(fold_idx, train_idx, val_idx, full_data, device, toke
     for epoch in range(epochs):
         model.train()
         for batch in tqdm(train_loader, desc=f"Epoch {epoch+1}/{epochs}"):
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
-            aux_features = batch["aux_features"].to(device)
-            labels_batch = batch["labels"].to(device)
+            input_ids = batch["input_ids"].to(device, non_blocking=True)
+            attention_mask = batch["attention_mask"].to(device, non_blocking=True)
+            aux_features = batch["aux_features"].to(device, non_blocking=True)
+            labels_batch = batch["labels"].to(device, non_blocking=True)
             
             optimizer.zero_grad()
-            logits = model(input_ids, attention_mask, aux_features)
-            loss = loss_fn(logits, labels_batch)
-            loss.backward()
-            optimizer.step()
+            
+            with torch.amp.autocast('cuda'):
+                logits = model(input_ids, attention_mask, aux_features)
+                loss = loss_fn(logits, labels_batch)
+                
+            scaler.scale(loss).backward()
+            scaler.step(optimizer)
+            scaler.update()
             
     # Predict
     model.eval()
     fold_probs = []
     with torch.no_grad():
         for batch in tqdm(val_loader, desc="Predicting"):
-            input_ids = batch["input_ids"].to(device)
-            attention_mask = batch["attention_mask"].to(device)
-            aux_features = batch["aux_features"].to(device)
+            input_ids = batch["input_ids"].to(device, non_blocking=True)
+            attention_mask = batch["attention_mask"].to(device, non_blocking=True)
+            aux_features = batch["aux_features"].to(device, non_blocking=True)
             
-            logits = model(input_ids, attention_mask, aux_features)
+            with torch.amp.autocast('cuda'):
+                logits = model(input_ids, attention_mask, aux_features)
+            
             probs = torch.sigmoid(logits).cpu().numpy().flatten()
             fold_probs.extend(probs)
             
@@ -130,7 +145,8 @@ def main():
     label_issues_indices = find_label_issues(
         labels=labels_arr,
         pred_probs=probs_out,
-        return_indices_ranked_by='self_confidence'
+        return_indices_ranked_by='self_confidence',
+        n_jobs=24  # Tối ưu hóa cho 28 CPU Cores
     )
     
     print(f"Found {len(label_issues_indices)} potential label issues.")
