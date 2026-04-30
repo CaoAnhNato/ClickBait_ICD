@@ -7,6 +7,7 @@ from transformers import AutoTokenizer, AutoModelForSequenceClassification, Trai
 import torch
 from torch.utils.data import Dataset
 import numpy as np
+import wandb
 
 class ClickbaitDataset(Dataset):
     def __init__(self, encodings, labels):
@@ -73,6 +74,8 @@ def main():
     parser.add_argument('-m', '--max-length', type=int, default=256, help="Maximum sequence length. Default is 256.")
     parser.add_argument('-wd', '--weight-decay', type=float, default=0.01, help="Weight decay. Default is 0.01.")
     parser.add_argument('-w', '--workers', type=int, default=4, help="Number of workers for data loading. Default is 4.")
+    parser.add_argument('-n', '--run-name', type=str, default=None, help="Name for WandB run.")
+    parser.add_argument('--no-wandb', action='store_true', help="Disable WandB logging.")
     args = parser.parse_args()
 
     # Paths
@@ -80,6 +83,22 @@ def main():
     data_dir = os.path.join(base_dir, 'data', 'processed')
     output_dir = os.path.join(base_dir, 'result', 'results_phoBERT')
     os.makedirs(output_dir, exist_ok=True)
+
+    # WandB init
+    if not args.no_wandb:
+        wandb.init(
+            entity="caoanhdoan130605-ho-chi-minh-city-university-of-industry",
+            project="ICD_Model",
+            name=args.run_name,
+            config={
+                "epochs": args.epochs,
+                "batch_size": args.batch_size,
+                "learning_rate": args.learning_rate,
+                "max_length": args.max_length,
+                "weight_decay": args.weight_decay,
+                "model": "phobert-large"
+            }
+        )
 
     print("Loading and preprocessing datasets...")
     train_titles, train_leads, train_labels = load_and_preprocess_data(os.path.join(data_dir, 'train.csv'))
@@ -124,7 +143,7 @@ def main():
         fp16=torch.cuda.is_available(),
         logging_dir=os.path.join(output_dir, 'logs_phobert_large'),
         logging_steps=50,
-        report_to="none",
+        report_to="wandb" if not args.no_wandb else "none",
         dataloader_num_workers=args.workers,
         **strategy_kwargs
     )
@@ -167,6 +186,21 @@ def main():
     trainer.save_model(os.path.join(output_dir, "best_model_phobert_large"))
     tokenizer.save_pretrained(os.path.join(output_dir, "best_model_phobert_large"))
     print("Model and tokenizer saved.")
+
+    if not args.no_wandb and wandb.run:
+        print("Logging results to WandB...")
+        # Log the classification report file
+        wandb.save(report_path)
+        
+        # Log metrics
+        wandb.log(test_results)
+        
+        # Log model as artifact
+        artifact = wandb.Artifact(name=f"phobert-large-{wandb.run.id}", type="model")
+        artifact.add_dir(os.path.join(output_dir, "best_model_phobert_large"))
+        wandb.run.log_artifact(artifact)
+        
+        wandb.finish()
 
 if __name__ == "__main__":
     main()
