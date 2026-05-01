@@ -12,6 +12,7 @@ scikit-learn
 # Vietnamese NLP processing
 underthesea
 pyvi
+py_vncorenlp
 
 # Utilities
 tqdm

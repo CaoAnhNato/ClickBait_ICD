@@ -24,7 +24,7 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support, con
 import matplotlib.pyplot as plt
 import seaborn as sns
 from transformers import AutoTokenizer, get_cosine_schedule_with_warmup
-from underthesea import word_tokenize
+import py_vncorenlp
 from tqdm import tqdm
 import numpy as np
 import sys
@@ -35,7 +35,7 @@ import wandb
 base_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 sys.path.append(base_dir)
 
-from src.ICD.ICD_Model_v3 import ClickbaitDetectorV3_1, FocalLossWithSmoothing
+from src.ICD.ICD_Model_v3 import ClickbaitDetectorV3_1, FocalLossWithSmoothing, rdrop_loss
 
 
 # ============================================================================
@@ -114,11 +114,20 @@ class ClickbaitPairDataset(Dataset):
 # ============================================================================
 # Preprocessing
 # ============================================================================
+vncorenlp_path = '/home/nato/vncorenlp_data'
+if not os.path.exists(vncorenlp_path):
+    py_vncorenlp.download_model(save_dir=vncorenlp_path)
+
+rdrsegmenter = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=vncorenlp_path)
+
+def format_vncorenlp(res):
+    return " ".join(res).strip()
+
 def preprocess_text(text):
-    """Word segmentation bằng underthesea."""
+    """Word segmentation bằng py_vncorenlp."""
     if pd.isna(text):
         return ""
-    return word_tokenize(str(text), format="text")
+    return format_vncorenlp(rdrsegmenter.word_segment(str(text)))
 
 
 def load_and_preprocess_data(data_path):
@@ -146,7 +155,7 @@ def load_and_preprocess_data(data_path):
 # ============================================================================
 # Evaluation
 # ============================================================================
-def evaluate(model, dataloader, loss_fn, device, return_preds=False):
+def evaluate(model, dataloader, loss_fn, device, threshold=0.5, return_preds=False):
     model.eval()
     all_preds = []
     all_labels = []
@@ -164,7 +173,7 @@ def evaluate(model, dataloader, loss_fn, device, return_preds=False):
             total_loss += loss.item()
             
             preds = torch.sigmoid(logits)
-            pred_labels = (preds >= 0.5).int().cpu().numpy()
+            pred_labels = (preds >= threshold).int().cpu().numpy()
             all_preds.extend(pred_labels)
             all_labels.extend(labels.cpu().numpy())
     
@@ -201,6 +210,9 @@ def main():
     parser.add_argument('--focal_alpha', type=float, default=0.65)
     parser.add_argument('--focal_gamma', type=float, default=2.0)
     parser.add_argument('--freeze_layers', type=int, default=8, help="Freeze bottom N PhoBERT layers")
+    parser.add_argument('--threshold', type=float, default=0.5, help="Classification threshold")
+    parser.add_argument('--label_smoothing', type=float, default=0.0, help="Label smoothing value")
+    parser.add_argument('--rdrop_alpha', type=float, default=0.0, help="R-Drop Alpha weight")
     parser.add_argument('--max_len', type=int, default=256)
     parser.add_argument('--patience', type=int, default=5)
     parser.add_argument('--experiment_name', type=str, default="ICD-ClickbaitDetection")
@@ -306,7 +318,7 @@ def main():
     loss_fn = FocalLossWithSmoothing(
         alpha=args.focal_alpha, 
         gamma=args.focal_gamma,
-        smoothing=0.0  # No label smoothing for iteration 3
+        smoothing=args.label_smoothing
     )
     
     # ========================================================================
@@ -403,10 +415,18 @@ def main():
                 aux_features = batch["aux_features"].to(device)
                 labels = batch["labels"].to(device)
                 
-                # Single forward pass (no R-Drop for faster convergence)
                 with torch.amp.autocast('cuda', enabled=USE_AMP, dtype=torch.bfloat16):
-                    logits = model(input_ids, attention_mask, aux_features)
-                    loss = loss_fn(logits, labels)
+                    if args.rdrop_alpha > 0.0:
+                        logits1 = model(input_ids, attention_mask, aux_features)
+                        logits2 = model(input_ids, attention_mask, aux_features)
+                        loss_nll1 = loss_fn(logits1, labels)
+                        loss_nll2 = loss_fn(logits2, labels)
+                        loss_nll = 0.5 * (loss_nll1 + loss_nll2)
+                        loss_rdrop = rdrop_loss(logits1, logits2, alpha=args.rdrop_alpha)
+                        loss = loss_nll + loss_rdrop
+                    else:
+                        logits = model(input_ids, attention_mask, aux_features)
+                        loss = loss_fn(logits, labels)
                     loss = loss / GRAD_ACCUMULATION
                 
                 # Backward
@@ -428,7 +448,7 @@ def main():
             
             # Validation
             val_loss, val_acc, val_prec, val_rec, val_f1 = evaluate(
-                model, val_loader, loss_fn, device
+                model, val_loader, loss_fn, device, threshold=args.threshold
             )
             
             print(f"\nEpoch {epoch}/{args.epochs} Summary:")
@@ -480,7 +500,7 @@ def main():
             print("[WARNING] Best model not found. Using last epoch model.")
         
         test_loss, test_acc, test_prec, test_rec, test_f1, test_labels, test_preds = evaluate(
-            model, test_loader, loss_fn, device, return_preds=True
+            model, test_loader, loss_fn, device, threshold=args.threshold, return_preds=True
         )
         
         test_results = {
