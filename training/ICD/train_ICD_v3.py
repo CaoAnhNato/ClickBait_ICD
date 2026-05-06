@@ -201,24 +201,24 @@ def save_metrics(results, output_dir, file_name="test_metrics_v3.csv"):
 # ============================================================================
 def main():
     parser = argparse.ArgumentParser(description="Train ICD Model v3.1 - Iteration 3: Frozen Backbone")
-    parser.add_argument('--hw_profile', type=str, choices=['rtx3050', 'ada5000', 'rtxa4000'], 
+    parser.add_argument('-hw', '--hw_profile', type=str, choices=['rtx3050', 'ada5000', 'rtxa4000'], 
                         default='rtx3050')
-    parser.add_argument('--epochs', type=int, default=30)
-    parser.add_argument('--lr', type=float, default=5e-5)
-    parser.add_argument('--lr_decay', type=float, default=0.98)
-    parser.add_argument('--warmup_ratio', type=float, default=0.15)
-    parser.add_argument('--focal_alpha', type=float, default=0.65)
-    parser.add_argument('--focal_gamma', type=float, default=2.0)
-    parser.add_argument('--freeze_layers', type=int, default=8, help="Freeze bottom N PhoBERT layers")
-    parser.add_argument('--threshold', type=float, default=0.5, help="Classification threshold")
-    parser.add_argument('--label_smoothing', type=float, default=0.0, help="Label smoothing value")
-    parser.add_argument('--rdrop_alpha', type=float, default=0.0, help="R-Drop Alpha weight")
-    parser.add_argument('--max_len', type=int, default=256)
-    parser.add_argument('--patience', type=int, default=5)
-    parser.add_argument('--experiment_name', type=str, default="ICD-ClickbaitDetection")
-    parser.add_argument('--run_name', type=str, default=None)
-    parser.add_argument('--wandb_run_name', type=str, default=None)
-    parser.add_argument('--no_wandb', action='store_true')
+    parser.add_argument('-e', '--epochs', type=int, default=30)
+    parser.add_argument('-lr', '--lr', type=float, default=5e-5)
+    parser.add_argument('-ld', '--lr_decay', type=float, default=0.98)
+    parser.add_argument('-wr', '--warmup_ratio', type=float, default=0.15)
+    parser.add_argument('-fa', '--focal_alpha', type=float, default=0.65)
+    parser.add_argument('-fg', '--focal_gamma', type=float, default=2.0)
+    parser.add_argument('-fl', '--freeze_layers', type=int, default=8, help="Freeze bottom N PhoBERT layers")
+    parser.add_argument('-t', '--threshold', type=float, default=0.5, help="Classification threshold")
+    parser.add_argument('-ls', '--label_smoothing', type=float, default=0.0, help="Label smoothing value")
+    parser.add_argument('-ra', '--rdrop_alpha', type=float, default=0.0, help="R-Drop Alpha weight")
+    parser.add_argument('-ml', '--max_len', type=int, default=256)
+    parser.add_argument('-p', '--patience', type=int, default=5)
+    parser.add_argument('-en', '--experiment_name', type=str, default="ICD-ClickbaitDetection")
+    parser.add_argument('-rn', '--run_name', type=str, default=None)
+    parser.add_argument('-wn', '--wandb_run_name', type=str, default=None)
+    parser.add_argument('-nw', '--no_wandb', action='store_true')
     args = parser.parse_args()
     
     # Hardware profiles
@@ -245,7 +245,7 @@ def main():
     print(f"[*] Device: {device}")
     
     # Paths
-    data_dir = os.path.join(base_dir, 'data', 'processed')
+    data_dir = os.path.join(base_dir, 'data', 'processed', 'cleaned')
     output_dir = os.path.join(base_dir, 'result', 'ICD')
     checkpoint_dir = os.path.join(output_dir, 'checkpoints')
     os.makedirs(checkpoint_dir, exist_ok=True)
@@ -273,11 +273,11 @@ def main():
     # 2. Load & Preprocess Data
     # ========================================================================
     train_titles, train_leads, train_labels, train_raw_t, train_raw_l = \
-        load_and_preprocess_data(os.path.join(data_dir, 'train.csv'))
+        load_and_preprocess_data(os.path.join(data_dir, 'train_clean.csv'))
     val_titles, val_leads, val_labels, val_raw_t, val_raw_l = \
-        load_and_preprocess_data(os.path.join(data_dir, 'validate.csv'))
+        load_and_preprocess_data(os.path.join(data_dir, 'validate_clean.csv'))
     test_titles, test_leads, test_labels, test_raw_t, test_raw_l = \
-        load_and_preprocess_data(os.path.join(data_dir, 'test.csv'))
+        load_and_preprocess_data(os.path.join(data_dir, 'test_clean.csv'))
     
     train_dataset = ClickbaitPairDataset(
         train_titles, train_leads, train_labels, train_raw_t, train_raw_l,
