@@ -1,0 +1,16 @@
+# Pha 2: Sinh reasoning (chạy trước khi có data)
+conda run -n MLE python src/ICD/reasoning/generate_reasoning.py
+
+# Pha 3: Build dataset
+conda run -n MLE python data/build_icdv4_dataset.py
+
+# Pha 5: Eval ICDv3 baseline
+conda run -n MLE python training/ICD/eval_baseline_v3.py
+
+# Pha 6: Verify pipeline trước khi train thật
+conda run -n MLE python training/ICD/train_ICD_v4.py --dry_run
+# Train thật
+conda run -n MLE python training/ICD/train_ICD_v4.py --hw_profile rtx3050
+
+# So sánh
+conda run -n MLE python training/ICD/compare_v3_v4.py

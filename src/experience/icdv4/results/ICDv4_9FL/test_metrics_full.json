@@ -1,0 +1,10 @@
+{
+  "model": "ICDv4",
+  "checkpoint": "src/experience/icdv4/checkpoints/ICDv4_9FL/icdv4_best.pt",
+  "threshold": 0.5,
+  "test_loss": 0.20260185757069848,
+  "accuracy": 0.8647058823529412,
+  "precision": 0.7870967741935484,
+  "recall": 0.7721518987341772,
+  "f1": 0.7795527156549521
+}

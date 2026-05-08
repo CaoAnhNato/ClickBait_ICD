@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/Admin/HUIT - Học Tập/Năm 3/Semester_2/Class/Capstone
+  Project/mlruns/228859893682493483/71646a3a3f7842209008cd8e14b5af58/artifacts
+end_time: 1777405788873
+entry_point_name: ''
+experiment_id: '228859893682493483'
+lifecycle_stage: active
+run_id: 71646a3a3f7842209008cd8e14b5af58
+run_name: ICD-v3_SentencePair_3ep
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1777405498077
+status: 3
+tags: []
+user_id: nato

@@ -1,0 +1,15 @@
+artifact_uri: file:///mnt/c/Users/Admin/HUIT - Học Tập/Năm 3/Semester_2/Class/Capstone
+  Project/mlruns/228859893682493483/d8b96d4e60b445138b0e3791c4e6e674/artifacts
+end_time: 1778060868474
+entry_point_name: ''
+experiment_id: '228859893682493483'
+lifecycle_stage: active
+run_id: d8b96d4e60b445138b0e3791c4e6e674
+run_name: ICD-v3.1_Frozen8_lr5e-05
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1778059860742
+status: 3
+tags: []
+user_id: nato

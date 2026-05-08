@@ -27,7 +27,9 @@ def main():
         py_vncorenlp.download_model(save_dir=vncorenlp_path)
     
     print("Loading VnCoreNLP...")
+    orig_cwd = os.getcwd()
     segmenter = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=vncorenlp_path)
+    os.chdir(orig_cwd)
 
     def segment_text(text):
         if pd.isna(text): return ""
@@ -89,7 +91,7 @@ def main():
     optimizer = torch.optim.AdamW(model.parameters(), lr=2e-5)
 
     # 4. Training loop
-    epochs = 3
+    epochs = 5
     print(f"Starting training on {device}...")
     for epoch in range(epochs):
         # TRAIN

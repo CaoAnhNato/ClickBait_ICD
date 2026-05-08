@@ -1,0 +1,2228 @@
+[
+    {
+        "index": 2576,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0004372596740722656,
+        "title": "Bắt 6 đối tượng hiếp dâm bé gái trong rừng cao su ở Đắk Lắk",
+        "lead": "Công an tỉnh Đắk Lắk vừa khởi tố, bắt tạm giam 6 đối tượng để điều tra về hành vi hiếp dâm bé gái 14 tuổi trong rừng cao su."
+    },
+    {
+        "index": 1972,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0007295608520507812,
+        "title": "Kinh tế Mỹ có thể đối mặt với cú sốc chiến tranh từ Trung Đông",
+        "lead": "Mỹ đang đứng trước nguy cơ đối mặt với một loạt cú sốc kinh tế, trong đó đáng lo ngại nhất là nguy cơ chiến tranh tại Trung Đông – khu vực giữ vai trò trọng yếu trong chuỗi cung ứng năng lượng toàn cầu."
+    },
+    {
+        "index": 224,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0007467269897460938,
+        "title": "Vietnam GameVerse 2025: Cột mốc bùng nổ của ngành game Việt",
+        "lead": "Sự kiện Vietnam GameVerse 2025 đã chính thức khai mạc vào sáng ngày 26-5, đánh dấu bước chuyển mình mạnh mẽ của ngành game Việt Nam."
+    },
+    {
+        "index": 531,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00080108642578125,
+        "title": "Phổ điểm thi lớp 10 ở TP.HCM: Lo lắng môn văn, kết quả thở phào",
+        "lead": "Trong số 3 môn thi tuyển sinh lớp 10 ở TP.HCM thì kết quả bài thi môn văn không thay đổi nhiều."
+    },
+    {
+        "index": 2150,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0008692741394042969,
+        "title": "Carlos Alcaraz cảnh báo các đối thủ tại Wimbledon - Báo Pháp Luật TP.HCM",
+        "lead": "Carlos Alcaraz cảnh báo các đối thủ tại Wimbledon sau khi tay vợt số 2 thế giới thể hiện phong độ thăng hoa bằng chức vô địch Queen's Club lần thứ hai."
+    },
+    {
+        "index": 1221,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0009965896606445312,
+        "title": "Gần 1.000 người 'đổi xăng lấy điện' trong hai ngày",
+        "lead": "Hà NộiVinFast bán gần 1.000 xe theo chính sách đổi xe xăng cũ, lấy xe máy điện mới, thu hút hàng nghìn lượt khách tham dự hai ngày cuối tuần."
+    },
+    {
+        "index": 457,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0011034011840820312,
+        "title": "Cảng cá 280 tỷ đồng sắp hoạt động nhưng luồng lạch bồi lắng",
+        "lead": "Dự án cảng cá Cửa Nhượng (Hà Tĩnh) có mức đầu tư 280 tỷ đồng được đánh giá hiện đại bậc nhất miền Trung đã hoàn thiện, chuẩn bị đưa vào hoạt động song luồng lạch bồi lắng khiến ngư dân lo lắng khó vào, ra."
+    },
+    {
+        "index": 2144,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0011606216430664062,
+        "title": "Đua mở mới khách sạn ven biển",
+        "lead": "Du lịch biển sôi động giúp bất động sản nghỉ dưỡng khởi sắc, thu hút các ông lớn vận hành khách sạn chạy đua mở cơ sở mới."
+    },
+    {
+        "index": 2788,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0013151168823242188,
+        "title": "Đội bóng quê bầu Đức xuống hạng, lộ diện CLB đối đầu đội Công Phượng ở trận play-off V.League",
+        "lead": "Loạt trận vòng 26 V.League 2024/25 diễn ra với những diễn biến hấp dẫn ở nhóm đua trụ hạng và cạnh tranh vé dự cúp C1 Đông Nam Á."
+    },
+    {
+        "index": 160,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00133514404296875,
+        "title": "Đánh mẹ, tấn công lực lượng an ninh cơ sở khi được can ngăn",
+        "lead": "Cà MauBùi Minh Lợi, 30 tuổi, dùng dao đâm trọng thương tổ phó bảo vệ an ninh cơ sở thị trấn Nam Căn khi lực lượng này đến can ngăn anh ta đánh mẹ."
+    },
+    {
+        "index": 577,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0013513565063476562,
+        "title": "Tiểu thuyết đầu tay của tác giả 'Không gia đình' ra mắt bản dịch mới",
+        "lead": "'Về với gia đình' - cuốn tiểu thuyết đầu tay của Hector Malot - tác giả của 'Không gia đình' nổi tiếng thế giới, được dịch giả Lê Đình Chi chuyển ngữ từ nguyên bản tiếng Pháp, vừa ra mắt độc giả Việt Nam."
+    },
+    {
+        "index": 111,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.001361846923828125,
+        "title": "Chiến tranh khốc liệt giữa Ấn Độ và Pakistan: Ra đời một quốc gia mới",
+        "lead": "Chỉ trong vỏn vẹn 13 ngày, một cuộc chiến ác liệt giữa Ấn Độ và Pakistan đã gây ra thương vong lớn và dẫn đến sự thành lập một quốc gia mới."
+    },
+    {
+        "index": 357,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.001361846923828125,
+        "title": "Nhận định trận đấu Seattle Sounders vs PSG, 2h00 ngày 24.6: Không cân sức! - Báo Văn hóa",
+        "lead": "Nhận định trận đấu Seattle Sounders vs PSG, FIFA Club World Cup, dù bất ngờ gục ngã ở lượt trận 2, thầy trò Luis Enrique vẫn sở hữu rất nhiều lợi thế để tiến bước vào vòng knock-out."
+    },
+    {
+        "index": 1134,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0014324188232421875,
+        "title": "Gần 1.000 người đội nắng đổi xe máy xăng lấy xe điện - Chuyên trang Xe Giao Thông - Báo Xây Dựng",
+        "lead": "Sự kiện 'Đổi xăng lấy điện' do VinFast tổ chức đã thu hút nhiều người dân Thủ đô đến tìm hiểu, trải nghiệm và đổi xe máy xăng sang xe điện."
+    },
+    {
+        "index": 1598,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0018529891967773438,
+        "title": "Một bệnh viện cầu cứu khi bị hacker đe dọa tung dữ liệu bệnh nhân lên mạng - Báo VietnamNet",
+        "lead": "Mới đây, một bệnh viện tại Việt Nam đã phải 'cầu cứu' vì bị hacker tấn công, đe dọa công khai dữ liệu bệnh nhân và lịch sử khám chữa bệnh trên mạng Internet."
+    },
+    {
+        "index": 1607,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0021648406982421875,
+        "title": "Hoa hậu Phương Linh: 'Tôi không ngại xăm mình'",
+        "lead": "Khánh HòaNguyễn Hoàng Phương Linh - tân Hoa hậu Hoàn vũ Việt Nam - nói hình xăm nhỏ ở tay nhắc nhở bản thân biết trân trọng cuộc sống hơn."
+    },
+    {
+        "index": 2610,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00234222412109375,
+        "title": "Làm báo Mặt trận - Báo Đại Đoàn Kết",
+        "lead": "Khi tôi gọi điện thoại, NSND Như Quỳnh – diễn viên điện ảnh nổi tiếng hẹn trả lời phỏng vấn ở quán café của gia đình ở phố Bát Đàn."
+    },
+    {
+        "index": 2332,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0024242401123046875,
+        "title": "Iran giáng cơn thịnh nộ, Israel thiệt hại nặng",
+        "lead": "Ít nhất 86 người bị thương và nhiều khu vực bị phá hủy quy mô lớn ở Israel sau khi Iran dội hàng loạt tên lửa vào Israel ngày 22.6."
+    },
+    {
+        "index": 2529,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0025615692138671875,
+        "title": "Video bóng đá Inter Milan - Urawa Red Diamonds: Vỡ òa phút bù giờ, ngược dòng ngoạn mục (FIFA Club World Cup)",
+        "lead": "(Lượt trận thứ 2 bảng E) Inter Milan đã trải qua trận đấu vô cùng khó khăn trước đại diện Nhật Bản dù được đánh giá cao hơn."
+    },
+    {
+        "index": 611,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0027675628662109375,
+        "title": "Người dân háo hức đổi xe xăng lấy xe máy điện",
+        "lead": "Hà NộiHàng nghìn lượt người đổ về công viên Thanh Xuân tìm hiểu chương trình đổi xe xăng cũ lấy xe máy điện, trong sáng ngày đầu tổ chức tại Hà Nội."
+    },
+    {
+        "index": 1732,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0027675628662109375,
+        "title": "Diễn viên Quang Anh bật khóc nức nở - Tạp chí Tri thức",
+        "lead": "Khi nghe những nhận xét trái chiều của Huy Tuấn về tiết mục trong chương trình Điểm hẹn tài năng, Quang Anh bật khóc nức nở."
+    },
+    {
+        "index": 215,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0028553009033203125,
+        "title": "Khởi động chiến dịch bảo vệ ngôi vương - Báo Văn hóa",
+        "lead": "HLV Kim Sang-sik vừa lên danh sách tập trung 35 cầu thủ trong đợt hội quân của đội tuyển U22 Việt Nam để chuẩn bị cho giải U23 vô địch Đông Nam Á. Đây là sân chơi chính thức đầu tiên trong năm 2025 của U22 Việt Nam trước khi đội hướng đến hai mục tiêu quan trọng khác là vòng loại U23 châu Á 2026 và môn bóng đá nam SEA Games 33."
+    },
+    {
+        "index": 287,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0030879974365234375,
+        "title": "Tăng xác suất tiểu hành tinh tấn công mặt trăng",
+        "lead": "Kính James Webb vừa thẩm định lần cuối đối với 'sát thủ diệt đô thị' 2024 YR4 và phát hiện xác suất tiểu hành tinh này tấn công mặt trăng vào tháng 12.2032 đã tăng lên 4,3%."
+    },
+    {
+        "index": 1480,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0031719207763671875,
+        "title": "Làm rõ nguyên nhân vụ nam thanh niên loã thể, kêu cứu rồi gục chết ở TPHCM",
+        "lead": "Công an TPHCM vừa phối hợp với Công an phường Bình Thọ (TP Thủ Đức, TPHCM) làm rõ nguyên nhân vụ nam thanh niên Y.M.N. (20 tuổi) tử vong trong tình trạng loã thể ở đường 13, phường Bình Thọ."
+    },
+    {
+        "index": 478,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0033626556396484375,
+        "title": "Cao nguyên cách Hà Nội 300km có biển mây, thác nước, khách rộn ràng reo vui",
+        "lead": "Quãng đường di chuyển thuận tiện với tuyến cao tốc Hà Nội - Lào Cai, không khí trong lành, mát mẻ, mùa hè chỉ khoảng 20 độ C... là những lý do khiến cao nguyên Y Tý trở thành địa điểm \"trốn nóng\" hút khách."
+    },
+    {
+        "index": 450,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.003749847412109375,
+        "title": "IRGC cảnh báo Mỹ 'sẽ không thoát được'",
+        "lead": "Lực lượng Vệ binh Cách mạng Hồi giáo Iran (IRGC) cảnh báo rắn rằng Mỹ “không có khả năng thoát khỏi sự trả đũa” từ Tehran."
+    },
+    {
+        "index": 2119,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.004314422607421875,
+        "title": "Man City 'đánh tennis', đoạt vé sớm vào vòng 1/8 FIFA Club World Cup - Báo VietnamNet",
+        "lead": "Gundogan lập cú đúp, Haaland cũng ghi bàn đem về chiến thắng 6-0 cho Man City trước Al Ain, cùng tấm vé sớm vào vòng 1/8 FIFA Club World Cup 2025."
+    },
+    {
+        "index": 1572,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00443267822265625,
+        "title": "Lãnh tụ tối cao Iran có thể đã chọn ba ứng viên kế nhiệm",
+        "lead": "Lãnh tụ tối cao Iran Ali Khemenei được cho là đã chọn người kế nhiệm tiềm năng, sau khi Israel công khai đe dọa ám sát ông."
+    },
+    {
+        "index": 620,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.004608154296875,
+        "title": "Đàm Vĩnh Hưng: 'Tôi mong sống lâu bên con'",
+        "lead": "Đàm Vĩnh Hưng nói không còn mơ tiền tài, danh vọng, chỉ mong nhiều sức khỏe để chăm sóc và sống lâu bên con trai - Polo Huỳnh."
+    },
+    {
+        "index": 1472,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.004627227783203125,
+        "title": "Nơi người dân dùng vàng thay tiền mặt",
+        "lead": "VenezuelaỞ thị trấn khai thác mỏ El Dorado, vàng là phương tiện giao dịch phổ biến của người dân bởi đồng bolivar mất giá nghiêm trọng."
+    },
+    {
+        "index": 441,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.004791259765625,
+        "title": "Văn hóa - Ngọn lửa thắp sáng tinh thần dân tộc - Báo Văn hóa",
+        "lead": "Chào mừng Đại hội Đại biểu Đảng bộ Bộ VHTTDL nhiệm kỳ 2025-2030, chương trình nghệ thuật đặc biệt 'Ánh sáng và niềm tin' sẽ diễn ra tại Nhà hát Lớn Hà Nội vào ngày 26.6. Ý tưởng xuyên suốt là làm nổi bật sự gắn kết giữa 'Ánh sáng của Đảng' và 'Niềm tin của nhân dân', trong đó văn hóa chính là cầu nối, là ngọn lửa thắp sáng tinh thần dân tộc."
+    },
+    {
+        "index": 2351,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.004791259765625,
+        "title": "Pin ô tô điện có tuổi thọ cao hơn xe xăng - Chuyên trang Xe Giao Thông - Báo Xây Dựng",
+        "lead": "Nghiên cứu mới công bố cho thấy pin ô tô điện có tuổi thọ dài hơn mức trung bình 14 năm của xe xăng, dầu."
+    },
+    {
+        "index": 2447,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00536346435546875,
+        "title": "Cận cảnh Honda Dream Thái 1997 còn nguyên bản có thể \"hóa rồng” khi tái xuất",
+        "lead": "Chiếc Honda Dream được một dân chơi xe ở Hà Nội sưu tầm, giờ vẫn còn nguyên bản, và chưa tăng xích, được đánh giá là ấn phẩm có thể hóa rồng khi “xuất quan”."
+    },
+    {
+        "index": 497,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0057525634765625,
+        "title": "50 nhà hàng tốt nhất thế giới",
+        "lead": "Thủ đô Lima, Peru, trở thành điểm đến hấp dẫn với giới yêu ẩm thực cao cấp, khi hai nhà hàng của thành phố vào top 10 của danh sách 50 nhà hàng tốt nhất 2025."
+    },
+    {
+        "index": 498,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00582122802734375,
+        "title": "Inter Milan nhận bàn thua lịch sử ở Club World Cup, CLB Nhật Bản hiên ngang rời giải",
+        "lead": "Dù giành trọn 3 điểm, Inter Milan không thể vui mừng khi bị Urawa Red Diamonds dẫn bàn và “khổ chiến“ trong suốt trận đấu."
+    },
+    {
+        "index": 2095,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.994140625,
+        "title": "Man City thắng đậm đội bóng châu Á: HLV Guardiola nói gì về sao trẻ Echeverri?",
+        "lead": "Man City đã dễ dàng đánh bại đội bóng châu Á Al Ain để ghi danh vòng knock-out FIFA Club World Cup 2025. Sau trận, HLV Pep Guardiola đã có những phát biểu đáng chú ý."
+    },
+    {
+        "index": 720,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.994140625,
+        "title": "Lái xe đi nghỉ mát, cả gia đình được buổi 'xông hơi' vì điều hòa ô tô giở chứng - Báo VietnamNet",
+        "lead": "Gia đình 4 người lái xe ô tô đi du lịch thì điều hòa hỏng giữa trời nắng, chiếc xe trở thành phòng xông hơi bất đắc dĩ. Chuyên nghỉ mát 'toát mồ hôi hột' là có thật."
+    },
+    {
+        "index": 152,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.006191253662109375,
+        "title": "Mặt trận \"không bom đạn” nhưng vô cùng khốc liệt giữa Israel và Iran",
+        "lead": "Các cơ quan của Mỹ đang cảnh báo về nguy cơ Iran có thể phát động các cuộc tấn công mạng khi xung đột ngày càng lan rộng."
+    },
+    {
+        "index": 898,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.006290435791015625,
+        "title": "Vụ ngàn chai nước mắm vứt ven đường: Đã xác định được người liên quan",
+        "lead": "Liên quan đến vụ cả ngàn chai nước mắm bị vứt ven đường ở huyện Phú Ninh, tỉnh Quảng Nam, cơ quan chức năng đã xác định được người đem vứt bỏ số chai nước mắm hết hạn này."
+    },
+    {
+        "index": 1543,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00669097900390625,
+        "title": "Xuân Trường mừng cho Tuấn Anh - Tạp chí SaoStar",
+        "lead": "Tiền vệ Lương Xuân Trường đã trải lòng về chức vô địch V.League của Tuấn Anh và CLB Nam Định."
+    },
+    {
+        "index": 80,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.007232666015625,
+        "title": "Liệu có thể gắn ổ SSD PCIe 5.0 vào bo mạch chủ PCIe 4.0?",
+        "lead": "PCI Express (PCIe) là một giao thức kết nối tốc độ cao giúp các thành phần như ổ SSD và card đồ họa giao tiếp hiệu quả với nhau trong hệ thống máy tính."
+    },
+    {
+        "index": 2003,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00731658935546875,
+        "title": "Lãnh tụ tối cao Iran cảnh báo 'sai lầm to lớn' của Israel, tránh đề cập đến Mỹ - Báo Điện tử Tiếng nói Việt Nam",
+        "lead": "Lãnh tụ tối cao Iran Ayatollah Khamenei một lần nữa lên tiếng cảnh báo Israel, cho rằng 'kẻ thù' đã phạm một sai lầm nghiêm trọng và hiện đang 'phải chịu trừng phạt'."
+    },
+    {
+        "index": 2421,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00734710693359375,
+        "title": "Bùi Tiến Dũng 'tuyên chiến' Công Phượng trước trận play-off giành vé dự V-League - Báo VietnamPlus",
+        "lead": "Trận play-off tranh suất tham dự V-League mùa giải sau giữa SHB Đà Nẵng và Trường Tươi Bình Phước sẽ rất đáng xem khi thủ môn Bùi Tiến Dũng có cơ hội đối đầu đồng đội cũ Nguyễn Công Phượng."
+    },
+    {
+        "index": 2522,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.007549285888671875,
+        "title": "Bayern Munich tung chiêu, quyết vượt Barca ký Nico Williams - Báo VietnamNet",
+        "lead": "Bayern Munich đưa ra mức lương hơn 15 triệu euro, quyết tâm vượt qua đối thủ Barca để chiêu mộ ngôi sao Nico Williams."
+    },
+    {
+        "index": 1769,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00763702392578125,
+        "title": "Hái mận ở Mộc Châu",
+        "lead": "Sơn LaCác vườn mận Mộc Châu đang vào chính vụ, hút khách du lịch check in, hái mận ăn tại chỗ hoặc mua về, với giá từ 30.000 đồng một người."
+    },
+    {
+        "index": 2665,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00787353515625,
+        "title": "Những bức ảnh động vật nổi bật nhất thập kỷ - Tạp chí Tri thức",
+        "lead": "20 bức ảnh chụp động vật hoang dã được giới thiệu trong cuốn sach 'Remembering Wildlife' - dự án nhằm nâng cao nhận thức về động vật có nguy cơ tuyệt chủng."
+    },
+    {
+        "index": 537,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00821685791015625,
+        "title": "Giá dầu tăng vọt khi xung đột Trung Đông tăng nhiệt - Tạp chí Người Đưa Tin",
+        "lead": "Thị trường dầu đang phản ứng với cuộc tấn công bất ngờ của Mỹ vào các cơ sở hạt nhân của Iran."
+    },
+    {
+        "index": 739,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00821685791015625,
+        "title": "MU đừng bán Amad - Báo Pháp Luật TP.HCM",
+        "lead": "Louis Saha đã tha thiết đề nghị MU đừng bán Amad khi có tin đồn ngôi sao người Bờ Biển Ngà này sẽ rời Old Trafford."
+    },
+    {
+        "index": 1643,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.99169921875,
+        "title": "Microsoft chặn trình duyệt Chrome",
+        "lead": "Tính năng của Microsoft khiến Google Chrome “tê liệt“ suốt nhiều tuần, lỗi vô tình hay “chiêu trò“?"
+    },
+    {
+        "index": 487,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00847625732421875,
+        "title": "Clip: Phóng nhanh qua điểm giao cắt, cô gái lao thẳng xe vào đầu container",
+        "lead": "Một tình huống va chạm nghiêm trọng xảy ra tại điểm giao cắt khi cô gái điều khiển xe máy không làm chủ tốc độ, lao thẳng vào đầu xe container đang chuyển hướng."
+    },
+    {
+        "index": 2397,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9912109375,
+        "title": "CLB Bình Định ‘chiến đấu’ kiên cường, vẫn thua đau Hà Nội: Rớt hạng, kết cục cay đắng!",
+        "lead": "Chiều 22.6, ở vòng đấu cuối cùng của V-League 2024-2025, CLB Bình Định lại thể hiện một bộ mặt bạc nhược phải nhận đến 4 bàn thua trong hiệp 1, thua chung cuộc 2-4 và chấp nhận xuống hạng."
+    },
+    {
+        "index": 1396,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00908660888671875,
+        "title": "'Brokeback Mountain' vượt lên sự kỳ thị đồng tính để trở thành kiệt tác",
+        "lead": "Bộ phim 'Brokeback Mountain' trở lại rạp chiếu ở Mỹ nhân kỷ niệm 20 năm. 20 năm, bộ phim được ghi nhận đã thay đổi cuộc đời của nhiều con người."
+    },
+    {
+        "index": 1826,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0094146728515625,
+        "title": "Phim Việt bị chọc thủng lưới trên sân nhà",
+        "lead": "TPO - Ba bộ phim Việt đang chiếu rạp gồm “Trạng Quỳnh“, “Dế Mèn“ và “Dưới đáy hồ“ hoàn toàn thất thế trước tác phẩm quốc tế. Tuần này, thêm bộ phim kinh dị Việt ra rạp là “Út Lan: Oán linh giữ của“. Tuy nhiên, thành tích không khả quan của “Dưới đáy hồ“ cho thấy phim kinh dị giảm sức hút so với đầu năm."
+    },
+    {
+        "index": 1997,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00981903076171875,
+        "title": "Quang Tuấn tiết lộ ngày đầu ghi hình cùng dàn cast 'Running Man Vietnam'",
+        "lead": "Lần đầu góp mặt trong dàn người chơi chính của 'Running Man Vietnam - Chạy ngay đi' mùa 3 khiến Quang Tuấn không tránh khỏi những bỡ ngỡ."
+    },
+    {
+        "index": 703,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.00989532470703125,
+        "title": "Hé lộ thực đơn quốc yến đón khách quốc tế của Tổng thống Nga Putin",
+        "lead": "Các khách mời quốc tế tham dự tiệc tối do Tổng thống Nga Vladimir Putin chủ trì đã được chiêu đãi các món ăn truyền thống của Nga, theo hình ảnh thực đơn được chia sẻ trên Telegram."
+    },
+    {
+        "index": 1313,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0102081298828125,
+        "title": "Từ bờ vực phá sản đến đế chế streaming lớn nhất Nhật Bản cạnh tranh Netflix",
+        "lead": "Yasuhide Uno – người từng đối mặt với món nợ khổng lồ và thất bại cay đắng – đã vực dậy công ty gia đình để biến U-Next thành đối thủ lớn nhất của Netflix tại Nhật Bản. Giờ đây, ông đặt mục tiêu doanh thu 1.000 tỷ yên và tham vọng đưa công ty thành biểu tượng quốc gia."
+    },
+    {
+        "index": 84,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01024627685546875,
+        "title": "Trung Quốc hút khách bằng trải nghiệm nhập vai công chúa, hoàng tử",
+        "lead": "Ngày càng nhiều du khách nước ngoài đến Trung Quốc thích thú với trải nghiệm văn hóa như mặc Hán phục, thử làm gốm hay nhuộm vải truyền thống."
+    },
+    {
+        "index": 2618,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.98974609375,
+        "title": "Chuyên gia chỉ ra thực phẩm không nên ăn sống",
+        "lead": "Một số thực phẩm sống chứa các hợp chất có hại mà cơ thể không thể tiêu hóa. Khi ăn sống ở lượng nhỏ có thể vô hại, nhưng nếu tiêu thụ chúng quá mức sẽ gây rối loạn nghiêm trọng dẫn đến ngộ độc."
+    },
+    {
+        "index": 660,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01029205322265625,
+        "title": "Bộ Xây dựng yêu cầu Vicem hoàn thiện tháp nghìn tỷ 'đắp chiếu' chục năm",
+        "lead": "Tổng công ty Xi măng Việt Nam (Vicem) cần tập trung triển khai đầu tư, hoàn thiện tòa nhà 31 tầng ở Cầu Giấy sau chục năm bỏ hoang."
+    },
+    {
+        "index": 2822,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01036834716796875,
+        "title": "Fiato Airport City ‘cất cánh’ cùng sân bay Long Thành",
+        "lead": "Sân bay Long Thành đang kéo theo nhu cầu cư trú khổng lồ từ lực lượng chuyên gia, kỹ sư và nhân sự cao cấp."
+    },
+    {
+        "index": 2751,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.010528564453125,
+        "title": "Người tuổi này nên chọn nhà hướng Đông Tứ Trạch giúp thu hút tài lộc, gia đạo thuận hòa và sức khỏe dồi dào - Chuyên trang Gia Đình & Xã Hội - Báo Sức khỏe & Đời sống",
+        "lead": "Theo phong thủy truyền thống, Đông Tứ Trạch tượng trưng cho nhóm hướng tốt đối với người thuộc mệnh Đông Tứ Mệnh, giúp thu hút tài lộc, gia đạo thuận hòa và sức khỏe dồi dào."
+    },
+    {
+        "index": 2056,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9892578125,
+        "title": "3 quán cà phê vợt lừng danh, lâu đời nhất TP.HCM: Bạn đã ghé chưa?",
+        "lead": "3 quán cà phê vợt hơn nửa thế kỷ ở TP.HCM như Cheo Leo, Ba Lù, Phan Đình Phùng... vẫn giữ hương vị xưa. Bạn đã thử hết chưa?"
+    },
+    {
+        "index": 2416,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01078033447265625,
+        "title": "Đánh ghen, ép viết giấy nợ khiến nạn nhân tự tử",
+        "lead": "Hà NộiBiết chồng quan hệ tình cảm với người khác, Phan Thị Thu rủ chồng và một số người dàn cảnh đánh ghen, ép viết giấy nợ 200 triệu đồng khiến nạn nhân sau đó treo cổ tự vẫn."
+    },
+    {
+        "index": 879,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01085662841796875,
+        "title": "Thực hư video người Israel tháo chạy ở Tel Aviv khi Iran tấn công tên lửa",
+        "lead": "Khi xung đột giữa Israel và Iran kéo dài sang ngày thứ bảy liên tiếp, một “cuộc chiến thông tin” cũng đang leo thang trên các nền tảng mạng xã hội, với hàng loạt video sai sự thật lan truyền rộng rãi nhằm gây hiểu nhầm về tình hình thực tế."
+    },
+    {
+        "index": 318,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01132965087890625,
+        "title": "Nhan sắc biên tập viên thời sự gây chú ý ở Hoa hậu Hoàn vũ Việt Nam",
+        "lead": "Lê Thu Hòa - biên tập viên Đài Phát thanh Truyền hình Hà Nội gây chú ý khi ghi danh tại Hoa hậu Hoàn vũ Việt Nam - Miss Cosmo Vietnam 2025."
+    },
+    {
+        "index": 299,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.011688232421875,
+        "title": "Doãn Quốc Đam trở lại",
+        "lead": "Sau hơn một thập kỷ gắn bó với vai phản diện truyền hình, Doãn Quốc Đam bất ngờ xuất hiện với diện mạo hoàn toàn mới trong phim điện ảnh mới"
+    },
+    {
+        "index": 1873,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.011871337890625,
+        "title": "10 mẹo đi du lịch bằng siêu mô tô vào mùa hè",
+        "lead": "Dưới đây là 10 mẹo hữu ích để đi du lịch bằng xe siêu mô tô vào mùa hè vui vẻ và an toàn hơn."
+    },
+    {
+        "index": 1989,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0121002197265625,
+        "title": "Dấu chân người giữ đất - Báo Pháp Luật Việt Nam",
+        "lead": "Ở cuối dải Trường Sơn, Bù Gia Mập (Bình Phước) hiện lên như một bức tranh thiên nhiên nguyên sơ mà kì vĩ. Nơi đó, tiếng bước chân người lính vẫn bền bỉ vang lên, đều đặn như nhịp thở của núi rừng. Họ không chỉ là những người lính canh giữ đường biên, mà còn là những người gieo chữ, gieo luật, gieo văn hóa và gieo cả niềm tin vào mảnh đất nơi dặm xa còn vương khói lam chiều."
+    },
+    {
+        "index": 1236,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.012237548828125,
+        "title": "Mỹ khoét rỗng cả ngọn núi để săn tìm hạt ma",
+        "lead": "Các hang động ở độ sâu gần 1.500 m trong lòng ngọn núi tại bang South Dakota sẽ là nơi đặt máy dò hạt neutrino bí ẩn trong thí nghiệm DUNE của Mỹ."
+    },
+    {
+        "index": 2577,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9873046875,
+        "title": "Tài sản của \"siêu nhân Hong Kong” Lý Gia Thành hiện còn bao nhiêu?",
+        "lead": "Năm 2025 đánh dấu diễn biến mới trong giới siêu giàu Hong Kong: số lượng tỷ phú tiếp tục tăng, tổng tài sản cán mốc mới, đồng thời chứng kiến sự ra đi của một trong những đại diện tiêu biểu."
+    },
+    {
+        "index": 2755,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01332855224609375,
+        "title": "Cha đẻ ChatGPT đưa ra lời khuyên giúp Gen Z không bị mất việc trong thời đại AI",
+        "lead": "Trong bối cảnh trí tuệ nhân tạo (AI) ngày càng thay đổi thị trường việc làm, Sam Altman - CEO OpenAI, đơn vị đứng sau ChatGPT đã đưa ra lời khuyên thiết thực."
+    },
+    {
+        "index": 766,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.013427734375,
+        "title": "Khi Gen Z dùng công nghệ lập trình nhịp sống số",
+        "lead": "Gen Z không chỉ tiếp cận công nghệ mà còn thiết lập cách sống số của họ. Từ AI đến no-code, thế hệ này đang tạo ra những hệ sinh thái cá nhân tự động hóa."
+    },
+    {
+        "index": 479,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.014007568359375,
+        "title": "Clip: Kinh hoàng xe máy lộn nhiều vòng sau khi bị ô tô tải tạt đầu",
+        "lead": "Tình huống giao thông kinh hoàng khiến nhiều người chứng kiến phải “đứng tim“. Sau va chạm với xe tải, chiếc xe máy cùng người điều khiển lộn nhiều vòng trên đường trong khi tài xế xe tải phóng đi không chút do dự."
+    },
+    {
+        "index": 1830,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.98583984375,
+        "title": "Bí thư Bà Rịa - Vũng Tàu nói lời 'gan ruột' trước thời khắc sáp nhập với TPHCM",
+        "lead": "Bí thư Bà Rịa - Vũng Tàu đề nghị trong thời gian 10 ngày trước khi sáp nhập với TPHCM, người đứng đầu các cấp ủy Đảng dành toàn bộ thời gian, sự quan tâm hướng về cơ sở cấp xã mới và hãy gạt bỏ những băn khoăn, suy nghĩ riêng tư."
+    },
+    {
+        "index": 1054,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.98583984375,
+        "title": "Atletico dập tắt hy vọng của Liverpool - Tạp chí Tri thức",
+        "lead": "Julian Alvarez là mục tiêu tiềm năng của Liverpool, nhưng ban lãnh đạo Atletico Madrid sẽ không bán cầu thủ người Argentina bằng bất cứ giá nào."
+    },
+    {
+        "index": 1349,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01422882080078125,
+        "title": "Phát hiện thằn lằn nguyên con trong bánh tiramisu, một gia đình bị ngộ độc",
+        "lead": "Sự việc khiến các thành viên gia đình đồng loạt có triệu chứng ngộ độc kéo dài hơn 2 tuần."
+    },
+    {
+        "index": 2328,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.01467132568359375,
+        "title": "Eo Gió Quan Lạn thiên đường hoang sơ làm say lòng du khách",
+        "lead": "Eo Gió Quan Lạn nổi bật với biển xanh, vách đá hùng vĩ và không gian yên bình, là điểm đến lý tưởng cho du khách yêu thiên nhiên hoang sơ, tĩnh lặng."
+    },
+    {
+        "index": 623,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.984375,
+        "title": "Thấy người khác gặp tai nạn nguy kịch nhưng không cứu giúp, phạm tội gì?",
+        "lead": "Theo luật sư, việc không cứu giúp người đang gặp nguy hiểm không chỉ là vấn đề đạo đức mà còn là hành vi vi phạm pháp luật, có thể bị truy cứu trách nhiệm hình sự."
+    },
+    {
+        "index": 1227,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.98388671875,
+        "title": "Đội nào sẽ xuống hạng ở V-League 2024-2025?",
+        "lead": "1,5 suất xuống hạng Nhất mùa sau chỉ còn là cuộc đua giữa Quảng Nam, Đà Nẵng và Bình Định."
+    },
+    {
+        "index": 437,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9833984375,
+        "title": "Cubing - 'siêu xe' đắt giá nhất VinFast từng làm",
+        "lead": "Nếu không có xe cubing, một sản phẩm khi bán ra thị trường có thể gặp những lỗi \"ngớ ngẩn\" khi bị ảnh hưởng bởi thời tiết."
+    },
+    {
+        "index": 1486,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.98291015625,
+        "title": "Choáng vì hàng giả tinh vi như hàng thật",
+        "lead": "Hàng giả hiện nay không còn là những món đồ nhái vụng về với kiểu dáng thô kệch, bao bì sơ sài như trước mà được \"biến hóa\" tinh vi đến mức đánh lừa cả người sành sỏi."
+    },
+    {
+        "index": 2541,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0173797607421875,
+        "title": "Từ EDM Festival đến mega concert Kpop đưa G-Dragon về Việt Nam: Ravolution Asia bùng nổ bước chuyển mình chiến lược",
+        "lead": "Từ những mùa lễ hội âm nhạc điện tử tiên phong đến siêu concert Kpop, Ravolution Asia đang viết nên hành trình đưa trải nghiệm âm nhạc Việt tiệm cận chuẩn mực toàn cầu."
+    },
+    {
+        "index": 1229,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0173797607421875,
+        "title": "Xúc động nữ sinh gánh hành lý trở về nhà sau kỳ thi bằng chiếc sào tre",
+        "lead": "Khoảnh khắc của nữ sinh sau kỳ thi nhận được sự quan tâm lớn trên mạng xã hội."
+    },
+    {
+        "index": 961,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0173797607421875,
+        "title": "'Đặt cọc mua VinFast EC Van, tôi lợi lớn khi 1 mũi tên trúng 2 đích'",
+        "lead": "Anh Nguyễn Đức Duy - một người sở hữu nhiều mẫu xe VinFast - nhận định rằng VinFast EC Van sẽ là lựa chọn phù hợp cho những ai có nhu cầu giao hàng thường xuyên trong đô thị."
+    },
+    {
+        "index": 1482,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.982421875,
+        "title": "Alo bác sĩ nghe: Đau mỏi vai gáy khi ngủ dậy cảnh báo điều gì?",
+        "lead": "'Tôi năm nay 55 tuổi, gần đây hay đau mỏi vai gáy, nhất là buổi sáng ngủ dậy. Liệu có phải dấu hiệu của thoái hóa đốt sống cổ không? Tôi nên khám và điều trị như thế nào?'. (M.Lộc, ở TP.HCM)."
+    },
+    {
+        "index": 752,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.019866943359375,
+        "title": "Nhan sắc đời thường của tân Hoa hậu Hoàn vũ Việt Nam",
+        "lead": "Ghi điểm bởi nhan sắc ngọt ngào cùng trình độ học vấn tốt, Nguyễn Hoàng Phương Linh giành chiến thắng tại chung kết Hoa hậu Hoàn vũ Việt Nam 2025."
+    },
+    {
+        "index": 177,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97998046875,
+        "title": "Những người sống mà không cần ngủ",
+        "lead": "Một số người mang đột biến gen đặc biệt có thể ngủ rất ít mà vẫn khỏe mạnh, mở ra góc nhìn mới về cơ chế sinh học giấc ngủ con người."
+    },
+    {
+        "index": 2370,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.020172119140625,
+        "title": "Bạn trẻ khởi nghiệp thời 4.0 và câu hỏi dữ liệu lấy từ đâu",
+        "lead": "Trong bối cảnh khởi nghiệp bùng nổ, rào cản lớn nhất của các bạn trẻ không phải là thiếu công cụ, mà là chưa có tư duy nhìn nhận và khai thác dữ liệu đúng cách."
+    },
+    {
+        "index": 2687,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0204925537109375,
+        "title": "“Kim Soo Hyun Scandal” - Khi người nổi tiếng bị bạo lực mạng và sự thật bị bóp méo bởi AI",
+        "lead": "Bê bối của ngôi sao hạng S Hàn Quốc Kim Soo Hyun được cho là 1 ví dụ của hành vi bạo lực mạng và phỉ báng được thực hiện bởi AI nhắm vào những người nổi tiếng."
+    },
+    {
+        "index": 1632,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9794921875,
+        "title": "Lập kỳ tích, Cát Bà nổi lên thành trung tâm du lịch giải trí mới hè 2025",
+        "lead": "Chỉ trong một thời gian ngắn, diện mạo du lịch Cát Bà đã hoàn toàn thay đổi với loạt trải nghiệm khác biệt mang chuẩn mực giải trí - nghệ thuật không thua kém bất kỳ quốc gia nào."
+    },
+    {
+        "index": 330,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9794921875,
+        "title": "CSGT vừa sát hạch vừa cấp đổi GPLX: Người dân được lợi gì?",
+        "lead": "Việc chuyển giao công tác sát hạch, cấp, đổi giấy phép lái xe (GPLX) sang Bộ Công an quản lý được Cục CSGT đánh giá mang lại nhiều thuận lợi trong công tác quản lý thống nhất dữ liệu và lợi ích cho người dân."
+    },
+    {
+        "index": 291,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97900390625,
+        "title": "Nghỉ việc lương cao để ở nhà chăm con, 'bố bỉm sữa' bị viêm khớp, trầm cảm",
+        "lead": "TRUNG QUỐC - Người đàn ông nghỉ việc lương cao để làm bố toàn thời gian nhưng cuối cùng bị tổn thương cả thể chất lẫn tinh thần, viêm khớp, trầm cảm và ly hôn."
+    },
+    {
+        "index": 1375,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0214080810546875,
+        "title": "Nhân thân bất hảo của thanh niên xé áo nữ tài xế taxi",
+        "lead": "Mang nhiều tiền án và nằm trong chuyên án theo dõi đặc biệt, Ngô Văn Cà Trương vẫn tiếp tục gây án với hành vi tấn công nữ tài xế taxi."
+    },
+    {
+        "index": 1829,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0222015380859375,
+        "title": "‘Nữ hoàng wushu’ Thúy Hiền: Tôi dập tắt ước mơ ca hát của con khi ly hôn Tú Dưa",
+        "lead": "Ca sĩ LEXXY, con gái cựu vận động viên Wushu Thúy Hiền và nhạc sĩ Tú Dưa vừa có màn debut với ca khúc đầu tay mang tên Bật đèn xanh. Tại sự kiện, 'chị đẹp' Thúy Hiền thừa nhận về quãng thời gian từng dập tắt ước mơ âm nhạc của con gái khi đổ vỡ hôn nhân."
+    },
+    {
+        "index": 2587,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.022247314453125,
+        "title": "Inter Miami trước ngưỡng cửa lịch sử - Tạp chí Tri thức",
+        "lead": "Một chiến thắng trước Palmeiras ở lượt trận cuối bảng A FIFA Club World Cup 2025 sẽ giúp Inter Miami viết nên lịch sử cho CLB và cả giải MLS."
+    },
+    {
+        "index": 1881,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0226287841796875,
+        "title": "Sao Việt rộ mốt tóc siêu ngắn",
+        "lead": "Ngọc Trinh chọn tóc tém, tỉa layer với tone màu nổi bật, còn diễn viên Minh Hằng tôn các đường nét sắc sảo trên gương mặt nhờ mái tóc đen tỉa sát gáy, ôm lấy mặt."
+    },
+    {
+        "index": 618,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0230255126953125,
+        "title": "Gói thầu hơn 6,3 tỷ tại huyện Phú Thiện (Gia Lai): Mất quyền làm rõ, Phú Gia Thịnh phản ứng - Chuyên trang Đầu Tư Chứng Khoán - Báo Đầu Tư",
+        "lead": "Gói thầu Xây lắp thuộc Dự án Nghĩa trang nhân dân huyện Phú Thiện (tỉnh Gia Lai) do Ban Quản lý dự án đầu tư xây dựng (QLDA ĐTXD) huyện Phú Thiện làm chủ đầu tư, trực tiếp mời thầu vừa được công bố kết quả lựa chọn nhà thầu. Ngay sau đó, nhà thầu bị loại đã phản ứng với việc đánh giá hồ sơ dự thầu (HSDT)."
+    },
+    {
+        "index": 288,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0233306884765625,
+        "title": "Chuyên gia trang điểm Diệp Bùi chọn ngã rẽ mới để viết tiếp ước mơ",
+        "lead": "Chuyên gia trang điểm Diệp Bùi, tên thật là Bùi Ngọc Diệp, là một trong những gương mặt sáng giá trong ngành làm đẹp tại Việt Nam. Sau nhiều năm hoạt động sôi nổi tại các thành phố lớn như Đà Nẵng và TP.HCM, Diệp Bùi tiếp tục chọn cho mình một hướng đi mới nhằm mở rộng tầm nhìn và thử sức trong môi trường đa dạng hơn."
+    },
+    {
+        "index": 1624,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9765625,
+        "title": "Nhan sắc quá khứ trái ngược của Tân Hoa, Á hậu Hoàn vũ Việt Nam: Người ngây thơ, người quyến rũ, cá tính",
+        "lead": "Nhan sắc thời quá khứ của 2 nàng hậu cũng một chín một mười."
+    },
+    {
+        "index": 1977,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0238189697265625,
+        "title": "\"Ngưu Ma Vương\" U90: Hạnh phúc bên vợ kém 37 tuổi và con trai 2 tuổi",
+        "lead": "“Quốc bảo“ piano Trung Quốc - Lưu Thi Côn, không chỉ sự nghiệp trải qua nhiều khúc quanh mà hôn nhân của ông cũng có nhiều biến động. Ở tuổi xế chiều, ông hạnh phúc bên vợ trẻ, con thơ."
+    },
+    {
+        "index": 2123,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0239105224609375,
+        "title": "Bản hòa ca sắc màu trên sông Hàn: Vẽ ‘hành tinh xanh’ bằng pháo hoa",
+        "lead": "Tối 21.6.2025, bầu trời Đà Nẵng như hóa thành sân khấu của cảm xúc, nơi ánh sáng và âm nhạc hòa quyện trong đêm thi thứ tư DIFF 2025. Hai đội pháo hoa đến từ Bồ Đào Nha và Vương quốc Anh không chỉ trình diễn kỹ thuật đỉnh cao, mà còn kể những câu chuyện lay động lòng người về tình yêu thiên nhiên và tương lai xanh của nhân loại."
+    },
+    {
+        "index": 2460,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97607421875,
+        "title": "Tuyển sinh 2025: Những mốc thời gian 'vàng' thí sinh không thể bỏ lỡ",
+        "lead": "Bộ GD&ĐT vừa công bố lịch tuyển sinh đại học, cao đẳng năm 2025 với nhiều mốc quan trọng. Thí sinh cần nắm rõ để không bỏ lỡ cơ hội."
+    },
+    {
+        "index": 414,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0247039794921875,
+        "title": "Real Madrid thắng nhọc, Xabi và dàn sao phản ứng ‘tội đồ’ Asensio",
+        "lead": "Real Madrid thắng 3-1 Pachuca với chỉ 10 người gần cả trận, Xabi Alonso cùng Jude Bellingham và Thibaut Courtois phản ứng về ‘tội đồ’ Raul Asensio."
+    },
+    {
+        "index": 2503,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97509765625,
+        "title": "Vị hoàng đế có tư tưởng \"thoáng\", vĩ đại nhất lịch sử Ấn Độ",
+        "lead": "Akbar đại đế, vị vua thứ ba của Đế chế Mughal, là một trong những nhà cai trị hiếm hoi theo đạo Hồi được đông đảo người Ấn Độ hiện đại, cả Hindu lẫn Hồi giáo,"
+    },
+    {
+        "index": 674,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97509765625,
+        "title": "Phút cân não di dời hai ngôi mộ giả 'mọc' trên đất phải thi hành án",
+        "lead": "Kiên GiangĐủ cơ sở khẳng định là hai ngôi mộ là giả song vẫn không loại trừ bên trong có hài cốt, chấp hành viên Trần Thị Thúy An \"cân não\" để ra quyết định cưỡng chế thi hành án."
+    },
+    {
+        "index": 1627,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97509765625,
+        "title": "'Vòng luẩn quẩn' xe cộ trước cổng bệnh viện chữa ung thư lớn nhất Hà Nội",
+        "lead": "Tình trạng trông giữ xe trái phép quanh Bệnh viện K cơ sở Tân Triều (huyện Thanh Trì, Hà Nội) không chỉ gây bức xúc trong dư luận mà còn tiềm ẩn nhiều rủi ro về an toàn giao thông và trật tự đô thị."
+    },
+    {
+        "index": 1867,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97509765625,
+        "title": "Tòa án cấp thành phố xử xong vẫn 'đứng hình' vì cái tờ trình của ủy ban phường",
+        "lead": "Sau hàng chục năm theo đuổi vụ kiện tranh chấp hợp đồng chuyển nhượng quyền sử dụng đất và được tòa án tuyên thắng kiện, khi gia đình bà Lợi đi làm sổ đỏ thì bị từ chối vì hàng xóm không xác nhận ranh đất."
+    },
+    {
+        "index": 795,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.025177001953125,
+        "title": "Vào viện xin cấp cứu, chưa kịp chuyển viện theo ý muốn đã ra tay đấm điều dưỡng",
+        "lead": "Thanh niên 25 tuổi đến Bệnh viện Đa khoa tỉnh Khánh Hòa cấp cứu, sau đó đề nghị được chuyển đi cơ sở y tế khác điều trị. Trong khi nhân viên bệnh viện đang xử lý yêu cầu, anh này đã hành hung 1 điều dưỡng."
+    },
+    {
+        "index": 1301,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.02532958984375,
+        "title": "Trước giờ G đêm nhạc của G-Dragon ở Mỹ Đình: Mây đen kéo tới ùn ùn, giá vé giảm mạnh",
+        "lead": "Rất nhiều khán giả đang trông ngóng được theo dõi, ngắm nhìn G-Dragon trên sân khấu vào tối nay."
+    },
+    {
+        "index": 1910,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0258636474609375,
+        "title": "Ford Territory - Khám phá \"lãnh thổ\" riêng trong thế giới crossover",
+        "lead": "Ford Territory - mẫu crossover hạng C đình đám tại Việt Nam, với thiết kế hiện đại và công nghệ an toàn vượt trội."
+    },
+    {
+        "index": 1912,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0266571044921875,
+        "title": "\"Mỗi chiếc B-2 giá hơn 2,2 tỷ USD”: Mỹ \"đốt” chi phí khủng tấn công các địa điểm hạt nhân của Iran",
+        "lead": "Cuộc không kích của Mỹ vào các cơ sở hạt nhân Iran mới đây không chỉ gây chấn động vì quy mô và độ chính xác, mà còn cho thấy mức độ đầu tư khổng lồ vào công nghệ quân sự. Với chi phí hơn 2,2 tỷ USD cho mỗi chiếc B-2 và 20 triệu USD cho mỗi quả bom xuyên phá, Mỹ đang chứng minh khả năng tấn công toàn cầu từ cách xa nửa vòng trái đất."
+    },
+    {
+        "index": 1266,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97314453125,
+        "title": "‘Cầu tình yêu’ và ‘Đi cùng mưa’, những điểm check-in mới toanh tại Đà Lạt",
+        "lead": "Đà Lạt được mệnh danh là thành phố ngàn hoa, thành phố mộng mơ, xứ sương mù, thành phố trong rừng... Những cái tên mỹ miều ấy đã góp phần làm nên thương hiệu du lịch Đà Lạt."
+    },
+    {
+        "index": 273,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97314453125,
+        "title": "Iran phóng tên lửa đầu đạn 1,5 tấn vào Israel: Mối đe dọa mới khiến phòng thủ Tel Aviv chao đảo - VietTimes",
+        "lead": "Iran dùng tên lửa Kheibar đầu đạn 1,5 tấn tấn công Israel, khiến hệ thống phòng thủ nước này gặp khó. Vũ khí mới mà Iran tung ra được cho là vượt mặt radar, gây thiệt hại lớn."
+    },
+    {
+        "index": 2040,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.02691650390625,
+        "title": "Quốc Trường phản ứng khi khán giả vây kín, kéo tay níu áo",
+        "lead": "Nhiều khán giả bày tỏ sự yêu thích với Quốc Trường, không ngại nắm tay, níu áo nam diễn viên."
+    },
+    {
+        "index": 2690,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97265625,
+        "title": "Nguyễn Hoàng Phương Linh chính thức đăng quang Hoa hậu Hoàn vũ Việt Nam 2025!",
+        "lead": "Người kế nhiệm Hoa hậu Xuân Hạnh đã chính thức lộ diện, kết quả của Hoa hậu Hoàn vũ Việt Nam gây bàn tán trên MXH."
+    },
+    {
+        "index": 1252,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.97265625,
+        "title": "Danh hài Hoàng Mập bất ngờ rao bán biệt phủ triệu đô rộng 1.600m2",
+        "lead": "Căn biệt phủ rộng hơn 1.600 m2 ở Đồng Nai là nơi chốn đi về của Hoàng Mập trong nhiều năm. Nghệ sĩ quyết định rao bán vì muốn gia đình sum họp và có điều kiện sống tốt hơn."
+    },
+    {
+        "index": 422,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.028656005859375,
+        "title": "Những nơi nào ở TP.HCM được miễn giấy phép xây dựng?",
+        "lead": "Theo thông tin từ Sở Xây dựng TP.HCM, hiện trên địa bàn thành phố có 360 khu vực với khoảng 55.000 lô, nền đủ điều kiện để được miễn giấy phép xây dựng."
+    },
+    {
+        "index": 792,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.02880859375,
+        "title": "BTC concert Anh trai vượt ngàn chông gai xin lỗi",
+        "lead": "Concert Anh trai vượt ngàn chông gai day 6 diễn ra trong cơn mưa tầm tã. Do mưa lớn thiết bị điện của concert liên tục gặp sự cố, tổng thời gian mất điện, mất màn led lên tới gần 40 phút. BTC concert nhanh chóng xin lỗi vì những sự cố này."
+    },
+    {
+        "index": 1064,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0289764404296875,
+        "title": "Gà 'leo' mái nhà, heo được người dân hối hả 'bế' đi chạy lũ",
+        "lead": "Cơn mưa lớn ngày 21/6, gây ngập lụt nhiều nơi ở các xã Bá Xuyên, Bách Quang, Bình Sơn, Cải Đan, Châu Sơn, Lương Ơn, Mỏ Chè, Phố Cò, Tân Quang, Thắng Lợi (TP Sông Công, Thái Nguyên). Lực lượng chức năng đã ứng trực kịp thời để giúp đỡ người dân, khắc phục thiệt hại."
+    },
+    {
+        "index": 2712,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9697265625,
+        "title": "Tài xế dừng xe ngủ trên cao tốc gây tai nạn kinh hoàng đối diện mức phạt nào?",
+        "lead": "Dừng xe không đúng quy định trên cao tốc gây tai nạn, ngoài bị phạt hành chính, trừ điểm giấy phép lái xe, tài xế còn đối diện án phạt tù."
+    },
+    {
+        "index": 1877,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0303802490234375,
+        "title": "Đan Trường lên tiếng làm rõ về clip quảng cáo vay nặng lãi",
+        "lead": "Trước việc bị kẻ xấu sử dụng AI mạo danh mình với mục đích trục lợi, ca sĩ Đan Trường lên tiếng cảnh báo khán giả."
+    },
+    {
+        "index": 518,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0305633544921875,
+        "title": "Ý nghĩa của 81 chiếc đinh trên cổng chính Tử Cấm Thành",
+        "lead": "Trung Quốc81 chiếc đinh mạ vàng trên cổng chính Ngọ Môn của Tử Cấm Thành không chỉ là chi tiết trang trí, mà còn ẩn chứa quyền lực của hoàng đế."
+    },
+    {
+        "index": 2257,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0305633544921875,
+        "title": "Cô gái trẻ ở Hà Nội mất trắng 1.6 tỷ đồng: Chiêu lừa nhiều người đã gặp phải",
+        "lead": "Bị đối tượng lừa đảo đe doạ và thao túng tâm lý, cô gái SN 2004 đã chuyển cho chúng 1.6 tỷ đồng."
+    },
+    {
+        "index": 948,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.96923828125,
+        "title": "Chàng trai Tiền Giang cắt sầu riêng nhanh như chớp, nghe tiếng là biết quả già",
+        "lead": "Ở tuổi 26, chàng trai Tiền Giang đã là thợ cắt sầu chính của đội. Nhờ sự phán đoán chính xác của anh mà hiếm khi đội phải đền tiền chủ vựa sầu."
+    },
+    {
+        "index": 2731,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.03179931640625,
+        "title": "iPhone màn OLED xịn như iPhone 16, hiệu năng hàng top phân khúc tầm trung",
+        "lead": "Mẫu iPhone này sau giảm giá trở thành sản phẩm top đầu trong phân khúc tầm trung với thiết kế và hiệu năng ấn tượng."
+    },
+    {
+        "index": 2458,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.031982421875,
+        "title": "Thoát chết nhờ túi độn ngực",
+        "lead": "Trung QuốcBị tấn công bất ngờ và đâm 22 nhát dao vào ngực, cô Ma, 30 tuổi, sống sót nhờ túi độn ngực cản những vết thương chí mạng."
+    },
+    {
+        "index": 1322,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.032958984375,
+        "title": "10 tuyến tàu ngoạn mục nhất thế giới 2025",
+        "lead": "Lonely Planet giới thiệu 10 tuyến tàu đẹp nhất thế giới, đưa du khách băng rừng, biển, núi tuyết, cao nguyên Tây Tạng đến các vùng đất hoang dã châu Phi."
+    },
+    {
+        "index": 943,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.966796875,
+        "title": "Nóng nhất thể thao tối 21/6: Tay vợt số 1 nước Anh mơ gây sốc ở Wimbledon",
+        "lead": "(Tin thể thao) Ở Wimbledon tới đây, Draper cực kỳ quyết tâm và kỳ vọng sẽ đăng quang tại giải Grand Slam trên sân nhà."
+    },
+    {
+        "index": 854,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.033660888671875,
+        "title": "Tài xế dừng ngủ trên cao tốc khiến xảy ra tai nạn chết người",
+        "lead": "Quảng NamTài xế container Lê Xuân Hưng bị tạm giữ hình sự vì dừng trên cao tốc khiến xe khách tông vào phía sau làm hai người chết."
+    },
+    {
+        "index": 344,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9658203125,
+        "title": "Video: Nam sinh xin quả xoài qua camera, chủ nhà xem lại được phen cười ngất",
+        "lead": "Chỉ với vài câu nói lễ phép trước camera, nam sinh này không chỉ xin được xoài nhà dân mà còn khiến dân mạng “lụi tim” vì sự dễ thương và chân thành."
+    },
+    {
+        "index": 1122,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.034881591796875,
+        "title": "9 thành phố châu Âu nên đến mùa hè này",
+        "lead": "Các vùng biển, núi có khí hậu mát mẻ hay những thành phố chưa nổi tiếng trên bản đồ du lịch được Time Out lựa chọn là điểm đến hè này."
+    },
+    {
+        "index": 175,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.035064697265625,
+        "title": "Đăng ký thường trú qua VNeID, cần giấy tờ gì?",
+        "lead": "Hiện tại, tôi đang gặp khó khăn trong việc đăng ký thường trú tại TP Mỹ Tho, Tiền Giang. Tôi mua nhà tại đây từ năm 2018 và đã đăng ký tạm trú hợp pháp. Nhà tôi có thổ cư và được cấp số nhà hợp pháp."
+    },
+    {
+        "index": 1837,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.036163330078125,
+        "title": "HLV Nam Định nói lời xúc động, ôm hôn vợ sắp cưới cực xinh",
+        "lead": "HLV Vũ Hồng Việt cùng vợ sắp cưới và con trai ăn mừng Cúp vô địch V-League thứ 2 liên tiếp của CLB Thép Xanh Nam Định trên sân Thiên Trường tối 22/6."
+    },
+    {
+        "index": 2185,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.03643798828125,
+        "title": "Rong ruổi Bình Đại đắm mình thiên nhiên, hóa thân làm dân quê thứ thiệt",
+        "lead": "Cách TP.HCM chỉ vài giờ xe, biển Bình Đại hiện ra với vẻ đẹp mộc mạc: bãi bồi thoáng đãng, hàng dừa xanh rì rào và không khí trong lành. Về đây không chỉ để tắm biển hay ăn hải sản, mà còn để sống chậm, lội bùn bắt cá, ngủ lều tranh giữa thiên nhiên và hóa thân thành “dân quê thứ thiệt”."
+    },
+    {
+        "index": 2406,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.03643798828125,
+        "title": "Crossover cỡ trung: Đại lý 'cắn răng' chịu lỗ, Ford Territory lần đầu vượt Mazda CX-5",
+        "lead": "Động thái giảm giá \"tất tay\" để kích cầu của hãng xe và đại lý giúp Ford Territory đạt doanh số tháng 5.2025 gần 1.500 xe, lần đầu vượt mặt đối thủ Mazda CX-5 trong cuộc đua ở phân khúc SUV, crossover cỡ trung tại Việt Nam."
+    },
+    {
+        "index": 182,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.96337890625,
+        "title": "Nghề SEO đứng trước 'ngã ba đường' vì AI",
+        "lead": "Bên cạnh việc tìm cách kéo người thật truy cập website, đội ngũ chuyên tối ưu hóa công cụ tìm kiếm (SEO) giờ phải thu hút cả bot AI."
+    },
+    {
+        "index": 1919,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0369873046875,
+        "title": "Địa ốc Đà Nẵng 'nóng' nhờ hạ tầng tỷ USD",
+        "lead": "Kế hoạch nâng cấp cảng biển, hàng không, giao thông cùng hạ tầng kinh tế giúp Đà Nẵng định hình diện mạo đô thị hiện đại, mở ra cơ hội phát triển cho thị trường nhà ở."
+    },
+    {
+        "index": 2832,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.037384033203125,
+        "title": "Xu hướng nghề nghiệp dịch chuyển thế nào thời AI?",
+        "lead": "Các chuyên gia sẽ chia sẻ về xu hướng dịch chuyển nghề nghiệp, kỹ năng cần thiết cho người trẻ trong thời đại AI... tại tọa đàm của VnExpress, phát sóng lúc 18h, ngày 20/6."
+    },
+    {
+        "index": 1052,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0379638671875,
+        "title": "Kiên Giang cấp phép đầu tư 3 dự án 'siêu khủng', tổng vốn hơn 90.000 tỷ đồng",
+        "lead": "UBND tỉnh Kiên Giang vừa trao quyết định chấp thuận nhà đầu tư cho 3 dự án với tổng vốn hơn 90.000 tỷ đồng để phục vụ hội nghị APEC 2027 sắp tới."
+    },
+    {
+        "index": 2197,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9619140625,
+        "title": "Điều gì xảy ra khi trẻ ngã từ giường xuống đất?",
+        "lead": "Trẻ ngã nhẹ từ giường xuống đất có thể không bị chấn thương, trường hợp nặng dễ gãy xương, tụ máu đầu, nứt lún xương sọ."
+    },
+    {
+        "index": 2126,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.038116455078125,
+        "title": "Khám phá tính năng iOS 26 giúp sạc pin iPhone hiệu quả hơn",
+        "lead": "Một tính năng vừa được Apple thêm vào iOS 26 giúp cho những phiền toái liên quan đến quá trình sạc pin iPhone bị loại bỏ."
+    },
+    {
+        "index": 1455,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.038909912109375,
+        "title": "BMW hé lộ vật liệu mới nhẹ hơn sợi carbon để trang bị trên ô tô",
+        "lead": "BMW vừa tìm ra một loại vật liệu mới có thể sử dụng trên ô tô để thay cho vật liệu sợi carbon vốn đang được xếp vào nhóm \"vật liệu nguy hiểm\" và có thể bị cấm sử dụng trong tương lai."
+    },
+    {
+        "index": 1679,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9609375,
+        "title": "Vụ nước mắm vứt bỏ bên đường: Xác định được chủ nhân",
+        "lead": "Liên quan đến vụ nước mắm vứt bỏ bên đường, cơ quan chức năng đã xác định được người đổ và chủ lô hàng."
+    },
+    {
+        "index": 360,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9609375,
+        "title": "Cặp vợ chồng ăn sáng bằng thịt chuột bắt trong vườn, ít ngày sau nhiễm bệnh nguy hiểm",
+        "lead": "Bữa ăn sáng vô tình trở thành nguyên nhân khiến cặp đôi nhiễm phải vi khuẩn bệnh nguy hiểm"
+    },
+    {
+        "index": 1382,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.96044921875,
+        "title": "Thời trang Việt 'chuyển mình' cùng AI",
+        "lead": "AI đang mở ra kỷ nguyên mới cho ngành thời trang toàn cầu, VN cũng không nằm ngoài xu hướng."
+    },
+    {
+        "index": 2160,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9599609375,
+        "title": "Chính sách visa mới nào khách Việt cần lưu ý khi đi du lịch nước ngoài?",
+        "lead": "Từ đầu năm, một số nước áp dụng chính sách visa, nhập cảnh mới cho du khách Việt, nhằm hiện đại hóa thủ tục và giúp hành trình du lịch thuận tiện, dễ dàng hơn."
+    },
+    {
+        "index": 464,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.958984375,
+        "title": "Phim trường Mongo Land điểm du lịch ‘ngàn góc sống ảo’",
+        "lead": "Phim trường Mongo Land Đà Lạt là điểm đến được săn lùng nhiệt tình vì có không gian thảo nguyên xanh bình yên và 'ngàn góc sống ảo'."
+    },
+    {
+        "index": 2295,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.041229248046875,
+        "title": "Các cơ sở hạt nhân Iran chịu thiệt hại lớn đến mức nào sau đòn không kích dữ dội của Mỹ?",
+        "lead": "Sau thời gian đầu ưu tiên con đường ngoại giao, Tổng thống Mỹ Donald Trump đã ra lệnh thực hiện một đợt tấn công quân sự bất thường nhằm vào Iran vào đêm thứ Bảy, với mục tiêu là ba cơ sở hạt nhân quan trọng nhất của nước này."
+    },
+    {
+        "index": 963,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95703125,
+        "title": "Tưởng đang 'thay trời hành đạo', nhóm 'bà chủ' truy hỏi, cưỡng đoạt tiền nhân viên",
+        "lead": "Một nhóm \"bà chủ\" góp vốn để mở cửa hàng sữa và thuê hai nữ nhân viên bán hàng. Khi phát hiện hàng hóa bị thất thoát, nhóm này liên tục đe dọa nhân viên đưa vụ việc ra công an để uy hiếp tinh thần, nhằm cưỡng đoạt hơn 587 triệu đồng."
+    },
+    {
+        "index": 122,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95703125,
+        "title": "CLB Bình Định xuống hạng Nhất: 'Nỗi đau' được báo trước - Tạp chí Một Thế Giới",
+        "lead": "Thông tin này có vẻ nghịch lý đối với những ai không quan tâm đến bóng đá, nhưng ngược lại, điều này trở nên hợp lý trong môi trường bóng đá Việt Nam, nơi tiêu nhiều hơn thu..."
+    },
+    {
+        "index": 1450,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95654296875,
+        "title": "Bắt giam người dùng sổ đỏ làm ‘mồi câu’ lừa đảo hơn 2,7 tỉ đồng",
+        "lead": "Một người đàn ông ở Cà Mau đã dùng sổ đỏ làm 'mồi câu' lừa đảo nhiều người 'dính bẫy' với số tiền lên đến hơn 2,7 tỉ đồng."
+    },
+    {
+        "index": 2626,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95654296875,
+        "title": "8 thói quen âm thầm hủy hoại thận",
+        "lead": "Uống ít nước, nhịn tiểu, lạm dụng thuốc giảm đau, ăn mặn, thay nước lọc bằng cà phê hay nước ngọt, ngủ không đủ, tập luyện quá sức, hút thuốc, uống rượu bia là những thói quen âm thầm gây tổn thương thận."
+    },
+    {
+        "index": 2142,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.04351806640625,
+        "title": "Suy thận giai đoạn mấy phải chạy thận?",
+        "lead": "Suy thận sẽ cần chạy thận, vậy ở giai đoạn nào thì bắt đầu điều trị phương pháp này? (Hùng, 30 tuổi, TP HCM)"
+    },
+    {
+        "index": 2005,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9560546875,
+        "title": "Muôn vàn cảm xúc của 'phe vé' trước cổng concert có G-Dragon",
+        "lead": "Phe vé lao đao trước giờ G-Dragon biểu diễn"
+    },
+    {
+        "index": 2298,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95556640625,
+        "title": "Tận thấy răng cá mập Megalodon khổng lồ do bé trai phát hiện - Báo Tri thức & Cuộc sống",
+        "lead": "Tưởng chỉ là trò chơi trên bãi biển, ai ngờ cậu bé 6 tuổi tìm ra răng Megalodon cực hiếm, gây sốt giới khảo cổ."
+    },
+    {
+        "index": 1060,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.044769287109375,
+        "title": "Kiếm triệu USD từ sáng tạo game, ứng dụng",
+        "lead": "Dù là sáng tạo game hay ứng dụng, nhiều người đang kiếm được tiền thông qua quảng cáo hoặc nhà đầu tư."
+    },
+    {
+        "index": 2597,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95458984375,
+        "title": "Ảnh hay: MONO lưu lại khoảnh khắc Sơn Tùng M-TP tạo ra hit \"Cơn Mưa Ngang Qua\"",
+        "lead": "Một netizen đã chia sẻ lại bức ảnh có sự xuất hiện của MONO và Sơn Tùng M-TP từ nhiều năm về trước, gây chú ý với “bộ đồ nghề“ Sơn Tùng tạo ra ca khúc “Cơn Mưa Ngang Qua“."
+    },
+    {
+        "index": 1772,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.95458984375,
+        "title": "Lan tỏa thông điệp ‘Năng lượng vui khỏe, tinh thần siêu phàm’",
+        "lead": "Bên cạnh là một sân chơi thể thao chính danh cấp tiểu học TP.HCM, ‘Cúp KUN Siêu Phàm’ là nơi giúp các em học sinh tiểu học rèn luyện thể chất và phát triển các kỹ năng xã hội, từ đó nuôi dưỡng một tuổi thơ vô tư, hồn nhiên, đẹp đẽ."
+    },
+    {
+        "index": 913,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9541015625,
+        "title": "Con trai cả xây nhà 10 tỷ đồng báo hiếu, mẹ vừa qua đời, anh em kiện ra tòa đòi thừa kế: Tòa phán “tài sản không thuộc về người đứng tên sổ đỏ”",
+        "lead": "Người mẹ vừa mất chưa được bao lâu, các con đã kéo nhau ra tòa tranh giành tài sản."
+    },
+    {
+        "index": 2888,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9541015625,
+        "title": "Ước mơ lớn nhất của người thợ cắt tóc",
+        "lead": "TP HuếHơn 20 năm cầm kéo làm thợ cắt tóc nhưng mong ước lớn nhất của chị Phan Thị Điệp là được tự tay cắt tóc cho các con đến hết đời."
+    },
+    {
+        "index": 2677,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.953125,
+        "title": "Bình gas mini phát nổ khiến 8 người gặp nạn - Báo Sức Khỏe & Đời Sống",
+        "lead": "Một bình gas mini của bếp gas bất ngờ phát nổ tại đám giỗ ở Cà Mau khiến 8 người đang dùng tiệc bị bỏng phải đưa đến bệnh viện cấp cứu"
+    },
+    {
+        "index": 1377,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.048583984375,
+        "title": "Nam sinh 20 tuổi chạy thận suốt đời vì ăn sáng với bánh mì và sữa liên tục",
+        "lead": "Câu chuyện nam sinh 20 tuổi phải chạy thận suốt đời vì ăn sáng với món bánh mì và sữa ở cửa hàng tiện lợi khiến nhiều người rùng mình."
+    },
+    {
+        "index": 848,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.048583984375,
+        "title": "Tỉ phú Ấn Độ qua đời nghi do nuốt phải ong",
+        "lead": "Tỉ phú Sunjay Kapur, người sở hữu khối tài sản 1,2 tỉ USD, đã qua đời do cơn đau tim khi đang chơi môn polo tại Anh."
+    },
+    {
+        "index": 886,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.951171875,
+        "title": "Hot face sao Việt: Con gái út Quyền Linh khoe dáng ở Paris - Báo Tri thức & Cuộc sống",
+        "lead": "Mai Thảo Ngọc - con gái út nhà Quyền Linh khoe dáng ở Paris. Đình Tú - Ngọc Huyền khoe giấy đăng ký kết hôn."
+    },
+    {
+        "index": 1866,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.051666259765625,
+        "title": "7 ý tưởng bữa sáng cung cấp năng lượng cho sĩ tử",
+        "lead": "Để cung cấp đủ năng lượng cho sĩ tử giúp quá trình học tập và ghi nhớ tốt cần một bữa sáng bổ dưỡng bắt đầu ngày mới, đặc biệt là trong thời gian thi cử."
+    },
+    {
+        "index": 2536,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9482421875,
+        "title": "Vợ chồng Hà Nội rời phố về biển, chi tiền \"biến” nhà cũ thành homestay đẹp như mơ",
+        "lead": "Căn nhà rộng 134m2 với 1 phòng khách và 3 phòng ngủ, được cải tạo trong vòng chưa đầy 2 tháng hết tổng cộng 700 triệu đồng."
+    },
+    {
+        "index": 983,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.947265625,
+        "title": "Vườn vải ở Hải Dương được ví như rừng nguyên sinh thu nhỏ, hút khách tham quan",
+        "lead": "Những cây vải cổ thụ ở “thủ phủ” Thanh Hà (Hải Dương) có tán cao, rộng, thân nhiều nhánh, phủ đầy rêu xanh khiến du khách trầm trồ, ví von như “rừng nguyên sinh thu nhỏ” ở Tà Xùa."
+    },
+    {
+        "index": 1105,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.05450439453125,
+        "title": "Giá trị hiện hữu - 'lợi thế cạnh tranh' của The Infinity Dĩ An",
+        "lead": "Để tránh rủi ro, người mua nhà ở thực thường tìm đến các khu đô thị đã hình thành với tiện ích đồng bộ, môi trường an toàn, cộng đồng cư dân văn minh giàu sức sống."
+    },
+    {
+        "index": 706,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.94384765625,
+        "title": "HAGL để Quảng Nam giật vé trụ hạng đầy kịch tính",
+        "lead": "Màn trình diễn điên rồ tại phố Núi trước HAGL giúp cho Quảng Nam chính thức trụ hạng"
+    },
+    {
+        "index": 126,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.94384765625,
+        "title": "Galaxy S21 FE \"dính\" sọc xanh màn hình ngay khi đang cập nhật One UI",
+        "lead": "Video bằng chứng gây sốt khi Galaxy S21 FE đang cập nhật One UI bất ngờ bị sọc màn hình."
+    },
+    {
+        "index": 1623,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.94287109375,
+        "title": "Một số lợi ích và hạn chế khi sử dụng lam chắn nắng mặt tiền - Chuyên trang Gia Đình & Xã Hội - Báo Sức khỏe & Đời sống",
+        "lead": "Có nên sử dụng lam chắn nắng mặt tiền hay không là một quyết định đáng cân nhắc, bởi nó mang lại nhiều lợi ích thiết thực nhưng cũng có một vài hạn chế nhỏ. Dưới đây là một số lợi ích và hạn chế khi sử dụng lam chắn nắng mặt tiền."
+    },
+    {
+        "index": 1736,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.057586669921875,
+        "title": "Bác sĩ chỉ cách sử dụng máy lạnh tốt cho sức khỏe",
+        "lead": "Theo Hội Khoa học kỹ thuật lạnh và điều hòa không khí Việt Nam, mỗi năm thị trường Việt Nam tiêu thụ khoảng 2 triệu máy lạnh, chủ yếu ở các đô thị lớn, mật độ dân cư cao, khí hậu nóng ẩm."
+    },
+    {
+        "index": 1874,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.058349609375,
+        "title": "Cô dâu ở TPHCM xinh như búp bê, đầu đội vương miện làm từ 10 cây vàng",
+        "lead": "Hình ảnh cô dâu ở TPHCM xinh như búp bê, đầu đội vương miện làm bằng vàng khiến cộng đồng mạng xuýt xoa, ngưỡng mộ."
+    },
+    {
+        "index": 1573,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.059539794921875,
+        "title": "'Đồng minh bất đắc dĩ': Jordan - Saudi Arabia và thế khó trong cuộc chiến Iran - Israel - Báo Tin Tức TTXVN",
+        "lead": "Dù công khai chỉ trích Israel, Jordan và Saudi Arabia bị nghi âm thầm hỗ trợ Tel Aviv trong cuộc đối đầu Iran – Israel. Sự thật phía sau là gì?"
+    },
+    {
+        "index": 1300,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9404296875,
+        "title": "Làm việc hybrid working sao cho hiệu quả?",
+        "lead": "Trong bối cảnh làm việc toàn cầu không ngừng thay đổi, mô hình hybrid working trở thành xu hướng chủ đạo đối với dân văn phòng."
+    },
+    {
+        "index": 938,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.060211181640625,
+        "title": "Trang web bị hack trong ngày Bitcoin sập - Tạp chí Tri thức",
+        "lead": "Chuyên trang tiền mã hóa là nạn nhân tiếp theo trong các vụ tấn công nhằm lừa đảo người dùng gần đây. Hiện chưa có báo cáo về lượng tài sản thiệt hại."
+    },
+    {
+        "index": 1373,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.06109619140625,
+        "title": "Microsoft chế giễu \"đột phá\" iOS 26 của Apple",
+        "lead": "Apple sẽ chính thức phát hành bản cập nhật cho các thiết bị của mình với sự thay đổi lớn trong thiết kế giao diện người dùng."
+    },
+    {
+        "index": 1012,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9384765625,
+        "title": "Vì sao không nên chủ quan khi trẻ chơi cùng chó, mèo?",
+        "lead": "Chó, mèo đã tiêm vaccine có thể vẫn mắc bệnh dại, dễ tấn công trẻ khi chơi đùa, đặc biệt trẻ thấp bé dễ bị tấn công vùng đầu, mặt, cổ, do đó cần giám sát chặt chẽ."
+    },
+    {
+        "index": 1715,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.06256103515625,
+        "title": "Thân Thúy Hà: 'Không muốn là gánh nặng cho con lúc về già'",
+        "lead": "Diễn viên Thân Thúy Hà, 47 tuổi, nói say mê làm nghề, tích lũy vật chất để về già không làm gánh nặng cho hai con."
+    },
+    {
+        "index": 1101,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.93701171875,
+        "title": "Tình thế đảo ngược với tiền vệ Tuấn Anh",
+        "lead": "Tiền vệ Tuấn Anh đã có màn ăn mừng chức vô địch V.League theo cách đầy đặc biệt."
+    },
+    {
+        "index": 2524,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9365234375,
+        "title": "Đẳng cấp chịu chi cỡ Phong Thần VNG: Tung TVC với bộ ba đại sứ triệu view SOOBIN - Tiến Linh - Jun Vũ",
+        "lead": "Dự kiến ra mắt vào 04/06/2025, Phong Thần VNG đã khiến cộng đồng game thủ \"đứng ngồi không yên\" với TVC hoành tráng quy tụ ba gương mặt đình đám"
+    },
+    {
+        "index": 2436,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.063720703125,
+        "title": "Cảnh báo khẩn đến hàng triệu người dùng CapCut",
+        "lead": "Sự 'phản bội' của CapCut: Ứng dụng miễn phí nhưng cái giá phải trả là toàn bộ nội dung của bạn."
+    },
+    {
+        "index": 2635,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.06707763671875,
+        "title": "Đã thu hồi 7.400m² đất của lô biệt thự L09 Sơn Trà, còn 5.000m² xử lý sao?",
+        "lead": "Việc xử lý đối với dự án khu du lịch sinh thái biển, biệt thự cao cấp Ghềnh Bàn - Bãi Đa và lô L09 trên bán đảo Sơn Trà (Đà Nẵng) đến nay như thế nào?"
+    },
+    {
+        "index": 1523,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.9306640625,
+        "title": "Những người trẻ ngơ ngác vì được bảo bọc quá mức",
+        "lead": "Minh Thành, 22 tuổi, thấy cuộc sống của mình vẫn ổn dù bị bạn bè gọi là \"gà công nghiệp\" cho đến khi bị lừa 100 triệu đồng."
+    },
+    {
+        "index": 2538,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.06964111328125,
+        "title": "Noble Palace Tay Thang Long hút nhà đầu tư nhờ 8 lợi thế cho người dùng cuối",
+        "lead": "Nằm ngay cửa ngõ phía Tây Thủ đô - khu vực đang bứt tốc về hạ tầng và quy hoạch - Noble Palace Tay Thang Long được nhiều nhà đầu tư kỳ cựu ví như 'viên ngọc hiếm' của thị trường thấp tầng. Không chỉ nổi bật bởi vị trí chiến lược, dự án còn ghi dấu với phong cách hàng hiệu sang trọng và là khu đô thị tiên phong ứng dụng công nghệ AI hiện đại của Sunshine Group - tạo nên chuẩn sống thông minh khác biệt giữa lòng Hà Nội."
+    },
+    {
+        "index": 2450,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.93017578125,
+        "title": "Một bệnh viện cầu cứu khi bị hacker đe dọa tung dữ liệu bệnh nhân lên mạng",
+        "lead": "Mới đây, một bệnh viện tại Việt Nam đã phải 'cầu cứu' vì bị hacker tấn công, đe dọa công khai dữ liệu bệnh nhân và lịch sử khám chữa bệnh trên mạng Internet."
+    },
+    {
+        "index": 2330,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.070556640625,
+        "title": "Kiếm được tiền tỉ nhờ tố cáo xe dừng đỗ trái phép",
+        "lead": "Một người đàn ông Mỹ đã kiếm được thu nhập 6 con số (ít nhất 2,6 tỉ đồng) mỗi năm nhờ việc tố cáo các xe vi phạm giao thông, dừng đỗ và nổ máy quá thời gian quy định."
+    },
+    {
+        "index": 2152,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.92919921875,
+        "title": "Liệu pháp peel da an toàn được chuyên gia tin tưởng, thay thế filler và botox",
+        "lead": "Peel da là thủ thuật da liễu, có nhiều cấp độ khác nhau. Peel nông có thể làm tại nhà từ 2 - 3 lần/ tuần. Peel trung phải thực hiện ở phòng khám, do bác sĩ trực tiếp thực hiện. Phương pháp peel da giúp sửa chữa được phần lớn khuyết điểm về da."
+    },
+    {
+        "index": 1728,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.072509765625,
+        "title": "Sạc ôtô điện tại Việt Nam tốn bao nhiêu tiền?",
+        "lead": "Với các trạm sạc không phải hãng xe cung cấp, khách hàng phải trả 3.000-10.000 đồng cho mỗi kWh điện, tùy vào công suất, thời gian và địa điểm sạc."
+    },
+    {
+        "index": 1602,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.92724609375,
+        "title": "Có nên kỳ vọng vào lợi nhuận cho thuê căn hộ nghỉ dưỡng? - Báo Xây Dựng",
+        "lead": "Trong những năm gần đây, căn hộ nghỉ dưỡng được xem là 'gà đẻ trứng vàng' cho nhà đầu tư cá nhân và những người có dòng tiền nhàn rỗi. Tuy nhiên, hình thức kinh doanh này không phải dễ hái ra tiền."
+    },
+    {
+        "index": 2720,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.07275390625,
+        "title": "Từ gánh bún thang đông kín ở chợ Đồng Xuân tới nhà hàng đón tỷ phú thế giới",
+        "lead": "Những năm 50 của thế kỷ trước, người ta thường truyền nhau câu nói vui: \"Chưa ăn bún thang cô Ẩm, chưa phải người Hà Nội\". Ngày nay, món bún thang của gia đình bà Ẩm không chỉ nổi tiếng tại Thủ đô mà còn thu hút rất nhiều khách quốc tế."
+    },
+    {
+        "index": 1190,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0728759765625,
+        "title": "Galaxy S25 Edge thua thảm: Canh bạc \"siêu mỏng\" của Samsung đã sụp đổ",
+        "lead": "Báo cáo nội bộ cho thấy doanh số S25 Edge quá thấp, Samsung buộc phải thay đổi toàn bộ kế hoạch."
+    },
+    {
+        "index": 679,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.07464599609375,
+        "title": "Con người có thể sống trên sao Hỏa nhờ 'ốc đảo không gian' - Báo Tri thức & Cuộc sống",
+        "lead": "Cơ quan Vũ trụ châu Âu (ESA) dự đoán trong 15 năm tới, con người có thể sống trên sao Hỏa nhờ 'ốc đảo không gian', tự nuôi trồng thực phẩm..."
+    },
+    {
+        "index": 1121,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.92529296875,
+        "title": "Ồn ào tranh chấp tài sản giữa em và con gái nghệ sỹ Vũ Linh vẫn chưa dứt",
+        "lead": "Không đồng ý với phán quyết giao toàn bộ di sản cho bà Võ Thị Hồng Loan, em gái nghệ sỹ Vũ Linh kháng cáo đòi hưởng toàn bộ di sản. Trong khi đó, con gái của nghệ sỹ cũng không đồng ý chia cho cô mình 15% di sản."
+    },
+    {
+        "index": 2045,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.07574462890625,
+        "title": "Barcelona có biến động khi mua Nico Williams, Lewandowski dễ bị thiệt thòi nhất",
+        "lead": "Sự bổ sung Nico Williams sẽ tạo ra thay đổi đáng kể về bộ mặt của hàng công Barcelona. Tân vương La Liga muốn sớm có Nico Williams ở kỳ chuyển nhượng hè 2025."
+    },
+    {
+        "index": 556,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.92236328125,
+        "title": "Mức độ nguy hiểm của loại bom 'cấm' mà Iran ném lên Israel - Tạp chí Tri thức",
+        "lead": "Israel tuyên bố Iran đã phóng một tên lửa mang đầu đạn chứa bom chùm vào một khu vực đông dân cư vào ngày 19/6. Đây là loại vũ khí tối đa hóa phạm vi sát thương, bom có thể nằm trên đất nhiều tháng sau khi xung đột kết thúc, nhiều nguy cơ gây hại cho dân thường."
+    },
+    {
+        "index": 2851,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.07781982421875,
+        "title": "Những lợi ích của cổng USB trên ô tô",
+        "lead": "Cổng USB trên ô tô đã trở thành một phần không thể thiếu, không chỉ là một tiện ích mà còn là một yếu tố quan trọng nhằm nâng cao trải nghiệm lái xe."
+    },
+    {
+        "index": 514,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.07806396484375,
+        "title": "Trục vớt du thuyền khiến 'Bill Gates nước Anh' tử nạn - Tạp chí Tri thức",
+        "lead": "Các điều tra viên hiện có thể kiểm tra siêu du thuyền Bayesian để xác định nguyên nhân khiến ông trùm công nghệ người Anh Mike Lynch và con gái thiệt mạng hồi 19/8/2024."
+    },
+    {
+        "index": 1734,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0809326171875,
+        "title": "Đương kim vô địch Champions League tạo bất ngờ đầu tiên ở FIFA Club World Cup 2025 - Báo Quân Đội Nhân Dân",
+        "lead": "Bất ngờ đầu tiên ở FIFA Club World Cup 2025 đã được tạo nên bởi Botafogo trước nhà đương kim vô địch Champions League PSG."
+    },
+    {
+        "index": 239,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.08251953125,
+        "title": "Thi tốt nghiệp THPT thay đổi ra sao để phù hợp với thế giới?",
+        "lead": "Mỗi năm, trên dưới 1 triệu học sinh VN dự kỳ thi tốt nghiệp THPT, sự kiện giáo dục lớn thu hút toàn xã hội. Dù đã cải tiến, kỳ thi hiện nay vẫn gánh vác 3 vai trò: xét tốt nghiệp, đánh giá chất lượng dạy - học, tuyển sinh đại học."
+    },
+    {
+        "index": 1239,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.08282470703125,
+        "title": "Mở lối ký ức bằng tư duy hôm nay - Báo Văn hóa",
+        "lead": "Giữa những nếp nhà xưa cũ và khung cảnh bình dị của làng Lai Xá, nơi từng vang bóng với nghề ảnh truyền thống, có một bảo tàng nhỏ lặng lẽ kể câu chuyện làng nghề qua từng khung hình, từng hiện vật - như một lời nhắc nhở về giá trị của văn hóa và di sản. Thế nhưng, sau những năm tháng bị lãng quên, Bảo tàng Nhiếp ảnh Lai Xá đang đứng trước ngã rẽ: Tiếp tục im lìm hay được hồi sinh bởi bàn tay và trái tim của những người trẻ yêu văn hóa?"
+    },
+    {
+        "index": 1533,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.916015625,
+        "title": "Sản phụ mất con vì hội chứng Budd–Chiari hiếm gặp - Báo Tri thức & Cuộc sống",
+        "lead": "Đây là bệnh lý hiếm gặp nhưng nguy hiểm, có thể gây suy gan cấp và đe dọa tính mạng. Trong thai kỳ, bệnh có thể tiến triển âm thầm nhưng hậu quả rất nặng nề."
+    },
+    {
+        "index": 2083,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.91552734375,
+        "title": "ĐÂY RỒI: G-Dragon đã xuất hiện, cả Nội Bài bùng nổ!",
+        "lead": "Không quản ngại đường xa và đêm muộn, rất đông fan Việt Nam đã đến Nội Bài để chuẩn bị đón G-Dragon “bằng xương bằng thịt“."
+    },
+    {
+        "index": 2500,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.08465576171875,
+        "title": "Bị trừ hết điểm nhưng vẫn lái xe bị phạt thế nào?",
+        "lead": "Xin hỏi tình huống giấy phép lái xe bị trừ hết điểm nhưng vẫn lái xe thì có bị phạt như không có giấy phép lái xe không. (Nguyễn Linh)"
+    },
+    {
+        "index": 442,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.912109375,
+        "title": "Phú Quý - Một lần bỏ phố về đảo để tìm thấy chính mình",
+        "lead": "Nếu bạn muốn tìm một nơi yên bình, để lắng nghe chính mình thì Phú Quý luôn chào đón bạn"
+    },
+    {
+        "index": 136,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.08819580078125,
+        "title": "Arsenal bán Martinelli cho Bayern Munich giá cao ngất ngưởng",
+        "lead": "Ngay khi Bayern Munich đánh tiếng muốn có sự phục vụ của Martinelli, Arsenal đưa ra mức giá yêu cầu là 50 triệu bảng."
+    },
+    {
+        "index": 815,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.91162109375,
+        "title": "Sự thật về video 'vụ nổ cơ sở hạt nhân Fordow' khi Mỹ tấn công",
+        "lead": "Một đoạn video đang lan truyền trên mạng xã hội được cho là ghi lại vụ nổ tại cơ sở hạt nhân Fordow của Iran sau khi Mỹ không kích. Tuy nhiên qua xác minh, đoạn video này là giả, là video cũ ở Nga."
+    },
+    {
+        "index": 1025,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.092529296875,
+        "title": "Microsoft bất ngờ hồi sinh tính năng Windows Vista trên Windows 11",
+        "lead": "Bản dựng mới nhất của Windows 11 Dev và Beta đã mang đến một số cải tiến đáng chú ý mà người dùng có thể nhận trong tương lai."
+    },
+    {
+        "index": 1768,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.093017578125,
+        "title": "CĐV 'đại náo' sân Thiên Trường ngày Nam Định nâng Cúp",
+        "lead": "Trong ngày Thép Xanh Nam Định nâng Cúp vô địch V-League 2024/25, sân Thiên Trường mở hội, hàng nghìn CĐV tạo nên bầu không khí vô cùng sôi động."
+    },
+    {
+        "index": 1099,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.09332275390625,
+        "title": "Xuất hiện chiêu thức xác minh khuôn mặt từ xa, bà cụ bị lừa chuyển khoản 13 tỷ đồng",
+        "lead": "Vụ lừa đảo tiếp tục là hồi chuông cảnh tỉnh đến nhiều người."
+    },
+    {
+        "index": 1418,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0970458984375,
+        "title": "Làm đám cưới giữa trại chó",
+        "lead": "Trung QuốcYang, 31 tuổi, bước vào lễ đường đặc biệt, một lối đi trải thảm đỏ giữa hai hàng chuồng chó, trước sự chứng kiến của hơn 300 tình nguyện viên và 200 con vật."
+    },
+    {
+        "index": 2504,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0970458984375,
+        "title": "Gemini học được 'tuyệt chiêu' nhận diện bài hát",
+        "lead": "Ngày 'về hưu' của Google Assistant càng đến gần khi Gemini vừa được Google bổ sung khả năng nhận diện bài hát."
+    },
+    {
+        "index": 614,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.0975341796875,
+        "title": "Bảo trì điều hòa đúng cách - bí quyết tiết kiệm điện và kéo dài tuổi thọ thiết bị",
+        "lead": "Bảo trì là quy trình thiết yếu nhằm duy trì và cải thiện hiệu suất hoạt động của điều hòa, đặc biệt khi bắt đầu vào hè."
+    },
+    {
+        "index": 2801,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.09912109375,
+        "title": "7 thay đổi nhà bếp trước và sau khi cải tạo",
+        "lead": "Những thay đổi trước và sau khi cải tạo nhà bếp này có thể là gợi ý thú vị cho một trong các không gian sống quan trọng nhất trong nhà bạn."
+    },
+    {
+        "index": 663,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8994140625,
+        "title": "Có nên vay ngân hàng để xây nhà thời điểm này?",
+        "lead": "Theo chuyên gia, có thể tận dụng lãi suất thấp hiện tại để vay ở hạn mức phù hợp, thường là 30-35% thu nhập để hoàn thành mục tiêu tài chính."
+    },
+    {
+        "index": 338,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.89892578125,
+        "title": "Nhà hàng lưu giữ những món nguy cơ thất truyền ở Hà Nội",
+        "lead": "Nhà hàng nằm trong căn biệt thự trăm tuổi, có những món ngon ít thấy ở Hà Nội như bánh đúc riêu cua, vờ vờ xào rau bí, được Michelin vinh danh."
+    },
+    {
+        "index": 1282,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.89892578125,
+        "title": "Cơ sở hạt nhân Iran thiệt hại thế nào sau đòn tập kích của Mỹ?",
+        "lead": "Chương trình hạt nhân Iran được cho là đã chịu thiệt hại đáng kể sau chiến dịch không kích của Mỹ song chưa bị xóa bỏ hoàn toàn."
+    },
+    {
+        "index": 2275,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.10211181640625,
+        "title": "4 quân bài hiểm Iran có thể lựa chọn để trả đũa đòn tấn công của Mỹ - Báo Điện tử Tiếng nói Việt Nam",
+        "lead": "Quyết định của Tổng thống Mỹ tấn công các cơ sở hạt nhân của Iran khiến xung đột ngày càng leo thang và Trung Đông rơi vào tình thế bất ổn. Hiện giờ, mọi sự chú ý đổ dồn vào động thái tiếp theo của Tehran. Theo giới phân tích, Iran có nhiều lựa chọn để đáp trả Mỹ."
+    },
+    {
+        "index": 79,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.896484375,
+        "title": "Đà Nẵng dành những khu đất vàng nào cho Trung tâm tài chính quốc tế?",
+        "lead": "Đà Nẵng đã dành quỹ đất phục vụ việc phát triển Trung tâm tài chính quốc tế. Đáng chú ý, đây đều là những vị trí đắc địa."
+    },
+    {
+        "index": 1916,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.10540771484375,
+        "title": "Dàn cầu thủ cao to và triển vọng của U.23 Việt Nam, chỉ còn thiếu...",
+        "lead": "U.23 Việt Nam đang có đội hình giàu tính cạnh tranh và có triển vọng, tuy nhiên, kinh nghiệm vẫn là thiếu sót mà dàn cầu thủ trẻ cần sớm bổ sung."
+    },
+    {
+        "index": 1184,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.89453125,
+        "title": "Người Hà Nội bất ngờ khi 2 tuyến đường có dải phân cách cứng",
+        "lead": "Những ngày vừa qua, người dân Hà Nội bất ngờ khi thấy Đường Phạm Văn Đồng và Võ Chí Công (Hà Nội) được lắp dải phân cách cứng, giao thông có phần xáo trộn khi thói quen di chuyển hàng ngày thay đổi."
+    },
+    {
+        "index": 140,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1063232421875,
+        "title": "Phụ nữ căng thẳng vì chồng hơn con cái",
+        "lead": "Khảo sát hơn 7.000 phụ nữ Mỹ của tờ Today Moms ghi nhận kết quả 46% nói \"chồng là yếu tố khiến họ căng thẳng thay vì con cái\"."
+    },
+    {
+        "index": 1651,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1083984375,
+        "title": "Khi trung vệ Lý Đức mất kiểm soát",
+        "lead": "Tấm thẻ đỏ ngay trước khi V-League hạ màn là kỷ niệm buồn với trung vệ trẻ Phạm Lý Đức của HAGL."
+    },
+    {
+        "index": 2454,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.10858154296875,
+        "title": "Cô gái bỏ việc lương cao về quê móc cống",
+        "lead": "Trung QuốcTừng cảm thấy xấu hổ vì cha là công nhân vệ sinh nhưng Huang Wenjing đã quyết định từ bỏ mức lương 50.000 tệ ở Thâm Quyến, về quê cùng ông móc cống."
+    },
+    {
+        "index": 952,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.109130859375,
+        "title": "Nhà đẹp từ khoảng trống: Kiến trúc sư chỉ bí quyết để không gian thoáng mát",
+        "lead": "Khoảng trống như giếng trời, thông tầng không chỉ làm đẹp kiến trúc mà còn giúp nhà ở thoáng mát, thông gió, đón sáng và nâng cao chất lượng sống."
+    },
+    {
+        "index": 1531,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.10992431640625,
+        "title": "Tuyển sinh lớp 10 ở TP.HCM: Bất ngờ điểm thi môn toán",
+        "lead": "Điểm thi môn toán trong kỳ thi tuyển sinh lớp 10 ở TP.HCM năm 2025 cao hơn hẳn so với năm trước."
+    },
+    {
+        "index": 1462,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11126708984375,
+        "title": "Chiêm ngưỡng những video thật đến khó tin được tạo ra bởi AI Veo 3 của Google",
+        "lead": "Những video từ được tạo ra bởi AI Veo 3 của Google có độ chân thực đến khó tin, thách thức khả năng phân biệt của mắt người."
+    },
+    {
+        "index": 1460,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11163330078125,
+        "title": "Mỗi ngày có hơn 1.000 người thành triệu phú USD tại Mỹ",
+        "lead": "Báo cáo mới của Ngân hàng Thụy Sĩ UBS cho thấy Mỹ là nước có nhiều triệu phú USD nhất thế giới trong năm 2024."
+    },
+    {
+        "index": 521,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11376953125,
+        "title": "Nam thanh niên trần như nhộng chạy ra khỏi nhà kêu cứu rồi gục chết trên đường",
+        "lead": "Nam thanh niên 20 tuổi trong tình trạng không quần áo, có vết thương gây mất máu ở tay chạy từ trong nhà ra đường kêu cứu, sau đó gục xuống tử vong…"
+    },
+    {
+        "index": 67,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11395263671875,
+        "title": "Dự án 1.700 tỷ 'đắp chiếu' nhiều năm ở Kon Tum đổi chủ: Trơ sắt thép dưới thời tiết khắc nghiệt",
+        "lead": "Sau nhiều năm 'đắp chiếu', dự án 1.700 tỷ đồng của Tập đoàn FLC Kon Tum đã được chuyển nhượng cho đối tác."
+    },
+    {
+        "index": 932,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11456298828125,
+        "title": "Sóng gió FIFA: Chủ tịch Infantino trễ họp vì ông Trump, đại biểu phẫn nộ bỏ về",
+        "lead": "Chủ tịch FIFA Gianni Infantino khiến các thành viên nổi giận, bỏ họp sau khi đến trễ 3 tiếng vì chuyến đi cùng Tổng thống Mỹ Donald Trump."
+    },
+    {
+        "index": 2033,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.114990234375,
+        "title": "Nuôi cả đàn côn trùng cho mật thơm lừng, 9X Cần Thơ thu bộn tiền",
+        "lead": "Nhờ nuôi ong, người đàn ông ở Cần Thơ mỗi tháng thu được 2.000 lít mật. Với giá bán 300.000 đồng/lít, anh thu được khoản tiền lớn."
+    },
+    {
+        "index": 1004,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.884765625,
+        "title": "Không có Bạch Lộc và Vu Chính, Lâm Giang Tiên đã flop trong im lặng",
+        "lead": "Bạch Lộc và Vu Chính đã giúp Lâm Giang Tiên thoát khỏi cảnh thất bại lặng lẽ"
+    },
+    {
+        "index": 1481,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.115966796875,
+        "title": "Sống và yêu ở 'Miền cỏ tranh'",
+        "lead": "Miền cỏ tranh (ảnh, NXB NXB Quân đội nhân dân, 2025) của nhà văn Nguyễn Minh Ngọc là cuốn tiểu thuyết viết về cuộc chiến đấu, trên chiến trường Khu 6 - Khu 10 (cũ), trải dài từ cực Nam Trung bộ, xuôi Đông Nam bộ, rồi ngược lên Bình Long, Phước Long… trong giai đoạn cực kỳ gian nan khốc liệt từ 1962 đến tháng 4.1975."
+    },
+    {
+        "index": 532,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.11676025390625,
+        "title": "Thời sự",
+        "lead": ""
+    },
+    {
+        "index": 1622,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8828125,
+        "title": "Động vật 'tự chữa lành' mở ra hy vọng cho y học tái tạo - Báo Tin Tức TTXVN",
+        "lead": "Từ loài giun tái sinh toàn bộ cơ thể đến cá ngựa vằn liền tủy sống và thằn lằn mọc lại đuôi, các loài động vật có khả năng tái tạo phi thường đang truyền cảm hứng cho các liệu pháp điều trị ở người."
+    },
+    {
+        "index": 1564,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.88232421875,
+        "title": "Iran tấn công dồn dập, Israel hứng 'mưa tên lửa' chưa từng thấy",
+        "lead": "Quân đoàn Vệ binh Cách mạng Hồi giáo Iran hôm nay (22/6) đã bắn nhiều loại tên lửa đạn đạo tầm xa vào các mục tiêu trên khắp lãnh thổ Israel trong đợt tấn công trả đũa mới nhất."
+    },
+    {
+        "index": 756,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.118408203125,
+        "title": "Bỏ nghề MC truyền hình, cô gái Nùng làm ngô nếp bản địa bán cả triệu đồng/kg",
+        "lead": "Bỏ công việc MC truyền hình ở VTC về bản, hai chị em Lạng Sơn đã biến ngô cổ thành đặc sản số. Nhờ TikTok, họ đạt doanh thu trăm triệu đồng, khai mở lối đi mới cho nông nghiệp vùng miền."
+    },
+    {
+        "index": 62,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.88134765625,
+        "title": "Video: Mưa lớn ở Thái Nguyên khiến khắp nơi 'hoá thành sông'",
+        "lead": "Mưa lớn ở Thái Nguyên từ đêm ngày 20 đến sáng ngày 21/6 đã khiến nhiều điểm bị ngập nặng, ảnh hưởng đến đời sống và sinh hoạt của người dân"
+    },
+    {
+        "index": 2899,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.12115478515625,
+        "title": "Bị chê 'thiếu sắc sảo', Quang Anh 'Về nhà đi con' bật khóc rời chương trình - Báo VTC News",
+        "lead": "Diễn viên Quang Anh phải dừng chân trước thềm chung kết chương trình'Điểm hẹn tài năng' sau phần thể hiện được cho là ''thiếu sắc sảo'', ''đánh mất mình''."
+    },
+    {
+        "index": 2018,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.12646484375,
+        "title": "Hơn 1 tỷ USD 'bốc hơi' khỏi thị trường tiền số",
+        "lead": "Bitcoin rơi xuống dưới 100.000 USD khiến nhiều tiền số khác lao dốc và hơn 1,03 tỷ USD vị thế có đòn bẩy bị thanh lý trên thị trường phái sinh."
+    },
+    {
+        "index": 324,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.87255859375,
+        "title": "Tàu Thống Nhất đứng đầu danh sách tuyến tàu hỏa tuyệt vời nhất hành tinh",
+        "lead": "Tàu Thống Nhất của Việt Nam được tạp chí du lịch Lonely Planet gọi tên đầu tiên trong danh sách tuyến tàu hỏa tuyệt vời nhất thế giới."
+    },
+    {
+        "index": 83,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1285400390625,
+        "title": "Sát hại nữ chủ tiệm tạp hóa ở Đồng Nai, kẻ thủ ác khai gì?",
+        "lead": "Sau khi sát hại nữ chủ tiệm tạp hoá, đối tượng Nguyễn Minh Phúc đã bỏ trốn. Tuy nhiên, chỉ sau ít giờ, đối tượng đã bị bắt giữ."
+    },
+    {
+        "index": 1389,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.128662109375,
+        "title": "Chủ tịch CLB Hải Phòng lên tiếng về tin HLV Chu Đình Nghiêm chia tay",
+        "lead": "Trước thông tin HLV Chu Đình Nghiêm có thể chia tay đội bóng đất Cảng sau mùa giải 2024/2025, Chủ tịch CLB Hải Phòng - ông Văn Trần Hoàn đã chính thức lên tiếng"
+    },
+    {
+        "index": 2480,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.129150390625,
+        "title": "Má phanh ô tô mòn cỡ nào cần phải thay thế?",
+        "lead": "Má phanh ô tô mòn là nguyên nhân gây ra những tiếng kêu khó chịu và làm giảm hiệu quả hãm tốc. Người dùng cần kiểm tra kỹ tình trạng má phanh mỗi lần bảo dưỡng xe để đảm bảo an toàn khi vận hành."
+    },
+    {
+        "index": 1075,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8701171875,
+        "title": "Có điểm thi lớp 10, phụ huynh tìm 'kế hoạch B' cho con - Báo Người Lao Động",
+        "lead": "Không chờ đến khi trường THPT công lập công bố điểm chuẩn lớp 10, nhiều phụ huynh đã tìm phương án dự phòng nhằm đảm bảo việc học tập của con."
+    },
+    {
+        "index": 1794,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8681640625,
+        "title": "Quan chức Iran phủ nhận 'kho tên lửa đang cạn dần'",
+        "lead": "Quan chức Iran bác tin nước này giảm số tên lửa khai hỏa vào Israel vì kho vũ khí sắp cạn, nhấn mạnh Tehran đang tập trung cho chất lượng."
+    },
+    {
+        "index": 203,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1322021484375,
+        "title": "Vụ sữa bột Hiup giả: Những con số giật mình",
+        "lead": "Hơn 6.700 tỷ đồng thu về từ những lon sữa Hiup kém chất lượng, chỉ chứa chưa đến một nửa số vi chất như công bố. Vụ việc khiến nhiều phụ huynh choáng váng."
+    },
+    {
+        "index": 1104,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1373291015625,
+        "title": "Triệt xóa sòng bạc 'ẩn mình' trên đồi quế",
+        "lead": "Công an tỉnh Lào Cai vừa thông tin, lực lượng chức năng đã triệt phá một ổ nhóm đánh bạc bằng hình thức xóc đĩa, được tổ chức tinh vi trên khu vực đồi quế thuộc huyện Bảo Thắng."
+    },
+    {
+        "index": 1601,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1400146484375,
+        "title": "Xổ số mới của Vietlott gây chú ý",
+        "lead": "Không chỉ sở hữu giải Độc đắc khởi điểm từ 6 tỷ đồng, Lotto 5/35 - xổ số mới của Vietlott còn mở thưởng tới 2 lần/ngày và chia giải Độc đắc khi vượt 12 tỷ đồng mà không có người trúng."
+    },
+    {
+        "index": 2272,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.85986328125,
+        "title": "6 cách giảm nhiệt miệng không cần dùng thuốc",
+        "lead": "Thoa mật ong, gel lô hội hay dùng nước muối, giấm táo súc miệng có thể giúp giảm khó chịu và đẩy nhanh quá trình chữa lành nhiệt miệng."
+    },
+    {
+        "index": 2001,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1405029296875,
+        "title": "Gu mặc của 'Tài tử đẹp trai nhất thế giới'",
+        "lead": "Paing Takhon - diễn viên Myanmar đẹp trai nhất thế giới năm 2021 - theo đuổi phong cách thanh lịch và năng động."
+    },
+    {
+        "index": 235,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.859375,
+        "title": "Ra mắt Benelli TNT 125 - thiết kế cực 'cháy' chỉ 66 triệu - Báo Tri thức & Cuộc sống",
+        "lead": "Thương hiệu xe máy Benelli mới đây đã đưa tới bản cập nhật năm 2025 cho mẫu minibike TNT 125 tại thị trường Nhật Bản."
+    },
+    {
+        "index": 2765,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.85791015625,
+        "title": "Có nên sử dụng miếng dán mụn?",
+        "lead": "Một trong những sản phẩm điều trị mụn được ưa chuộng nhất hiện nay là miếng dán mụn."
+    },
+    {
+        "index": 1175,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.143798828125,
+        "title": "Mỹ cảnh báo công dân khắp thế giới, ông Trump tuyên bố mập mờ về Iran",
+        "lead": "Mỹ đã yêu cầu công dân nước này trên toàn thế giới cảnh giác trước những diễn biến leo thang trong xung đột giữa Israel và Iran."
+    },
+    {
+        "index": 2071,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.144775390625,
+        "title": "Mitsubishi hé lộ mẫu xe mới bằng máy bay trực thăng - Báo Tiền Phong",
+        "lead": "Mitsubishi Indonesia vừa khởi động chiến dịch hé lộ một mẫu xe hoàn toàn mới có thể là bản thương mại của DST Concept."
+    },
+    {
+        "index": 19,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8544921875,
+        "title": "AI có đang làm thui chột nhiều kỹ năng của các em học sinh? - Tạp chí Kinh Tế Sài Gòn",
+        "lead": "AI hay bất kỳ một công nghệ nào cũng chỉ nên đóng vai trò hỗ trợ, thúc đẩy hoạt động tư duy của con người chứ không nên thay thế các kỹ năng của con người. Đặc biệt đối với các học sinh phổ thông, các em cần tự mình rèn luyện để thành thạo các kỹ năng tư duy chứ không phải là lệ thuộc vào các công cụ AI để rồi các kỹ năng này bị thui chột."
+    },
+    {
+        "index": 1835,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.85400390625,
+        "title": "Nhìn mẹ già mê mẩn đi hội thảo mua hàng, con cái đành chấp nhận mà không thể can thiệp - Báo Văn hóa",
+        "lead": "Nhưng nói thế nào thì mẹ tôi cũng không nghe và khá đều đặn đi tham dự các hội thảo rồi bỏ hàng chục triệu mua hàng của họ, sau đó hỉ hả khi được tặng kèm một món hàng rẻ tiền."
+    },
+    {
+        "index": 1551,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.853515625,
+        "title": "Chiến sự Ukraine ngày 1.214: UAV thành tâm điểm, ông Putin ra tuyên bố mới",
+        "lead": "Tổng thống Nga Vladimir Putin nêu rõ những quan điểm liên quan chiến dịch quân sự đặc biệt ở Ukraine và nhấn mạnh nhu cầu về một giải pháp toàn diện cho cuộc khủng hoảng."
+    },
+    {
+        "index": 981,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8525390625,
+        "title": "Những ông bà cụ U.90 bươn chải nơi xóm vé số ở TP.HCM bất ngờ nhận quà ấm áp sau tết",
+        "lead": "Trở về phòng trọ chật hẹp sau giờ đi bán buổi sáng, những ông bà cụ tuổi đã thất thập cổ lai hy ở xóm vé số tại TP.HCM hạnh phúc khi nhận món quà yêu thương ngay sau Tết từ chuỗi nhà thuốc FPT Long Châu."
+    },
+    {
+        "index": 2510,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1495361328125,
+        "title": "7 mẹo bổ sung nước phòng tránh thận yếu",
+        "lead": "Duy trì đủ lượng chất lỏng nạp vào, hạn chế đồ uống có đường dễ gây mất nước có thể giúp thận hoạt động tối ưu, phòng bệnh."
+    },
+    {
+        "index": 1555,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.1514892578125,
+        "title": "Bị bắt vì livestream bán hàng 72 tỷ đồng không nộp thuế",
+        "lead": "Cơ quan điều tra vừa bắt tạm giam một người phụ nữ ở Vũng Tàu vì bán hàng online doanh thu hàng chục tỷ đồng, nhưng không đăng ký kinh doanh, không kê khai, nộp thuế với cáo buộc trốn thuế hơn 1 tỷ đồng."
+    },
+    {
+        "index": 2738,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.15283203125,
+        "title": "Bằng Kiều nấu 'bún chửi' đầy ắp nhân",
+        "lead": "Ca sĩ Bằng Kiều vào bếp tái hiện món 'bún chửi' Ngô Sĩ Liên, đầy ắp móng và thịt lưỡi, được bạn bè định giá 150.000 đồng mỗi bát."
+    },
+    {
+        "index": 2470,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.845703125,
+        "title": "Xử lý gần 56.000 người thuê dịch vụ làm phiếu lý lịch tư pháp ra sao? - Báo Pháp Luật TP.HCM",
+        "lead": "Cáo trạng xác định những người này chỉ thực hiện việc cung cấp hồ sơ, tài liệu theo yêu cầu của người nhận làm dịch vụ và trả phí theo giá niêm yết, quảng cáo trên mạng nên không có căn cứ để xem xét trách nhiệm hình sự."
+    },
+    {
+        "index": 557,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.84521484375,
+        "title": "Sạp báo núp hẻm 'độc lạ Cần Thơ': Mỗi ngày chỉ bán 60 - 70 tờ",
+        "lead": "Trong 50 năm về chung một nhà, vợ chồng ông Trinh và bà Quý có 42 năm cùng nhau duy trì sạp báo nhỏ. Dù có khó khăn, bệnh tật họ vẫn chung thủy với nghề."
+    },
+    {
+        "index": 1539,
+        "original_label": 1,
+        "predicted_prob_clickbait": 0.157470703125,
+        "title": "Xác định nguyên nhân thanh niên không mặc quần áo tử vong giữa đường ở TP Thủ Đức",
+        "lead": "Sau tiếng la hét, thanh niên chạy ra đường trong tình trạng không mặc quần áo, máu chảy nhiều rồi ngã gục giữa đường, tử vong ở TP Thủ Đức."
+    },
+    {
+        "index": 714,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.83837890625,
+        "title": "Nhìn lại lịch sử xung đột Israel - Iran: Cuộc không kích ngày 13-6 sẽ là bước ngoặt?",
+        "lead": "Cuộc xung đột âm ỉ kéo dài nhiều năm giữa Israel và Iran đã chính thức bùng nổ thành một chuỗi hành động quân sự công khai, với nguy cơ lan rộng toàn khu vực."
+    },
+    {
+        "index": 394,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8330078125,
+        "title": "Nhà di động rẻ hơn cả Honda Air Blade: Đủ tiện ích cơ bản, phải mua thêm lều ngủ",
+        "lead": "Một mẫu rơ moóc kéo theo sau ô tô để tạo thành nhà di động được rao bán với mức giá đáng kinh ngạc: Không quá 1.850 USD (48 triệu đồng), tức là còn rẻ hơn một chiếc Honda Air Blade 160 ở Việt Nam (56,69 triệu đồng)."
+    },
+    {
+        "index": 2802,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.82373046875,
+        "title": "Thiếu vi chất gì khiến da khô, tóc mỏng dễ rụng, móng tay giòn dễ gãy?",
+        "lead": "Tóc mỏng hoặc rụng thường liên quan đến tình trạng thiếu sắt, kẽm hoặc biotin (vitamin B7). Sắt rất cần thiết để cung cấp oxy cho nang tóc, trong khi kẽm hỗ trợ sự phát triển và phục hồi mô. Thiếu hụt biotin có thể dẫn đến rụng tóc và móng giòn."
+    },
+    {
+        "index": 1407,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.822265625,
+        "title": "Kinh tế Israel có khả năng chống chịu chiến sự đến đâu?",
+        "lead": "Chứng khoán Israel gần đây liên tiếp lập đỉnh, lạm phát hạ nhiệt và GDP năm 2024 vẫn tăng dù trải qua xung đột liên tiếp suốt 18 tháng qua."
+    },
+    {
+        "index": 2136,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.82080078125,
+        "title": "Dấu hiệu cho thấy thận của bạn đang khỏe mạnh",
+        "lead": "Thận là cơ quan thầm lặng nhưng đóng vai trò quan trọng bậc nhất trong việc duy trì sức khỏe tổng thể."
+    },
+    {
+        "index": 2057,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.81591796875,
+        "title": "Béo phì có phải là bệnh?",
+        "lead": "Nhiều người nghĩ rằng béo phì là do ăn uống, không phải là bệnh. Nhưng theo bác sĩ, béo phì là bệnh mạn tính và là 'tiền đề' của một số căn bệnh khác."
+    },
+    {
+        "index": 1083,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.814453125,
+        "title": "Vì sao người trẻ chủ quan khi thận suy giai đoạn đầu?",
+        "lead": "Người trẻ dễ chủ quan với suy thận do triệu chứng mờ nhạt, nhầm lẫn với căng thẳng, thường bỏ qua xét nghiệm chức năng thận, dẫn đến phát hiện muộn khi bệnh đã nặng, khó hồi phục."
+    },
+    {
+        "index": 2445,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.814453125,
+        "title": "Nên ăn và tránh gì trước khi chạy bộ?",
+        "lead": "Người chạy bộ nên ăn trước khi chạy ít nhất 30 phút, chọn thực phẩm dễ tiêu hóa, cung cấp đủ carbohydrate, protein, chất béo lành mạnh."
+    },
+    {
+        "index": 2336,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.8134765625,
+        "title": "8 công dụng của ChatGPT",
+        "lead": "ChatGPT có thể đóng vai trò trợ lý cá nhân, giúp người dùng lên lịch công việc, viết mail, đưa ra lời khuyên trước quyết định khó khăn."
+    },
+    {
+        "index": 681,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.81103515625,
+        "title": "Làm thế nào phòng rối loạn nhịp tim?",
+        "lead": "Nhịp tim không đều gây ra nhiều triệu chứng khó chịu, tăng nguy cơ mắc bệnh tim mạch, nên chủ động phòng ngừa bằng cách tập thể dục phù hợp và khám sức khỏe định kỳ."
+    },
+    {
+        "index": 1385,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.80126953125,
+        "title": "Quán cà phê trang trí gần 1.000 con gấu hút khách tại TP HCM",
+        "lead": "Quán cà phê nằm ở quận Gò Vấp trang trí nhiều gấu bông, thu hút hàng trăm khách check in mỗi ngày."
+    },
+    {
+        "index": 1894,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.79248046875,
+        "title": "Hồng Nhung bật khóc vì không thể hát sau ca mổ ung thư - Tạp chí Tri thức",
+        "lead": "Hồng Nhung kể những ngày đầu sau ca phẫu thuật, cô từng bật khóc vì không hát được. Nữ ca sĩ vẫn chăm chỉ luyện thanh và giọng hát đã trở lại."
+    },
+    {
+        "index": 1586,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7919921875,
+        "title": "Đại biểu chất vấn Bộ trưởng GD-ĐT về giải pháp chấm dứt \"kỳ thi kinh hoàng\" vào lớp 10",
+        "lead": "Đại biểu Quốc hội băn khoăn khi mỗi dịp hè đến, hàng triệu phụ huynh và học sinh phải đối mặt với “kỳ thi kinh hoàng“ vào THPT."
+    },
+    {
+        "index": 2589,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7900390625,
+        "title": "Đà Nẵng và Bình Phước đấu play-off tranh vé V-League: Công Phượng so tài Bùi Tiến Dũng khi nào?",
+        "lead": "CLB Đà Nẵng sẽ phải đấu play-off với Bình Phước để tranh suất dự V-League mùa tới."
+    },
+    {
+        "index": 2168,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7841796875,
+        "title": "Người phụ nữ gốc Việt đầu tiên bay vào vũ trụ: 'Tôi được nuôi lớn từ món ăn Việt'",
+        "lead": "Trở lại Việt Nam lần này, Amanda Nguyen - người phụ nữ Mỹ gốc Việt đầu tiên bay vào vũ trụ nói rằng văn hóa, ẩm thực Việt đã 'ăn sâu' vào cô."
+    },
+    {
+        "index": 573,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.78271484375,
+        "title": "Lãnh đạo doanh nghiệp bất động sản ồ ạt bán cổ phiếu",
+        "lead": "Lãnh đạo, người nhà lãnh đạo nhiều doanh nghiệp bất động sản đăng ký bán ra hết cổ phiếu."
+    },
+    {
+        "index": 1296,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.78173828125,
+        "title": "Nếu về Việt Nam, Lada Azimut có sáng cửa cạnh tranh ở phân khúc SUV cỡ B?",
+        "lead": "Sau gần ba thập kỷ im ắng, hãng xe Nga lâu đời là Avtovaz đã ra mắt mẫu xe hoàn toàn mới mang tên Lada Azimut, đánh dấu sự trở lại đáng chú ý trong phân khúc SUV cỡ B."
+    },
+    {
+        "index": 2728,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7783203125,
+        "title": "Tưởng táo bón do ăn thiếu chất xơ, không ngờ là ung thư đại tràng",
+        "lead": "Hơn một tháng nay, ông N.V.M (58 tuổi, ngụ Long An) thường xuyên gặp khó khăn khi đi đại tiện, đại tiện ra máu nhầy, táo bón kéo dài. Khi đến bệnh viện thăm khám, ông M. được chẩn đoán mắc ung thư đại tràng."
+    },
+    {
+        "index": 817,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.77392578125,
+        "title": "4 địa điểm 'trốn nắng nóng' lý tưởng gần Hà Nội cho dịp hè 2025",
+        "lead": "Dưới đây là gợi ý một số địa điểm du lịch cách Hà Nội chỉ vài giờ di chuyển có cảnh quan đẹp, khí hậu trong lành, không quá đông đúc, tấp nập, là nơi \"trốn nóng\" lý tưởng trong mùa hè."
+    },
+    {
+        "index": 2535,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7734375,
+        "title": "Cung đường đẹp như tranh cách Hà Nội 3 giờ lái xe, du khách 'đội nắng' săn ảnh",
+        "lead": "Gần trưa, khi nắng lên cao, khung cảnh trên cung đường dẫn tới Eo Gió – Quan Lạn càng trở nên ấn tượng với màu xanh bạt ngàn của những rặng cây ven đường, xa xa là mặt biển xanh biếc, mênh mông."
+    },
+    {
+        "index": 2847,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7724609375,
+        "title": "Phương Anh Đào 'bắt trend' Tây Du Ký, Cris Phan 'sắm vai' cả dàn cast | ON TRENDING",
+        "lead": "Phương Anh Đào, Hưng Nguyễn và Cris Phan liên tiếp 'quăng miếng' khiến khán giả cười nghiêng ngả trong phần thử thách."
+    },
+    {
+        "index": 1650,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7705078125,
+        "title": "Chưa bao giờ vai trò dẫn đường của báo chí chân chính cần thiết đến thế",
+        "lead": "Theo chuyên gia Đào Trung Thành, trong kỷ nguyên nhiễu loạn thông tin do AI sản xuất, vai trò của báo chí chân chính như một người dẫn đường chưa bao giờ cần thiết đến thế."
+    },
+    {
+        "index": 1062,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7685546875,
+        "title": "Elon Musk đối mặt với áp lực bồi thường gần 13.000 tỷ vì quảng cáo sai sự thật về xe điện Tesla",
+        "lead": "Một trong những tuyên bố được xem là tham vọng nhất của Elon Musk - “xe Tesla có đầy đủ phần cứng để tự lái hoàn toàn” giờ đây đang trở thành tâm điểm."
+    },
+    {
+        "index": 2729,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.763671875,
+        "title": "5 loại trà hỗ trợ giảm mỡ nội tạng",
+        "lead": "Trà xanh, trà đen, trà ô long giúp tăng mức độ chất chống oxy hóa trong cơ thể, thúc đẩy trao đổi chất có thể duy trì cân nặng phù hợp."
+    },
+    {
+        "index": 2014,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.76171875,
+        "title": "Trận đánh rung chuyển lịch sử giữa Hittite và Assyria - Báo Tri thức & Cuộc sống",
+        "lead": "Trận Nihriya, diễn ra vào khoảng năm 1245 TCN, là một trong những cuộc xung đột quân sự quan trọng và có ảnh hưởng lớn trong lịch sử thế giới cổ đại."
+    },
+    {
+        "index": 2098,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.759765625,
+        "title": "Tiến Linh lập một loạt cột mốc, đi vào lịch sử V-League - Chuyên trang An Ninh Thủ Đô - Báo Công an nhân dân",
+        "lead": "Nguyễn Tiến Linh (CLB Bình Dương) trở thành cầu thủ nội thứ 2 trong lịch sử V-League giành Vua phá lưới, cầu thủ nội đầu tiên đạt hiệu suất ghi từ 14 bàn/mùa ở hai mùa giải liên tiếp."
+    },
+    {
+        "index": 1710,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7587890625,
+        "title": "Tự Long, Soobin khóc cười cùng với fan, 'quẩy' đến nửa đêm",
+        "lead": "Tự Long, Soobin, S.T Sơn Thạch... cùng nhiều 'anh tài' nhiều lần xúc động, có khi rơi nước mắt trước tình cảm của fan và máu lửa hát, nhảy đến tận nửa đêm trong Day 5 thuộc chuỗi concert 'Anh trai vượt ngàn chông gai' diễn ra tối 14/6 tại Hưng Yên."
+    },
+    {
+        "index": 1404,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.75732421875,
+        "title": "Video một hành khách thoát chết vì trễ chuyến bay của Air India là tin giả",
+        "lead": "Đoạn video lan truyền sau thảm kịch tai nạn máy bay gần đây ở Ấn Độ cho thấy một phụ nữ tự nhận mình đã thoát chết vì trễ chuyến bay Air India 171, nhưng xác minh cho thấy đây là thông tin giả."
+    },
+    {
+        "index": 2281,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.75146484375,
+        "title": "Ngày dài nhất 2025: Hạ chí ảnh hưởng tới giấc ngủ, não bộ thế nào?",
+        "lead": "Hạ chí 2025 là ngày dài nhất trong năm. Ánh sáng kéo dài có thể gây rối loạn giấc ngủ, ảnh hưởng tâm trạng và đồng hồ sinh học."
+    },
+    {
+        "index": 1425,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7509765625,
+        "title": "Công Ninh: 'Tôi ngại kêu gọi giúp đỡ dù khó khăn khi bệnh nặng'",
+        "lead": "Nghệ sĩ Công Ninh nói từng gặp khó khăn vì viêm phổi nguy kịch, nhưng từ chối giúp đỡ vật chất của người quen, học trò vì ngại làm phiền."
+    },
+    {
+        "index": 2206,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.74853515625,
+        "title": "Xe tải cố 'chèn đường', gây tai nạn cho xe máy rồi bỏ chạy",
+        "lead": "Sau khi vượt lên, xe tải cố tình tạt đầu, chèn đường xe máy dẫn đến tai nạn, thế nhưng tài xế sau đó ngang nhiên nhấn ga bỏ chạy khỏi hiện trường khiến không ít người bức xúc."
+    },
+    {
+        "index": 1283,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.74169921875,
+        "title": "Nam thanh niên trốn bố mẹ bỏ nhà đi bộ 'về xuôi' bị lạc đường trên cao tốc",
+        "lead": "Quá trình tuần tra, Tổ công tác của Đội CSGT đường bộ cao tốc số 1 (Cục CSGT) phát hiện một nam thanh niên đi bộ trên cao tốc Nội Bài - Lào Cai với dấu hiệu mệt mỏi, bất thường."
+    },
+    {
+        "index": 2046,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7392578125,
+        "title": "Chuyển nhượng MU: Chào bán Garnacho 50 triệu bảng, Mount đến Aston Villa?",
+        "lead": "MU vẫn đang hoạt động rất tích cực trên thị trường chuyển nhượng mùa hè 2025. Bên cạnh việc mang về các tân binh, “Quỷ đỏ“ còn tập trung thanh lọc những cái tên không nằm trong kế hoạch của HLV Ruben Amorim."
+    },
+    {
+        "index": 1671,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7275390625,
+        "title": "Xuân Trường mừng cho Tuấn Anh",
+        "lead": "Tiền vệ Lương Xuân Trường đã trải lòng về chức vô địch V.League của Tuấn Anh và CLB Nam Định."
+    },
+    {
+        "index": 2024,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.724609375,
+        "title": "Vụ án mạng bị biến thành tai nạn, che giấu 24 năm",
+        "lead": "MỹKhi thi thể Danni Houchins được phát hiện nằm úp mặt trong vũng lầy, cảnh sát nói cô chết đuối do vấp ngã, 24 năm sau gia đình mới biết Danni bị sát hại, dìm xuống nước."
+    },
+    {
+        "index": 107,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.72216796875,
+        "title": "Cuộc sống khốn khổ của những người tị nạn châu Phi khi viện trợ USAID bị cắt - Báo Văn hóa",
+        "lead": "Trại Kakuma ở phía tây bắc Kenya là nơi sinh sống của 300.000 người tị nạn. Nơi đây đang đối mặt với nạn đói hàng loạt sau khi Mỹ cắt viện trợ toàn cầu thông qua USAID."
+    },
+    {
+        "index": 242,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.7158203125,
+        "title": "Đề nghị điều chuyển cán bộ cảnh sát giao thông nói dân 'mồm thối'",
+        "lead": "Khi người dân nghi ngờ máy kiểm tra nồng độ cồn, một cán bộ cảnh sát giao thông đã chửi người này 'mồm thối'."
+    },
+    {
+        "index": 1722,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.71240234375,
+        "title": "Hành trình sống còn của cô gái suy thận giai đoạn cuối ở tuổi 25",
+        "lead": "Ở độ tuổi đẹp nhất của cuộc đời nhưng Vy chỉ còn 2 lựa chọn là ghép thận hay lọc máu tuần 3 buổi để duy trì sự sống khi bác sĩ chẩn đoán cô suy thận giai đoạn cuối."
+    },
+    {
+        "index": 2615,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.689453125,
+        "title": "Florian Wirtz - viên ngọc trên vương miện của Liverpool",
+        "lead": "Florian Wirtz không phải là bản hợp đồng đắt giá hiếm có mà Liverpool từng thực hiện những năm qua, nhưng là thương vụ gây sốt nhất kể từ sau Fernando Torres năm 2007."
+    },
+    {
+        "index": 1274,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.68896484375,
+        "title": "Ngủ gật khi lái xe, nam ca sĩ gặp tai nạn và bị thương nặng",
+        "lead": "MỸ - Cựu thành viên ban nhạc REO Speedwagon - Terry Luttrell nhập viện cấp cứu sau tai nạn xe khiến xương ngực bị gãy."
+    },
+    {
+        "index": 696,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.685546875,
+        "title": "Chia tay HAGL, Minh Vương nghẹn ngào gửi lời đến bầu Đức",
+        "lead": "Sau tất cả, tiền vệ Minh Vương đã trải lòng với tuyên bố chia tay HAGL sau 18 năm gắn bó"
+    },
+    {
+        "index": 1685,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.68212890625,
+        "title": "Quang Anh 'Về nhà đi con' bật khóc nức nở, dừng chân ở show âm nhạc",
+        "lead": "Trong đêm thi của 'Điểm hẹn tài năng', khoảnh khắc Quang Anh bật khóc trên sân khấu sau màn trình diễn được nhiều người quan tâm."
+    },
+    {
+        "index": 317,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.68017578125,
+        "title": "Mất con vì hội chứng hiếm gặp gây tổn thương gan - Báo Xây Dựng",
+        "lead": "Mang thai ở tuần thứ 26, chị T (Bắc Ninh) bất ngờ gặp tình trạng đau bụng, bụng to nhanh bất thường, gan to, suy thai cấp, buộc phải bỏ thai. Tại BV Bệnh nhiệt đới T.Ư, nữ bệnh nhân được phát hiện mắc hội chứng hiếm gặp gây tắc nghẽn tĩnh mạch gan."
+    },
+    {
+        "index": 717,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.67138671875,
+        "title": "Các chuyên gia nghi ngờ năng lực sản xuất điện thoại tại Mỹ - Tạp chí Một Thế Giới",
+        "lead": "Các thương hiệu điện thoại Mỹ, đặc biệt là iPhone phủ sóng khắp thế giới. Tuy nhiên, nếu Apple đem về Mỹ sản xuất thì điều này lại không khả thi vì vấn đề năng lực sản xuất."
+    },
+    {
+        "index": 1706,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.6708984375,
+        "title": "Âm thầm kiểm tra, 500.000 tài khoản TikTok Shop 'có vấn đề' bị gỡ bỏ mỗi năm",
+        "lead": "TikTok Shop âm thầm đi mua các sản phẩm được bán trên chính sàn này, mang đi kiểm tra và gỡ tài khoản nếu có vi phạm."
+    },
+    {
+        "index": 1092,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.66259765625,
+        "title": "TP HCM: Thu gom rác như thế nào khi thực hiện chính quyền địa phương 2 cấp? - Báo Người Lao Động",
+        "lead": "Việc thu gom, vận chuyển rác, vận hành trạm trung chuyển… từ cấp huyện sẽ chuyển cấp xã sau sắp xếp (nằm trong địa giới hành chính cấp huyện hiện nay)"
+    },
+    {
+        "index": 2861,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.6591796875,
+        "title": "'Xuyên không' ở ngôi làng nhiều nhà trăm tuổi, cổ vật quý, cách TPHCM 110km - Báo VietnamNet",
+        "lead": "Làng cổ Đông Hòa Hiệp thuộc xã Đông Hòa Hiệp, huyện Cái Bè, tỉnh Tiền Giang, cách trung tâm TP Mỹ Tho 46km, cách TPHCM khoảng 110km về phía Tây - Nam. Đây là điểm đến hấp dẫn nhiều du khách bởi những ngôi nhà trăm tuổi, có kiến trúc độc đáo."
+    },
+    {
+        "index": 1490,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.65478515625,
+        "title": "Lợi thế giúp khu Đông TP HCM hút đầu tư sau sáp nhập",
+        "lead": "Khu Đông với TP Thủ Đức, Dĩ An, Biên Hòa có lợi thế đón đầu tư khi nằm trong chiến lược tái cấu trúc đô thị sau sáp nhập cùng dòng vốn mạnh đổ vào hạ tầng."
+    },
+    {
+        "index": 75,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.64990234375,
+        "title": "Sau sáp nhập cấp tỉnh, chi nhánh NHNN thay đổi thế nào từ 1/7?",
+        "lead": "Ngân hàng Nhà nước Việt Nam (NHNN) vừa công bố việc tổ chức lại hệ thống chi nhánh khu vực để phù hợp với việc sắp xếp bộ máy hành chính, điều chỉnh địa giới các tỉnh, thành phố."
+    },
+    {
+        "index": 398,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.6484375,
+        "title": "Tin tức thể thao sáng 10-5: Djokovic chỉ giải nghệ sau tuổi 40",
+        "lead": "Djokovic chỉ giải nghệ sau tuổi 40; Salah giành giải Cầu thủ hay nhất mùa của FWA... là những tin chính trong phần tin tức thể thao sáng 10-5."
+    },
+    {
+        "index": 322,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.6279296875,
+        "title": "Lời khai gian dối của kẻ quấn thi thể vợ vào mỏ neo dưới hồ",
+        "lead": "MỹChristopher LeClair báo cáo vợ Karen rơi xuống hồ khi say sóng, nhưng người tình của anh ta giúp cảnh sát vạch trần những lời khai gian dối."
+    },
+    {
+        "index": 1872,
+        "original_label": 0,
+        "predicted_prob_clickbait": 0.62548828125,
+        "title": "Dàn sao 'Tiếu ngạo giang hồ' sau 30 năm",
+        "lead": "Tài tử đóng Lâm Bình Chi bỏ thừa kế để xuất gia, diễn viên đóng Lệnh Hồ Xung sống tiêu dao với thú vui lặn biển, đua xe."
+    }
+]
