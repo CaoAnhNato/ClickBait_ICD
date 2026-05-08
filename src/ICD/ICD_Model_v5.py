@@ -91,7 +91,7 @@ class AttentionPool(nn.Module):
     def forward(self, hidden_states, attention_mask):
         # hidden_states: (B, L, H)
         scores = self.attn(hidden_states).squeeze(-1)  # (B, L)
-        scores = scores.masked_fill(attention_mask == 0, -1e9)
+        scores = scores.masked_fill(attention_mask == 0, -1e4)
         alpha = F.softmax(scores, dim=-1).unsqueeze(-1)  # (B, L, 1)
         pooled = torch.sum(hidden_states * alpha, dim=1) # (B, H)
         return pooled
