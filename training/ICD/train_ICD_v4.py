@@ -50,7 +50,6 @@ from training.ICD.train_ICD_v3 import (
     extract_aux_features,
     load_and_preprocess_data,
     preprocess_text,
-    rdrsegmenter,
 )
 
 # Thử import build logic để tự động hóa
@@ -182,10 +181,9 @@ class ClickbaitReasoningDataset(Dataset):
 
 
 # ===========================================================================
-# Data Loading + VnCoreNLP segmentation
+# Data Loading
 # ===========================================================================
-vncorenlp_path = "/home/nato/vncorenlp_data"
-# rdrsegmenter is imported from train_ICD_v3 to avoid "VM is already running" error
+# Note: VnCoreNLP segmenter is lazy-loaded via preprocess_text from v3
 
 
 def load_icdv4_split(split: str, parquet_path: Path) -> pd.DataFrame:

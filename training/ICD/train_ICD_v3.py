@@ -114,11 +114,18 @@ class ClickbaitPairDataset(Dataset):
 # ============================================================================
 # Preprocessing
 # ============================================================================
-vncorenlp_path = '/home/nato/vncorenlp_data'
-if not os.path.exists(vncorenlp_path):
-    py_vncorenlp.download_model(save_dir=vncorenlp_path)
+# Khởi tạo VnCoreNLP theo cơ chế Lazy Loading để tránh lỗi khi import trên các môi trường khác nhau
+vncorenlp_path = os.path.join(os.getcwd(), 'vncorenlp_data')
+_rdrsegmenter = None
 
-rdrsegmenter = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=vncorenlp_path)
+def get_segmenter():
+    global _rdrsegmenter
+    if _rdrsegmenter is None:
+        if not os.path.exists(vncorenlp_path):
+            os.makedirs(vncorenlp_path, exist_ok=True)
+            py_vncorenlp.download_model(save_dir=vncorenlp_path)
+        _rdrsegmenter = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=vncorenlp_path)
+    return _rdrsegmenter
 
 def format_vncorenlp(res):
     return " ".join(res).strip()
@@ -127,7 +134,8 @@ def preprocess_text(text):
     """Word segmentation bằng py_vncorenlp."""
     if pd.isna(text):
         return ""
-    return format_vncorenlp(rdrsegmenter.word_segment(str(text)))
+    segmenter = get_segmenter()
+    return format_vncorenlp(segmenter.word_segment(str(text)))
 
 
 def load_and_preprocess_data(data_path):
