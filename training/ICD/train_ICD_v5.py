@@ -253,6 +253,8 @@ def main():
     # Training Params
     parser.add_argument('--phase1_epochs', type=int, default=10)
     parser.add_argument('--phase2_epochs', type=int, default=20)
+    parser.add_argument('--skip_phase1', action='store_true')
+    parser.add_argument('--patience', type=int, default=5)
     parser.add_argument('--use_amp', action='store_true', help="Use Mixed Precision (FP16)")
     parser.add_argument('--use_bf16', action='store_true', help="Use BFloat16 (Recommended for RTX 30+)")
     parser.add_argument('--grad_accumulation', type=int, default=1)
