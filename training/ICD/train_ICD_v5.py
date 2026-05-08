@@ -72,7 +72,7 @@ def load_icdv5_split(split: str) -> pd.DataFrame:
 # ===========================================================================
 # Hàm Evaluate dùng chung
 # ===========================================================================
-def evaluate_v5(model, dataloader, loss_fn, device, threshold=0.5):
+def evaluate_v5(model, dataloader, loss_fn, device, threshold=0.5, dtype=torch.float16):
     model.eval()
     all_preds, all_labels, all_probs = [], [], []
     total_loss = 0.0
@@ -88,7 +88,9 @@ def evaluate_v5(model, dataloader, loss_fn, device, threshold=0.5):
             labels = to_dev("label")
             soft_labels = to_dev("soft_label_llm")
             
-            with autocast("cuda", enabled=torch.cuda.is_available()):
+            # Sử dụng autocast với dtype linh hoạt (mặc định lấy từ model nếu pass qua args hoặc hardcode)
+            # Ở đây tôi dùng dtype=torch.bfloat16 nếu BF16 được bật
+            with autocast("cuda", enabled=(dtype != torch.float32), dtype=dtype):
                 outputs = model(input_ids, attn_mask, cat_id, src_id, pat_tags, soft_labels)
                 total, _ = loss_fn(
                     logits=outputs["logits"],
@@ -145,7 +147,8 @@ def train_phase(model, train_loader, val_loader, loss_fn, optimizer, scheduler, 
             labels = to_dev("label")
             soft_labels = to_dev("soft_label_llm")
             
-            with autocast("cuda", enabled=use_amp):
+            # Sử dụng autocast với dtype linh hoạt
+            with autocast("cuda", enabled=(args.use_amp or args.use_bf16), dtype=args.dtype):
                 # Pass 1
                 outputs = model(input_ids, attn_mask, cat_id, src_id, pat_tags, soft_labels)
                 logits2 = None
@@ -191,7 +194,7 @@ def train_phase(model, train_loader, val_loader, loss_fn, optimizer, scheduler, 
         current_lr = optimizer.param_groups[-1]['lr']
         
         val_loss, val_acc, val_prec, val_rec, val_f1, _, _, _ = evaluate_v5(
-            model, val_loader, loss_fn, device, args.threshold
+            model, val_loader, loss_fn, device, args.threshold, dtype=args.dtype
         )
         
         print(f"\nPhase {phase} - Epoch {epoch}/{epochs} Summary:")
@@ -250,8 +253,9 @@ def main():
     # Training Params
     parser.add_argument('--phase1_epochs', type=int, default=10)
     parser.add_argument('--phase2_epochs', type=int, default=20)
-    parser.add_argument('--skip_phase1', action='store_true')
-    parser.add_argument('--patience', type=int, default=5)
+    parser.add_argument('--use_amp', action='store_true', help="Use Mixed Precision (FP16)")
+    parser.add_argument('--use_bf16', action='store_true', help="Use BFloat16 (Recommended for RTX 30+)")
+    parser.add_argument('--grad_accumulation', type=int, default=1)
     parser.add_argument('--threshold', type=float, default=0.5)
     parser.add_argument('--freeze_layers', type=int, default=8, help="Freeze layers in Phase 2")
     
@@ -349,8 +353,20 @@ def main():
     mlflow.start_run(run_name=args.run_name)
     mlflow.log_params(vars(args))
     
-    scaler = GradScaler("cuda") if args.use_amp else None
+    # Mixed Precision Setup
+    dtype = torch.float32
+    if args.use_bf16:
+        dtype = torch.bfloat16
+        print("[*] Using BFloat16 (BF16) precision")
+    elif args.use_amp:
+        dtype = torch.float16
+        print("[*] Using Mixed Precision (FP16)")
+
+    # GradScaler chỉ thực sự cần cho FP16
+    scaler = GradScaler("cuda") if (args.use_amp and not args.use_bf16) else None
     
+    # Passing precision settings to training functions
+    args.dtype = dtype
     best_model_p1 = None
     best_model_p2 = None
     
