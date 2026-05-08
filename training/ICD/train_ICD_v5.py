@@ -298,6 +298,26 @@ def main():
     df_train = load_icdv5_split("train")
     df_val = load_icdv5_split("valid")
     df_test = load_icdv5_split("test")
+    # Chuẩn hóa các cột
+    for df in [df_train, df_val, df_test]:
+        if "label" in df.columns and "label_bin" not in df.columns:
+            df["label_bin"] = df["label"]
+        if "score_init" in df.columns and "soft_label_llm" not in df.columns:
+            df["soft_label_llm"] = df["score_init"] / 100.0
+            
+    # Map category và source sang ID
+    all_cats = pd.concat([df_train["category"], df_val["category"], df_test["category"]]).unique()
+    all_srcs = pd.concat([df_train["source"], df_val["source"], df_test["source"]]).unique()
+    
+    cat2id = {c: i for i, c in enumerate(all_cats)}
+    src2id = {s: i for i, s in enumerate(all_srcs)}
+    
+    for df in [df_train, df_val, df_test]:
+        df["category_id"] = df["category"].map(cat2id).fillna(0).astype(int)
+        df["source_id"] = df["source"].map(src2id).fillna(0).astype(int)
+        
+    args.num_categories = len(cat2id) + 1
+    args.num_sources = len(src2id) + 1
     
     train_ds = ClickbaitDatasetV5(df_train, tokenizer, args.max_len)
     val_ds = ClickbaitDatasetV5(df_val, tokenizer, args.max_len)
