@@ -19,7 +19,7 @@ from sklearn.metrics import accuracy_score, precision_recall_fscore_support, cla
 import matplotlib.pyplot as plt
 import seaborn as sns
 from transformers import AutoTokenizer, get_cosine_schedule_with_warmup
-from torch.cuda.amp import autocast, GradScaler
+from torch.amp import autocast, GradScaler
 from tqdm import tqdm
 import mlflow
 import wandb
