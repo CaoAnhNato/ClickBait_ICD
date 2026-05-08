@@ -146,13 +146,14 @@ class Router(nn.Module):
         return router_weights, router_logits
 
 class ClickbaitDetectorV5(nn.Module):
-    def __init__(self, model_name_or_path: str, num_categories: int = 50, num_sources: int = 200, use_router: bool = True):
+    def __init__(self, model_name_or_path: str, num_categories: int = 50, num_sources: int = 200, use_router: bool = True, sep_token_id: int = 2):
         super().__init__()
         # Backbone
         self.config = AutoConfig.from_pretrained(model_name_or_path)
         self.config.output_hidden_states = True
         self.roberta = AutoModel.from_pretrained(model_name_or_path, config=self.config)
-        self.sep_token_id = self.config.sep_token_id
+        # PhoBERT (RoBERTa) dùng eos_token_id làm sep_token_id
+        self.sep_token_id = getattr(self.config, "sep_token_id", getattr(self.config, "eos_token_id", sep_token_id))
         
         # Base Encoder
         self.layer_pool_news = WeightedLayerPool()

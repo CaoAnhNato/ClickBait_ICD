@@ -334,7 +334,8 @@ def main():
         model_name_or_path=args.model_name,
         num_categories=args.num_categories,
         num_sources=args.num_sources,
-        use_router=not args.no_router
+        use_router=not args.no_router,
+        sep_token_id=tokenizer.sep_token_id
     ).to(device)
     
     # Ablation adjustments
