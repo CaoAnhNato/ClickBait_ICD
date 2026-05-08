@@ -102,12 +102,12 @@ def evaluate_v5(model, dataloader, loss_fn, device, threshold=0.5, dtype=torch.f
                 )
             
             total_loss += total.item()
-            probs = torch.sigmoid(outputs["logits"])
+            probs = torch.sigmoid(outputs["logits"]).float()
             pred_labels = (probs >= threshold).int().cpu().numpy().flatten()
             
             all_probs.extend(probs.cpu().numpy().flatten())
             all_preds.extend(pred_labels)
-            all_labels.extend(labels.cpu().numpy().flatten())
+            all_labels.extend(labels.float().cpu().numpy().flatten())
             
     avg_loss = total_loss / len(dataloader)
     prec, rec, f1, _ = precision_recall_fscore_support(all_labels, all_preds, average='binary', zero_division=0)
