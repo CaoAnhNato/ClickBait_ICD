@@ -73,6 +73,7 @@ def main():
     parser.add_argument('-p', '--patience', type=int, default=5)
     parser.add_argument('-en', '--experiment_name', type=str, default="ICDv6-Phase0")
     parser.add_argument('-rn', '--run_name', type=str, default=None)
+    parser.add_argument('-fl', '--freeze_layers', type=int, default=0, help="Number of bottom layers to freeze")
     parser.add_argument('--dry_run', action='store_true', help="Run 1 step per epoch for debugging")
     args = parser.parse_args()
 
@@ -130,6 +131,15 @@ def main():
 
     print(f"[*] Initializing ICDv6 Model (Variant: {args.variant})...")
     model = ClickbaitDetectorV6(model_name=model_name, sep_token_id=tokenizer.eos_token_id, variant=args.variant)
+    
+    if args.freeze_layers > 0:
+        model.freeze_backbone_layers(freeze_until=args.freeze_layers)
+        print(f"[*] Froze bottom {args.freeze_layers} layers of PhoBERT.")
+        
+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)
+    total_params = sum(p.numel() for p in model.parameters())
+    print(f"[*] Trainable parameters: {trainable_params:,} / {total_params:,} ({trainable_params/total_params*100:.2f}%)")
+    
     model.to(device)
 
     loss_fn = FocalLossWithSmoothing(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
