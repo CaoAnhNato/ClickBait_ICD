@@ -17,9 +17,9 @@ sys.path.append(base_dir)
 
 from src.ICD.dataset_icdv6 import ClickbaitDatasetV6
 from src.ICD.ICD_Model_v6 import ClickbaitDetectorV6
-from src.ICD.losses_v6 import FocalLossWithSmoothing, rdrop_loss
+from src.ICD.losses_v6 import FocalLossWithSmoothing, WeightedFocalLossV6, rdrop_loss
 
-def evaluate(model, dataloader, loss_fn, device, threshold=0.5, return_preds=False):
+def evaluate(model, dataloader, loss_fn, device, threshold=0.5, return_preds=False, use_pattern_tags=False):
     model.eval()
     all_preds = []
     all_labels = []
@@ -30,9 +30,18 @@ def evaluate(model, dataloader, loss_fn, device, threshold=0.5, return_preds=Fal
             input_ids = batch["input_ids_news"].to(device)
             attention_mask = batch["attention_mask_news"].to(device)
             labels = batch["label"].to(device)
+            pattern_tags = batch["pattern_tags"].to(device) if use_pattern_tags else None
             
-            logits = model(input_ids, attention_mask)
-            loss = loss_fn(logits, labels)
+            if pattern_tags is not None:
+                logits = model(input_ids, attention_mask, pattern_tags=pattern_tags)
+                if isinstance(loss_fn, WeightedFocalLossV6):
+                    loss = loss_fn(logits, labels, pattern_tags)
+                else:
+                    loss = loss_fn(logits, labels)
+            else:
+                logits = model(input_ids, attention_mask)
+                loss = loss_fn(logits, labels)
+                
             total_loss += loss.item()
             
             preds = torch.sigmoid(logits)
@@ -74,6 +83,8 @@ def main():
     parser.add_argument('-en', '--experiment_name', type=str, default="ICDv6-Phase0")
     parser.add_argument('-rn', '--run_name', type=str, default=None)
     parser.add_argument('-fl', '--freeze_layers', type=int, default=0, help="Number of bottom layers to freeze")
+    parser.add_argument('--use_reweighting', action='store_true', help="Phase 1: Use Loss Reweighting")
+    parser.add_argument('--use_residual', action='store_true', help="Phase 2: Use Pattern Residual Head")
     parser.add_argument('--dry_run', action='store_true', help="Run 1 step per epoch for debugging")
     args = parser.parse_args()
 
@@ -121,16 +132,24 @@ def main():
         val_df = val_df.head(100)
         test_df = test_df.head(100)
 
-    train_dataset = ClickbaitDatasetV6(train_df, tokenizer, max_len_news=args.max_len)
-    val_dataset = ClickbaitDatasetV6(val_df, tokenizer, max_len_news=args.max_len)
-    test_dataset = ClickbaitDatasetV6(test_df, tokenizer, max_len_news=args.max_len)
+    # Use pattern tags if Phase 1 or Phase 2 is active
+    use_pattern_tags = args.use_reweighting or args.use_residual
+    
+    train_dataset = ClickbaitDatasetV6(train_df, tokenizer, max_len_news=args.max_len, use_pattern_tags=use_pattern_tags)
+    val_dataset = ClickbaitDatasetV6(val_df, tokenizer, max_len_news=args.max_len, use_pattern_tags=use_pattern_tags)
+    test_dataset = ClickbaitDatasetV6(test_df, tokenizer, max_len_news=args.max_len, use_pattern_tags=use_pattern_tags)
     
     train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS, pin_memory=True)
     val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
     test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
 
-    print(f"[*] Initializing ICDv6 Model (Variant: {args.variant})...")
-    model = ClickbaitDetectorV6(model_name=model_name, sep_token_id=tokenizer.eos_token_id, variant=args.variant)
+    print(f"[*] Initializing ICDv6 Model (Variant: {args.variant}, Residual: {args.use_residual})...")
+    model = ClickbaitDetectorV6(
+        model_name=model_name, 
+        sep_token_id=tokenizer.eos_token_id, 
+        variant=args.variant,
+        use_residual=args.use_residual
+    )
     
     if args.freeze_layers > 0:
         model.freeze_backbone_layers(freeze_until=args.freeze_layers)
@@ -142,7 +161,11 @@ def main():
     
     model.to(device)
 
-    loss_fn = FocalLossWithSmoothing(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
+    if args.use_reweighting:
+        print("[*] Using WeightedFocalLossV6 (Phase 1)")
+        loss_fn = WeightedFocalLossV6(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
+    else:
+        loss_fn = FocalLossWithSmoothing(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
 
     param_groups = model.get_parameter_groups(lr=args.lr, lr_decay=args.lr_decay)
     optimizer = torch.optim.AdamW(param_groups, weight_decay=0.01)
@@ -162,6 +185,8 @@ def main():
         "batch_size": BATCH_SIZE * GRAD_ACCUMULATION,
         "rdrop_alpha": args.rdrop_alpha,
         "label_smoothing": args.label_smoothing,
+        "use_reweighting": args.use_reweighting,
+        "use_residual": args.use_residual,
     }
 
     try:
@@ -189,17 +214,26 @@ def main():
                 input_ids = batch["input_ids_news"].to(device)
                 attention_mask = batch["attention_mask_news"].to(device)
                 labels = batch["label"].to(device)
+                pattern_tags = batch["pattern_tags"].to(device) if use_pattern_tags else None
                 
                 with torch.amp.autocast('cuda', enabled=USE_AMP, dtype=torch.bfloat16):
                     if args.rdrop_alpha > 0.0:
-                        logits1 = model(input_ids, attention_mask)
-                        logits2 = model(input_ids, attention_mask)
-                        loss_nll = 0.5 * (loss_fn(logits1, labels) + loss_fn(logits2, labels))
+                        logits1 = model(input_ids, attention_mask, pattern_tags=pattern_tags)
+                        logits2 = model(input_ids, attention_mask, pattern_tags=pattern_tags)
+                        
+                        if args.use_reweighting:
+                            loss_nll = 0.5 * (loss_fn(logits1, labels, pattern_tags) + loss_fn(logits2, labels, pattern_tags))
+                        else:
+                            loss_nll = 0.5 * (loss_fn(logits1, labels) + loss_fn(logits2, labels))
+                            
                         loss_rdrop = rdrop_loss(logits1, logits2, alpha=args.rdrop_alpha)
                         loss = loss_nll + loss_rdrop
                     else:
-                        logits = model(input_ids, attention_mask)
-                        loss = loss_fn(logits, labels)
+                        logits = model(input_ids, attention_mask, pattern_tags=pattern_tags)
+                        if args.use_reweighting:
+                            loss = loss_fn(logits, labels, pattern_tags)
+                        else:
+                            loss = loss_fn(logits, labels)
                     loss = loss / GRAD_ACCUMULATION
 
                 scaler.scale(loss).backward()
@@ -221,7 +255,9 @@ def main():
             avg_train_loss = total_train_loss / (step + 1)
             current_lr = optimizer.param_groups[-1]['lr']
             
-            val_loss, val_acc, val_prec, val_rec, val_f1 = evaluate(model, val_loader, loss_fn, device)
+            val_loss, val_acc, val_prec, val_rec, val_f1 = evaluate(
+                model, val_loader, loss_fn, device, use_pattern_tags=use_pattern_tags
+            )
             
             print(f"\nEpoch {epoch} | Train Loss: {avg_train_loss:.4f} | Val Loss: {val_loss:.4f} | Val F1: {val_f1:.4f}")
             
@@ -249,7 +285,7 @@ def main():
             model.load_state_dict(torch.load(best_model_path, weights_only=True))
             
         test_loss, test_acc, test_prec, test_rec, test_f1, test_labels, test_preds = evaluate(
-            model, test_loader, loss_fn, device, return_preds=True
+            model, test_loader, loss_fn, device, return_preds=True, use_pattern_tags=use_pattern_tags
         )
         
         print(f"Test F1: {test_f1:.4f} | Acc: {test_acc:.4f} | Prec: {test_prec:.4f} | Rec: {test_rec:.4f}")

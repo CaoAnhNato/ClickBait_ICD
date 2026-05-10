@@ -44,23 +44,40 @@ class SegmentAwarePool(nn.Module):
         return title_pool, lead_pool
 
 
+class ResidualHeadV6(nn.Module):
+    """
+    Phase 2: Pattern Residual Head.
+    Học bias bổ sung dựa trên pattern tags để hiệu chỉnh logits.
+    """
+    def __init__(self, input_dim=6, hidden_dim=32):
+        super().__init__()
+        self.net = nn.Sequential(
+            nn.Linear(input_dim, hidden_dim),
+            nn.ReLU(),
+            nn.Linear(hidden_dim, 1)
+        )
+
+    def forward(self, pattern_tags):
+        return self.net(pattern_tags)
+
+
 class ClickbaitDetectorV6(nn.Module):
     """
     ICDv6 Model - Streamlined
-    Supports two variants:
-    - variant="simple": Use only [CLS] token (C0 Baseline)
-    - variant="esim": Use [CLS] + title/lead mean pooling + diff + prod (ESIM Baseline)
+    Supports variants and Phase 2 Residual Head.
     """
     def __init__(
         self,
         model_name="vinai/phobert-base-v2",
-        sep_token_id=2, # default for phobert-base-v2 (eos_token_id is 2)
+        sep_token_id=2, 
         dropout_rate=0.2,
-        variant="simple" # "simple" or "esim"
+        variant="simple",
+        use_residual=False
     ):
         super().__init__()
         self.variant = variant
         self.sep_token_id = sep_token_id
+        self.use_residual = use_residual
         
         config = AutoConfig.from_pretrained(model_name)
         self.phobert = AutoModel.from_pretrained(model_name, config=config)
@@ -72,7 +89,7 @@ class ClickbaitDetectorV6(nn.Module):
             clf_input_dim = hidden_size
         elif self.variant == "esim":
             self.segment_pool = SegmentAwarePool(sep_token_id)
-            clf_input_dim = hidden_size * 5 # CLS, title, lead, diff, prod
+            clf_input_dim = hidden_size * 5
         else:
             raise ValueError(f"Unknown variant: {variant}")
             
@@ -83,19 +100,23 @@ class ClickbaitDetectorV6(nn.Module):
             nn.Dropout(dropout_rate),
             nn.Linear(hidden_size, 1)
         )
+        
+        if self.use_residual:
+            self.residual_head = ResidualHeadV6(input_dim=6)
 
-    def forward(self, input_ids_news, attention_mask_news):
+    def forward(self, input_ids_news, attention_mask_news, pattern_tags=None):
         """
         input_ids_news: [B, SeqLen]
         attention_mask_news: [B, SeqLen]
+        pattern_tags: [B, 6] (Required if use_residual=True)
         """
         outputs = self.phobert(
             input_ids=input_ids_news,
             attention_mask=attention_mask_news,
             return_dict=True
         )
-        hidden_states = outputs.last_hidden_state # [B, SeqLen, H]
-        cls_output = hidden_states[:, 0, :] # [B, H]
+        hidden_states = outputs.last_hidden_state 
+        cls_output = hidden_states[:, 0, :]
         
         if self.variant == "simple":
             features = cls_output
@@ -108,6 +129,10 @@ class ClickbaitDetectorV6(nn.Module):
         features = self.dropout(features)
         logits = self.classifier(features)
         
+        if self.use_residual and pattern_tags is not None:
+            res_logits = self.residual_head(pattern_tags)
+            logits = logits + res_logits
+            
         return logits
         
     def freeze_backbone_layers(self, freeze_until=8):
