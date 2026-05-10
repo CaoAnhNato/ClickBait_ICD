@@ -291,8 +291,12 @@ def main():
         print(f"Test F1: {test_f1:.4f} | Acc: {test_acc:.4f} | Prec: {test_prec:.4f} | Rec: {test_rec:.4f}")
         
         report_path = os.path.join(output_dir, f"report_{args.variant}.txt")
+        report_str = classification_report(test_labels, test_preds, target_names=['non-clickbait', 'clickbait'])
         with open(report_path, "w") as f:
-            f.write(classification_report(test_labels, test_preds, target_names=['non-clickbait', 'clickbait']))
+            f.write(report_str)
+        
+        print("\n[+] Classification Report:")
+        print(report_str)
         
         mlflow.log_artifact(report_path, artifact_path="evaluation")
         if os.path.exists(best_model_path):
