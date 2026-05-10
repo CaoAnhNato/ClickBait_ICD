@@ -70,7 +70,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-hw', '--hw_profile', type=str, choices=['rtx3050', 'ada5000'], default='rtx3050')
     parser.add_argument('-v', '--variant', type=str, choices=['simple', 'esim'], default='simple')
-    parser.add_argument('-e', '--epochs', type=int, default=15)
+    parser.add_argument('-e', '--num_epochs', type=int, default=15)
     parser.add_argument('-lr', '--lr', type=float, default=2e-5)
     parser.add_argument('-ld', '--lr_decay', type=float, default=0.95)
     parser.add_argument('-wr', '--warmup_ratio', type=float, default=0.1)
@@ -84,7 +84,9 @@ def main():
     parser.add_argument('-rn', '--run_name', type=str, default=None)
     parser.add_argument('-fl', '--freeze_layers', type=int, default=0, help="Number of bottom layers to freeze")
     parser.add_argument('--use_reweighting', action='store_true', help="Phase 1: Use Loss Reweighting")
-    parser.add_argument('--use_residual', action='store_true', help="Phase 2: Use Pattern Residual Head")
+    parser.add_argument('--w_hardnews', type=float, default=1.5, help="Weight for hardnews samples in Phase 1")
+    parser.add_argument('--w_shock', type=float, default=1.2, help="Weight for shock samples in Phase 1")
+    parser.add_argument('--use_pattern_residual', action='store_true', help="Phase 2: Use Pattern Residual Head")
     parser.add_argument('--dry_run', action='store_true', help="Run 1 step per epoch for debugging")
     args = parser.parse_args()
 
@@ -133,7 +135,7 @@ def main():
         test_df = test_df.head(100)
 
     # Use pattern tags if Phase 1 or Phase 2 is active
-    use_pattern_tags = args.use_reweighting or args.use_residual
+    use_pattern_tags = args.use_reweighting or args.use_pattern_residual
     
     train_dataset = ClickbaitDatasetV6(train_df, tokenizer, max_len_news=args.max_len, use_pattern_tags=use_pattern_tags)
     val_dataset = ClickbaitDatasetV6(val_df, tokenizer, max_len_news=args.max_len, use_pattern_tags=use_pattern_tags)
@@ -143,12 +145,12 @@ def main():
     val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
     test_loader = DataLoader(test_dataset, batch_size=BATCH_SIZE, shuffle=False, num_workers=NUM_WORKERS, pin_memory=True)
 
-    print(f"[*] Initializing ICDv6 Model (Variant: {args.variant}, Residual: {args.use_residual})...")
+    print(f"[*] Initializing ICDv6 Model (Variant: {args.variant}, Residual: {args.use_pattern_residual})...")
     model = ClickbaitDetectorV6(
         model_name=model_name, 
         sep_token_id=tokenizer.eos_token_id, 
         variant=args.variant,
-        use_residual=args.use_residual
+        use_residual=args.use_pattern_residual
     )
     
     if args.freeze_layers > 0:
@@ -162,8 +164,11 @@ def main():
     model.to(device)
 
     if args.use_reweighting:
-        print("[*] Using WeightedFocalLossV6 (Phase 1)")
-        loss_fn = WeightedFocalLossV6(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
+        print(f"[*] Using WeightedFocalLossV6 (Hardnews={args.w_hardnews}, Shock={args.w_shock})")
+        loss_fn = WeightedFocalLossV6(
+            alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing,
+            hardnews_weight=args.w_hardnews, shock_weight=args.w_shock
+        )
     else:
         loss_fn = FocalLossWithSmoothing(alpha=args.focal_alpha, gamma=args.focal_gamma, smoothing=args.label_smoothing)
 
@@ -171,7 +176,7 @@ def main():
     optimizer = torch.optim.AdamW(param_groups, weight_decay=0.01)
     scaler = torch.amp.GradScaler('cuda', enabled=USE_AMP)
 
-    total_steps = len(train_loader) * args.epochs // GRAD_ACCUMULATION
+    total_steps = len(train_loader) * args.num_epochs // GRAD_ACCUMULATION
     warmup_steps = int(total_steps * args.warmup_ratio)
     scheduler = get_cosine_schedule_with_warmup(optimizer, num_warmup_steps=warmup_steps, num_training_steps=total_steps)
 
@@ -186,7 +191,9 @@ def main():
         "rdrop_alpha": args.rdrop_alpha,
         "label_smoothing": args.label_smoothing,
         "use_reweighting": args.use_reweighting,
-        "use_residual": args.use_residual,
+        "w_hardnews": args.w_hardnews if args.use_reweighting else 0,
+        "w_shock": args.w_shock if args.use_reweighting else 0,
+        "use_pattern_residual": args.use_pattern_residual,
     }
 
     try:
@@ -204,11 +211,11 @@ def main():
     with mlflow.start_run(run_name=args.run_name):
         mlflow.log_params(config_dict)
         
-        for epoch in range(1, args.epochs + 1):
+        for epoch in range(1, args.num_epochs + 1):
             model.train()
             total_train_loss = 0.0
             
-            progress_bar = tqdm(train_loader, desc=f"Epoch {epoch}/{args.epochs} [Train]")
+            progress_bar = tqdm(train_loader, desc=f"Epoch {epoch}/{args.num_epochs} [Train]")
             
             for step, batch in enumerate(progress_bar):
                 input_ids = batch["input_ids_news"].to(device)
