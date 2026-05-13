@@ -61,6 +61,9 @@ PHASE2_DIR        = os.path.join(OUTPUT_DIR, "phase2_dapt")
 MERGED_DIR        = os.path.join(OUTPUT_DIR, "merged_backbone")
 BASELINE_DIR      = os.path.join(OUTPUT_DIR, "baseline_vanilla")
 
+# Cache for word-segmented dataset (skip re-segmentation on subsequent runs)
+SEGMENTED_CACHE   = "data/processed/ViClickBERT/segmented"
+
 HELD_OUT_SIZE     = 10_000
 VALID_SIZE        = 10_000
 SEED              = 42
@@ -135,44 +138,63 @@ def segment(seg, text: str) -> str:
 # ─────────────────────────────────────────────────────────
 
 def load_and_split(seg) -> Tuple[Dataset, Dataset, Dataset]:
-    log.info("Loading %s from HuggingFace \u2026", HF_DATASET)
-    ds = load_dataset(HF_DATASET, split="train")
+    """
+    Load ICDv7, word-segment (VnCoreNLP), split into train/valid/held-out.
 
-    log.info("Dataset size: %d rows \u2014 columns: %s", len(ds), ds.column_names)
+    Cache mechanism
+    ───────────────
+    After the first run the fully-segmented dataset is saved to
+    `SEGMENTED_CACHE` (HuggingFace Arrow format).  Subsequent runs
+    detect the cache folder and skip the expensive segment step.
+    Delete the folder manually if you want a fresh re-segmentation.
+    """
 
-    # ── Word-segment via pandas in main process ──────────────────────────────
-    # ROOT CAUSE of pickle error:
-    #   VnCoreNLP uses jnius (Java bridge). jnius objects contain non-picklable
-    #   Java fields (jnius.JavaField). datasets.map() ALWAYS spawns a subprocess
-    #   even with num_proc=1, which forces dill to serialize the closure that
-    #   captures `seg` → TypeError: no default __reduce__ due to non-trivial __cinit__
-    #
-    # FIX: convert to pandas → apply segmentation in main process (no fork)
-    #      → convert back to HuggingFace Dataset.
-    # ─────────────────────────────────────────────────────────────────────────
-    log.info("Word-segmenting with VnCoreNLP in main process (no subprocess) \u2026")
-    df = ds.to_pandas()
+    # ── 1. Try loading from cache ─────────────────────────────────────────────
+    if os.path.isdir(SEGMENTED_CACHE):
+        log.info("[CACHE HIT] Loading pre-segmented dataset from '%s' …", SEGMENTED_CACHE)
+        ds = Dataset.load_from_disk(SEGMENTED_CACHE)
+        log.info("Cached dataset: %d rows — columns: %s", len(ds), ds.column_names)
+    else:
+        # ── 2. Download raw dataset ───────────────────────────────────────────
+        log.info("Loading %s from HuggingFace …", HF_DATASET)
+        ds = load_dataset(HF_DATASET, split="train")
+        log.info("Dataset size: %d rows — columns: %s", len(ds), ds.column_names)
 
-    from tqdm import tqdm
-    tqdm.pandas(desc="Segmenting title")
-    df["title_seg"] = df["title"].progress_apply(lambda t: segment(seg, t))
+        # ── 3. Word-segment via pandas in main process ────────────────────────
+        # VnCoreNLP uses jnius (Java bridge): jnius objects are NOT picklable.
+        # datasets.map() always spawns subprocesses → dill tries to serialize
+        # the closure capturing `seg` → TypeError: no default __reduce__.
+        # Fix: pandas.progress_apply() runs entirely in the main process.
+        # ─────────────────────────────────────────────────────────────────────
+        log.info("Word-segmenting with VnCoreNLP in main process (no subprocess) …")
+        df = ds.to_pandas()
 
-    tqdm.pandas(desc="Segmenting sapo ")
-    df["sapo_seg"]  = df["sapo"].progress_apply(lambda s: segment(seg, s))
+        from tqdm import tqdm
+        tqdm.pandas(desc="Segmenting title")
+        df["title_seg"] = df["title"].progress_apply(lambda t: segment(seg, t))
 
-    # Keep only segmented columns to save RAM
-    ds = Dataset.from_pandas(df[["title_seg", "sapo_seg"]], preserve_index=False)
-    del df
-    log.info("Word-segmentation complete.")
+        tqdm.pandas(desc="Segmenting sapo ")
+        df["sapo_seg"]  = df["sapo"].progress_apply(lambda s: segment(seg, s))
 
-    # Shuffle deterministically then split
+        # Keep only segmented columns to save RAM
+        ds = Dataset.from_pandas(df[["title_seg", "sapo_seg"]], preserve_index=False)
+        del df
+        log.info("Word-segmentation complete.")
+
+        # ── 4. Save to cache ──────────────────────────────────────────────────
+        os.makedirs(SEGMENTED_CACHE, exist_ok=True)
+        ds.save_to_disk(SEGMENTED_CACHE)
+        log.info("[CACHE SAVED] Segmented dataset saved to '%s'.", SEGMENTED_CACHE)
+        log.info("Next run will skip word-segmentation and load from cache directly.")
+
+    # ── 5. Shuffle + split ────────────────────────────────────────────────────
     ds = ds.shuffle(seed=SEED)
     held_out_ds = ds.select(range(HELD_OUT_SIZE))
     valid_ds    = ds.select(range(HELD_OUT_SIZE, HELD_OUT_SIZE + VALID_SIZE))
     train_ds    = ds.select(range(HELD_OUT_SIZE + VALID_SIZE, len(ds)))
 
     log.info(
-        "Split \u2192 train=%d | valid=%d | held_out=%d",
+        "Split → train=%d | valid=%d | held_out=%d",
         len(train_ds), len(valid_ds), len(held_out_ds),
     )
     return train_ds, valid_ds, held_out_ds
