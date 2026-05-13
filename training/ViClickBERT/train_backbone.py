@@ -207,13 +207,15 @@ def load_and_split(seg) -> Tuple[Dataset, Dataset, Dataset]:
 def tokenize_ds(ds: Dataset, tokenizer) -> Dataset:
     """Tokenize title_seg + sapo_seg as (text_a, text_b) pair."""
     def tok(batch):
-        return tokenizer(
+        enc = tokenizer(
             batch["title_seg"],
             batch["sapo_seg"],
             truncation=True,
             max_length=MAX_LENGTH,
             padding=False,
         )
+        enc.pop("token_type_ids", None)  # PhoBERT=RoBERTa, type_vocab_size=1
+        return enc
     return ds.map(
         tok,
         batched=True,
@@ -250,32 +252,26 @@ class DataCollatorForMLM_SOP:
 
         for i, feat in enumerate(features):
             feat = dict(feat)
-            ids   = feat["input_ids"]
-            ttids = feat.get("token_type_ids", [0] * len(ids))
+            feat.pop("token_type_ids", None)  # PhoBERT=RoBERTa has no tti support
+            ids = feat["input_ids"]
 
-            # find SEP positions to locate sapo segment
+            # Find SEP positions to locate the sapo segment boundary
             sep_id  = self.tokenizer.sep_token_id
             sep_pos = [j for j, t in enumerate(ids) if t == sep_id]
 
             if len(sep_pos) >= 2 and rnd.random() < self.sop_ratio:
-                # Swap sapo with another sample's sapo
+                # Swap sapo with another sample's sapo to create SOP negative
                 partner = (i + rnd.randint(1, batch_size - 1)) % batch_size
                 p_feat  = features[partner]
-                p_ids   = p_feat["input_ids"]
-                p_ttids = p_feat.get("token_type_ids", [0] * len(p_ids))
+                p_ids   = list(p_feat["input_ids"])
                 p_sep   = [j for j, t in enumerate(p_ids) if t == sep_id]
 
                 if len(p_sep) >= 2:
-                    # title segment: ids[:sep_pos[0]+1]
-                    # sapo  segment: partner's ids[p_sep[0]+1:]
                     title_part = ids[:sep_pos[0] + 1]
                     sapo_part  = p_ids[p_sep[0] + 1:]
-
                     new_ids = (title_part + sapo_part)[:MAX_LENGTH]
-                    new_tt  = ([0] * len(title_part) + [1] * len(sapo_part))[:MAX_LENGTH]
-                    feat["input_ids"]       = new_ids
-                    feat["token_type_ids"]  = new_tt
-                    feat["attention_mask"]  = [1] * len(new_ids)
+                    feat["input_ids"]      = new_ids
+                    feat["attention_mask"] = [1] * len(new_ids)
                     sop_labels.append(1)   # swapped = wrong order
                 else:
                     sop_labels.append(0)
@@ -284,13 +280,14 @@ class DataCollatorForMLM_SOP:
 
             processed.append(feat)
 
-        # Pad to same length
+        # Pad to same length -- no token_type_ids in processed features
         batch = self.tokenizer.pad(
             processed,
             padding=True,
             max_length=MAX_LENGTH,
             return_tensors="pt",
         )
+        batch.pop("token_type_ids", None)  # defensive
 
         # MLM masking on the padded input_ids
         labels = batch["input_ids"].clone()
@@ -346,15 +343,15 @@ class PhoBERTForMLM_SOP(torch.nn.Module):
         self,
         input_ids=None,
         attention_mask=None,
-        token_type_ids=None,
+        token_type_ids=None,   # accepted but NOT forwarded (PhoBERT=RoBERTa, type_vocab_size=1)
         labels=None,           # MLM labels
         sop_labels=None,       # SOP labels
         **kwargs,
     ):
+        # token_type_ids intentionally dropped - PhoBERT only accepts 0
         outputs = self.bert(
             input_ids=input_ids,
             attention_mask=attention_mask,
-            token_type_ids=token_type_ids,
             labels=labels,
             output_hidden_states=True,
             **kwargs,
@@ -416,12 +413,20 @@ class PhoBERTForMLM_SOP(torch.nn.Module):
 # 6. Metrics helper
 # ─────────────────────────────────────────────────────────
 
-def compute_ppl_mlm_acc(eval_pred):
-    logits, labels = eval_pred
+def preprocess_logits_for_metrics(logits, labels):
+    """Strip hidden_states; return only vocab logits. Trainer expects only logits."""
     if isinstance(logits, tuple):
         logits = logits[0]
-    logits = torch.tensor(logits) if not isinstance(logits, torch.Tensor) else logits
-    labels = torch.tensor(labels) if not isinstance(labels, torch.Tensor) else labels
+    return logits
+
+
+def compute_ppl_mlm_acc(eval_pred):
+    import numpy as np
+    logits, labels = eval_pred
+    if not isinstance(logits, torch.Tensor):
+        logits = torch.from_numpy(np.asarray(logits, dtype=np.float32))
+    if not isinstance(labels, torch.Tensor):
+        labels = torch.from_numpy(np.asarray(labels, dtype=np.int64))
 
     # only masked positions
     mask    = labels != -100
@@ -510,16 +515,18 @@ def phase1_dapt(train_tok: Dataset, valid_tok: Dataset, tokenizer):
         # ADA-6000 / large-memory optimisations
         optim                           = "adamw_torch_fused",
         gradient_checkpointing          = True,
+        label_names                     = ["labels"],  # only MLM labels, not sop_labels
     )
 
     trainer = Trainer(
-        model           = model,
-        args            = args,
-        train_dataset   = train_tok,
-        eval_dataset    = valid_tok,
-        data_collator   = collator,
-        compute_metrics = compute_ppl_mlm_acc,
-        callbacks       = [EarlyStoppingCallback(early_stopping_patience=3)],
+        model                         = model,
+        args                          = args,
+        train_dataset                 = train_tok,
+        eval_dataset                  = valid_tok,
+        data_collator                 = collator,
+        compute_metrics               = compute_ppl_mlm_acc,
+        preprocess_logits_for_metrics = preprocess_logits_for_metrics,
+        callbacks                     = [EarlyStoppingCallback(early_stopping_patience=3)],
     )
 
     log.info("Starting Phase-1 training … (total steps ≈ %d)", total_steps)
@@ -606,13 +613,14 @@ def phase2_finetune(
     )
 
     trainer2 = Trainer(
-        model           = model2,
-        args            = args2,
-        train_dataset   = combined,
-        eval_dataset    = valid_tok,
-        data_collator   = collator2,
-        compute_metrics = compute_ppl_mlm_acc,
-        callbacks       = [EarlyStoppingCallback(early_stopping_patience=3)],
+        model                         = model2,
+        args                          = args2,
+        train_dataset                 = combined,
+        eval_dataset                  = valid_tok,
+        data_collator                 = collator2,
+        compute_metrics               = compute_ppl_mlm_acc,
+        preprocess_logits_for_metrics = preprocess_logits_for_metrics,
+        callbacks                     = [EarlyStoppingCallback(early_stopping_patience=3)],
     )
 
     log.info("Starting Phase-2 training …")
@@ -676,13 +684,14 @@ def baseline_finetune(train_tok: Dataset, valid_tok: Dataset, tokenizer):
     )
 
     trainer_bl = Trainer(
-        model           = baseline_model,
-        args            = args_bl,
-        train_dataset   = combined,
-        eval_dataset    = valid_tok,
-        data_collator   = collator_bl,
-        compute_metrics = compute_ppl_mlm_acc,
-        callbacks       = [EarlyStoppingCallback(early_stopping_patience=3)],
+        model                         = baseline_model,
+        args                          = args_bl,
+        train_dataset                 = combined,
+        eval_dataset                  = valid_tok,
+        data_collator                 = collator_bl,
+        compute_metrics               = compute_ppl_mlm_acc,
+        preprocess_logits_for_metrics = preprocess_logits_for_metrics,
+        callbacks                     = [EarlyStoppingCallback(early_stopping_patience=3)],
     )
 
     log.info("Starting Baseline training …")
@@ -709,11 +718,12 @@ def _eval_one(model, held_out_tok: Dataset, tokenizer, tag: str) -> dict:
         seed                       = SEED,
     )
     evaluator = Trainer(
-        model           = model,
-        args            = eval_args,
-        eval_dataset    = held_out_tok,
-        data_collator   = collator_eval,
-        compute_metrics = compute_ppl_mlm_acc,
+        model                         = model,
+        args                          = eval_args,
+        eval_dataset                  = held_out_tok,
+        data_collator                 = collator_eval,
+        compute_metrics               = compute_ppl_mlm_acc,
+        preprocess_logits_for_metrics = preprocess_logits_for_metrics,
     )
     return evaluator.evaluate()
 
