@@ -458,15 +458,14 @@ def phase1_dapt(train_tok: Dataset, valid_tok: Dataset, tokenizer):
         metric_for_best_model       = "eval_loss",
         greater_is_better           = False,
         save_total_limit            = 1,           # only best checkpoint
-        dataloader_num_workers      = 8,
-        dataloader_pin_memory       = True,
-        report_to                   = "none",
-        seed                        = SEED,
+        dataloader_num_workers          = 8,
+        dataloader_pin_memory           = True,
+        dataloader_persistent_workers   = True,   # keep workers alive between epochs
+        report_to                       = "none",
+        seed                            = SEED,
         # ADA-6000 / large-memory optimisations
-        optim                       = "adamw_torch_fused",
-        gradient_checkpointing      = True,
-        ddp_find_unused_parameters  = False,
-        group_by_length             = True,
+        optim                           = "adamw_torch_fused",
+        gradient_checkpointing          = True,
     )
 
     trainer = Trainer(
@@ -553,13 +552,13 @@ def phase2_finetune(
         metric_for_best_model       = "eval_loss",
         greater_is_better           = False,
         save_total_limit            = 1,
-        dataloader_num_workers      = 8,
-        dataloader_pin_memory       = True,
-        report_to                   = "none",
-        seed                        = SEED,
-        optim                       = "adamw_torch_fused",
-        gradient_checkpointing      = True,
-        group_by_length             = True,
+        dataloader_num_workers          = 8,
+        dataloader_pin_memory           = True,
+        dataloader_persistent_workers   = True,
+        report_to                       = "none",
+        seed                            = SEED,
+        optim                           = "adamw_torch_fused",
+        gradient_checkpointing          = True,
     )
 
     trainer2 = Trainer(
@@ -623,13 +622,13 @@ def baseline_finetune(train_tok: Dataset, valid_tok: Dataset, tokenizer):
         metric_for_best_model       = "eval_loss",
         greater_is_better           = False,
         save_total_limit            = 1,
-        dataloader_num_workers      = 8,
-        dataloader_pin_memory       = True,
-        report_to                   = "none",
-        seed                        = SEED,
-        optim                       = "adamw_torch_fused",
-        gradient_checkpointing      = True,
-        group_by_length             = True,
+        dataloader_num_workers          = 8,
+        dataloader_pin_memory           = True,
+        dataloader_persistent_workers   = True,
+        report_to                       = "none",
+        seed                            = SEED,
+        optim                           = "adamw_torch_fused",
+        gradient_checkpointing          = True,
     )
 
     trainer_bl = Trainer(
