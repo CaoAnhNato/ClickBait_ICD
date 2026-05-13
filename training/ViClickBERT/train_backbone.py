@@ -382,13 +382,35 @@ class PhoBERTForMLM_SOP(torch.nn.Module):
             attentions=outputs.attentions,
         )
 
-    # Delegate save / config so Trainer & merge_and_unload work
+    # ── Delegate save / config so Trainer & merge_and_unload work ────────────
     def save_pretrained(self, path, **kw):
         self.bert.save_pretrained(path, **kw)
 
     @property
     def config(self):
         return self.bert.config
+
+    # ── Gradient-checkpointing delegates ─────────────────────────────────────
+    # Trainer calls model.gradient_checkpointing_enable() when
+    # TrainingArguments(gradient_checkpointing=True).  This method only exists
+    # on PreTrainedModel, not on plain nn.Module wrappers like ours.
+    # We delegate to the inner PEFT/HF model so the call succeeds.
+    def gradient_checkpointing_enable(self, gradient_checkpointing_kwargs=None):
+        if hasattr(self.bert, "gradient_checkpointing_enable"):
+            if gradient_checkpointing_kwargs is not None:
+                self.bert.gradient_checkpointing_enable(gradient_checkpointing_kwargs)
+            else:
+                self.bert.gradient_checkpointing_enable()
+
+    def gradient_checkpointing_disable(self):
+        if hasattr(self.bert, "gradient_checkpointing_disable"):
+            self.bert.gradient_checkpointing_disable()
+
+    @property
+    def is_gradient_checkpointing(self) -> bool:
+        if hasattr(self.bert, "is_gradient_checkpointing"):
+            return self.bert.is_gradient_checkpointing
+        return False
 
 # ─────────────────────────────────────────────────────────
 # 6. Metrics helper
