@@ -135,25 +135,35 @@ def segment(seg, text: str) -> str:
 # ─────────────────────────────────────────────────────────
 
 def load_and_split(seg) -> Tuple[Dataset, Dataset, Dataset]:
-    log.info("Loading %s from HuggingFace …", HF_DATASET)
+    log.info("Loading %s from HuggingFace \u2026", HF_DATASET)
     ds = load_dataset(HF_DATASET, split="train")
 
-    log.info("Dataset size: %d rows — columns: %s", len(ds), ds.column_names)
+    log.info("Dataset size: %d rows \u2014 columns: %s", len(ds), ds.column_names)
 
-    # Word-segment
-    log.info("Word-segmenting with VnCoreNLP (this may take a while) …")
-    def segment_batch(batch):
-        batch["title_seg"] = [segment(seg, t) for t in batch["title"]]
-        batch["sapo_seg"]  = [segment(seg, s) for s in batch["sapo"]]
-        return batch
+    # ── Word-segment via pandas in main process ──────────────────────────────
+    # ROOT CAUSE of pickle error:
+    #   VnCoreNLP uses jnius (Java bridge). jnius objects contain non-picklable
+    #   Java fields (jnius.JavaField). datasets.map() ALWAYS spawns a subprocess
+    #   even with num_proc=1, which forces dill to serialize the closure that
+    #   captures `seg` → TypeError: no default __reduce__ due to non-trivial __cinit__
+    #
+    # FIX: convert to pandas → apply segmentation in main process (no fork)
+    #      → convert back to HuggingFace Dataset.
+    # ─────────────────────────────────────────────────────────────────────────
+    log.info("Word-segmenting with VnCoreNLP in main process (no subprocess) \u2026")
+    df = ds.to_pandas()
 
-    ds = ds.map(
-        segment_batch,
-        batched=True,
-        batch_size=512,
-        num_proc=1,                # VnCoreNLP is not fork-safe
-        desc="Word-segment",
-    )
+    from tqdm import tqdm
+    tqdm.pandas(desc="Segmenting title")
+    df["title_seg"] = df["title"].progress_apply(lambda t: segment(seg, t))
+
+    tqdm.pandas(desc="Segmenting sapo ")
+    df["sapo_seg"]  = df["sapo"].progress_apply(lambda s: segment(seg, s))
+
+    # Keep only segmented columns to save RAM
+    ds = Dataset.from_pandas(df[["title_seg", "sapo_seg"]], preserve_index=False)
+    del df
+    log.info("Word-segmentation complete.")
 
     # Shuffle deterministically then split
     ds = ds.shuffle(seed=SEED)
@@ -162,10 +172,11 @@ def load_and_split(seg) -> Tuple[Dataset, Dataset, Dataset]:
     train_ds    = ds.select(range(HELD_OUT_SIZE + VALID_SIZE, len(ds)))
 
     log.info(
-        "Split → train=%d | valid=%d | held_out=%d",
+        "Split \u2192 train=%d | valid=%d | held_out=%d",
         len(train_ds), len(valid_ds), len(held_out_ds),
     )
     return train_ds, valid_ds, held_out_ds
+
 
 # ─────────────────────────────────────────────────────────
 # 3. Tokenisation
