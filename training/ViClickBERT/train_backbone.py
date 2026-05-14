@@ -66,14 +66,15 @@ SEGMENTED_CACHE   = "data/processed/ViClickBERT/segmented"
 
 HELD_OUT_SIZE     = 10_000
 VALID_SIZE        = 10_000
+TRAIN_LIMIT       = 500_000       # cap train split (None = use all remaining rows)
 SEED              = 42
-MAX_LENGTH        = 256          # title + sapo combined
+MAX_LENGTH        = 192           # 256→192: saves ~25% attention VRAM (title+sapo fits well)
 
 # Phase-1 hypers
 P1_EPOCHS         = 15
 P1_LR             = 2e-4
-P1_BATCH          = 64           # per_device
-P1_GRAD_ACC       = 8            # effective BS = 64 × 8 = 512
+P1_BATCH          = 48            # 64→48 per_device: saves ~25% activation VRAM
+P1_GRAD_ACC       = 11            # eff. BS = 48×11 = 528 ≈ 512 (unchanged semantics)
 P1_EVAL_STEPS     = 2000
 P1_MLM_PROB       = 0.15
 P1_SOP_RATIO      = 0.5          # fraction of pairs where sapo is swapped
@@ -81,8 +82,8 @@ P1_SOP_RATIO      = 0.5          # fraction of pairs where sapo is swapped
 # Phase-2 hypers (fine-tune backbone on same corpus, 8 epochs)
 P2_EPOCHS         = 8
 P2_LR             = 1e-4
-P2_BATCH          = 64
-P2_GRAD_ACC       = 8
+P2_BATCH          = 48            # 64→48, same rationale as Phase-1
+P2_GRAD_ACC       = 11            # eff. BS = 48×11 = 528 ≈ 512
 P2_EVAL_STEPS     = 2000
 
 # LoRA (Phase-1)
@@ -192,6 +193,14 @@ def load_and_split(seg) -> Tuple[Dataset, Dataset, Dataset]:
     held_out_ds = ds.select(range(HELD_OUT_SIZE))
     valid_ds    = ds.select(range(HELD_OUT_SIZE, HELD_OUT_SIZE + VALID_SIZE))
     train_ds    = ds.select(range(HELD_OUT_SIZE + VALID_SIZE, len(ds)))
+
+    # ── 6. Cap train split at TRAIN_LIMIT ────────────────────────────────────
+    if TRAIN_LIMIT is not None and len(train_ds) > TRAIN_LIMIT:
+        log.info(
+            "Capping train split: %d → %d rows (TRAIN_LIMIT=%d)",
+            len(train_ds), TRAIN_LIMIT, TRAIN_LIMIT,
+        )
+        train_ds = train_ds.select(range(TRAIN_LIMIT))
 
     log.info(
         "Split → train=%d | valid=%d | held_out=%d",
