@@ -1,11 +1,18 @@
 """
-train_phobert.py
-Fine-tune PhoBERT-base-v2 for Vietnamese Clickbait Detection.
+Tune_DoRA.py
+Fine-tune PhoBERT-base-v2 using DoRA (Weight-Decomposed Low-Rank Adaptation).
 
-Output (per run) written to result/results_phoBERT/phobert_base/:
-  ├── best_model/                  # Best checkpoint weights + tokenizer
-  ├── classification_report.csv    # Per-class + macro/weighted metrics
-  └── config.json                  # Run hyperparameters + final metrics
+DoRA decomposes pretrained weights into magnitude and direction components,
+then applies LoRA only to the directional part — yielding better performance
+than vanilla LoRA at comparable parameter counts.
+
+Reference: Liu et al. (2024) "DoRA: Weight-Decomposed Low-Rank Adaptation"
+           https://arxiv.org/abs/2402.09353
+
+Output (per run) written to result/results_phoBERT/dora_base/:
+  ├── best_model/          # Best checkpoint (saved by Trainer)
+  ├── classification_report.csv
+  └── config.json          # Run hyperparameters + final metrics
 """
 
 import argparse
@@ -18,8 +25,12 @@ import pandas as pd
 import torch
 import py_vncorenlp
 
-from sklearn.metrics import classification_report, f1_score
-from torch.utils.data import Dataset
+from datasets import Dataset
+from peft import LoraConfig, TaskType, get_peft_model
+from sklearn.metrics import (
+    classification_report,
+    f1_score,
+)
 from transformers import (
     AutoModelForSequenceClassification,
     AutoTokenizer,
@@ -30,24 +41,6 @@ from transformers import (
 )
 
 warnings.filterwarnings("ignore")
-
-# ──────────────────────────────────────────────────────────────────────────────
-# Dataset
-# ──────────────────────────────────────────────────────────────────────────────
-
-class ClickbaitDataset(Dataset):
-    def __init__(self, encodings, labels):
-        self.encodings = encodings
-        self.labels    = labels
-
-    def __getitem__(self, idx):
-        item = {key: val[idx] for key, val in self.encodings.items()}
-        item["labels"] = torch.tensor(self.labels[idx])
-        return item
-
-    def __len__(self):
-        return len(self.labels)
-
 
 # ──────────────────────────────────────────────────────────────────────────────
 # VnCoreNLP helper
@@ -63,15 +56,17 @@ def setup_vncorenlp() -> py_vncorenlp.VnCoreNLP:
         if not os.path.exists(safe_path):
             os.makedirs(safe_path, exist_ok=True)
             if os.path.exists(vncorenlp_path):
+                print(f">>> Path contains spaces. Copying vncorenlp_data to: {safe_path}")
                 shutil.copytree(vncorenlp_path, safe_path, dirs_exist_ok=True)
             else:
+                print(">>> Downloading VnCoreNLP to safe path...")
                 py_vncorenlp.download_model(save_dir=safe_path)
         vncorenlp_path = safe_path
     elif not os.path.exists(vncorenlp_path):
         os.makedirs(vncorenlp_path, exist_ok=True)
         py_vncorenlp.download_model(save_dir=vncorenlp_path)
 
-    orig_cwd  = os.getcwd()
+    orig_cwd = os.getcwd()
     segmenter = py_vncorenlp.VnCoreNLP(annotators=["wseg"], save_dir=vncorenlp_path)
     os.chdir(orig_cwd)
     return segmenter
@@ -84,8 +79,8 @@ def setup_vncorenlp() -> py_vncorenlp.VnCoreNLP:
 def compute_metrics(eval_pred):
     logits, labels = eval_pred
     predictions = np.argmax(logits, axis=-1)
-    f1     = f1_score(labels, predictions, average="macro")
-    f1_cb  = f1_score(labels, predictions, average="binary", pos_label=1)
+    f1 = f1_score(labels, predictions, average="macro")
+    f1_cb = f1_score(labels, predictions, average="binary", pos_label=1)
     f1_ncb = f1_score(labels, predictions, average="binary", pos_label=0)
     return {
         "f1_macro": f1,
@@ -99,23 +94,23 @@ def compute_metrics(eval_pred):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(
-        description="Fine-tune PhoBERT-base-v2 for Clickbait Detection."
-    )
-    parser.add_argument("-e",  "--epochs",       type=int,   default=10,  help="Number of training epochs.")
-    parser.add_argument("-b",  "--batch-size",   type=int,   default=8,   help="Batch size per device (optimized for 4GB VRAM).")
-    parser.add_argument("-ga", "--gradient-accumulation", type=int, default=4, help="Gradient accumulation steps.")
-    parser.add_argument("-lr", "--learning-rate", type=float, default=2e-5, help="Learning rate.")
-    parser.add_argument("-m",  "--max-length",   type=int,   default=256, help="Maximum sequence length.")
-    parser.add_argument("-fl", "--freeze-layers", type=int,  default=0,   help="Number of encoder layers to freeze (0-12).")
-    parser.add_argument("-p",  "--patience",     type=int,   default=3,   help="Patience for early stopping.")
+    parser = argparse.ArgumentParser(description="Fine-tune PhoBERT-base-v2 with DoRA.")
+    parser.add_argument("-e",  "--epochs",       type=int,   default=20,   help="Max training epochs.")
+    parser.add_argument("-b",  "--batch-size",   type=int,   default=4,    help="Per-device batch size (4 GB VRAM).")
+    parser.add_argument("-ga", "--gradient-accumulation", type=int, default=8, help="Gradient accumulation steps.")
+    parser.add_argument("-lr", "--learning-rate", type=float, default=2e-4, help="Learning rate.")
+    parser.add_argument("-m",  "--max-length",   type=int,   default=256,  help="Max token sequence length.")
+    parser.add_argument("-r",  "--lora-rank",    type=int,   default=16,   help="DoRA / LoRA rank r.")
+    parser.add_argument("-a",  "--lora-alpha",   type=int,   default=32,   help="LoRA alpha scaling factor.")
+    parser.add_argument("-d",  "--lora-dropout", type=float, default=0.1,  help="LoRA dropout.")
+    parser.add_argument("-p",  "--patience",     type=int,   default=5,    help="Early-stopping patience (epochs).")
     args = parser.parse_args()
 
     # ── Paths ──────────────────────────────────────────────────────────────────
     train_path = "data/processed/cleaned/train_best_cleaned.csv"
     val_path   = "data/processed/cleaned/validate_best_cleaned.csv"
     test_path  = "data/processed/cleaned/test_best_cleaned.csv"
-    output_dir = "result/results_phoBERT/phobert_base"
+    output_dir = "result/results_phoBERT/dora_base"
     best_model_dir = os.path.join(output_dir, "best_model")
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(best_model_dir, exist_ok=True)
@@ -130,14 +125,14 @@ def main():
         return " ".join(segmenter.word_segment(str(text))).strip()
 
     # ── Data ───────────────────────────────────────────────────────────────────
-    print(">>> Loading datasets...")
+    print(">>> Loading and preprocessing datasets...")
     label_map = {"non-clickbait": 0, "clickbait": 1}
 
     def preprocess_df(df: pd.DataFrame) -> pd.DataFrame:
         df = df.copy()
-        df["title"]          = df["title"].fillna("").apply(segment_text)
+        df["title"]         = df["title"].fillna("").apply(segment_text)
         df["lead_paragraph"] = df["lead_paragraph"].fillna("").apply(segment_text)
-        df["label"]          = df["label"].map(label_map)
+        df["label"]         = df["label"].map(label_map)
         return df
 
     print(">>> Segmenting text (this may take a while)...")
@@ -145,37 +140,47 @@ def main():
     val_df   = preprocess_df(pd.read_csv(val_path))
     test_df  = preprocess_df(pd.read_csv(test_path))
 
+    # ── HuggingFace Dataset ────────────────────────────────────────────────────
+    cols = ["title", "lead_paragraph", "label"]
+    train_ds = Dataset.from_pandas(train_df[cols].reset_index(drop=True))
+    val_ds   = Dataset.from_pandas(val_df[cols].reset_index(drop=True))
+    test_ds  = Dataset.from_pandas(test_df[cols].reset_index(drop=True))
+
     # ── Tokenizer ──────────────────────────────────────────────────────────────
     model_name = "vinai/phobert-base-v2"
     tokenizer  = AutoTokenizer.from_pretrained(model_name)
 
-    print(">>> Tokenizing datasets...")
-    def get_encodings(df: pd.DataFrame):
+    def tokenize_fn(examples):
         return tokenizer(
-            df["title"].tolist(),
-            df["lead_paragraph"].tolist(),
+            examples["title"],
+            examples["lead_paragraph"],
             truncation=True,
-            padding=True,
             max_length=args.max_length,
         )
 
-    train_dataset = ClickbaitDataset(get_encodings(train_df), train_df["label"].tolist())
-    val_dataset   = ClickbaitDataset(get_encodings(val_df),   val_df["label"].tolist())
-    test_dataset  = ClickbaitDataset(get_encodings(test_df),  test_df["label"].tolist())
+    print(">>> Tokenizing datasets...")
+    train_ds = train_ds.map(tokenize_fn, batched=True).rename_column("label", "labels")
+    val_ds   = val_ds.map(tokenize_fn,   batched=True).rename_column("label", "labels")
+    test_ds  = test_ds.map(tokenize_fn,  batched=True).rename_column("label", "labels")
 
-    # ── Model ──────────────────────────────────────────────────────────────────
-    print(f">>> Initializing model: {model_name}")
+    # ── Model + DoRA ───────────────────────────────────────────────────────────
+    print(">>> Initializing PhoBERT-base-v2 with DoRA...")
     model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
-    if args.freeze_layers > 0:
-        print(f">>> Freezing embeddings and first {args.freeze_layers} encoder layers...")
-        for name, param in model.named_parameters():
-            if name.startswith("roberta.embeddings."):
-                param.requires_grad = False
-            elif name.startswith("roberta.encoder.layer."):
-                layer_idx = int(name.split(".")[3])
-                if layer_idx < args.freeze_layers:
-                    param.requires_grad = False
+    # DoRA = LoRA with use_dora=True.
+    # Target Q, K, V, and the dense/output projection for richer adaptation.
+    dora_config = LoraConfig(
+        r=args.lora_rank,
+        lora_alpha=args.lora_alpha,
+        target_modules=["query", "key", "value", "dense"],
+        lora_dropout=args.lora_dropout,
+        bias="none",
+        use_dora=True,          # ← enables Weight-Decomposed LoRA (DoRA)
+        task_type=TaskType.SEQ_CLS,
+    )
+
+    model = get_peft_model(model, dora_config)
+    model.print_trainable_parameters()
 
     # ── Training Arguments ─────────────────────────────────────────────────────
     training_args = TrainingArguments(
@@ -190,11 +195,11 @@ def main():
         save_strategy="epoch",
         logging_strategy="epoch",
         load_best_model_at_end=True,
-        save_total_limit=1,              # Keep only the single best checkpoint
+        save_total_limit=1,          # Keep only the single best checkpoint
         metric_for_best_model="f1_macro",
         greater_is_better=True,
         bf16=torch.cuda.is_available(),
-        logging_dir=os.path.join(output_dir, "logs"),
+        push_to_hub=False,
         report_to="none",
         remove_unused_columns=True,
     )
@@ -203,20 +208,20 @@ def main():
     trainer = Trainer(
         model=model,
         args=training_args,
-        train_dataset=train_dataset,
-        eval_dataset=val_dataset,
+        train_dataset=train_ds,
+        eval_dataset=val_ds,
         data_collator=DataCollatorWithPadding(tokenizer=tokenizer),
         compute_metrics=compute_metrics,
         callbacks=[EarlyStoppingCallback(early_stopping_patience=args.patience)],
     )
 
     # ── Train ──────────────────────────────────────────────────────────────────
-    print(">>> Starting training...")
+    print(">>> Starting DoRA training...")
     train_result = trainer.train()
 
     # ── Evaluate on Test Set ───────────────────────────────────────────────────
     print("\n>>> Evaluating on Test Set...")
-    predictions_output = trainer.predict(test_dataset)
+    predictions_output = trainer.predict(test_ds)
     preds  = np.argmax(predictions_output.predictions, axis=-1)
     labels = predictions_output.label_ids
 
@@ -247,12 +252,17 @@ def main():
     }
     config_data = {
         "model": model_name,
+        "method": "DoRA",
+        "lora_rank": args.lora_rank,
+        "lora_alpha": args.lora_alpha,
+        "lora_dropout": args.lora_dropout,
+        "target_modules": ["query", "key", "value", "dense"],
+        "use_dora": True,
         "epochs": args.epochs,
         "batch_size": args.batch_size,
         "gradient_accumulation_steps": args.gradient_accumulation,
         "learning_rate": args.learning_rate,
         "max_length": args.max_length,
-        "freeze_layers": args.freeze_layers,
         "early_stopping_patience": args.patience,
         "test_metrics": final_metrics,
         "train_runtime_seconds": round(train_result.metrics.get("train_runtime", 0), 2),
