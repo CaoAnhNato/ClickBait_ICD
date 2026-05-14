@@ -259,7 +259,7 @@ class DataCollatorForMLM_SOP:
             sep_id  = self.tokenizer.sep_token_id
             sep_pos = [j for j, t in enumerate(ids) if t == sep_id]
 
-            if len(sep_pos) >= 2 and rnd.random() < self.sop_ratio:
+            if batch_size > 1 and len(sep_pos) >= 2 and rnd.random() < self.sop_ratio:
                 # Swap sapo with another sample's sapo to create SOP negative
                 partner = (i + rnd.randint(1, batch_size - 1)) % batch_size
                 p_feat  = features[partner]
