@@ -1,6 +1,6 @@
 """
 Tune_DoRA.py
-Fine-tune PhoBERT-base-v2 using DoRA (Weight-Decomposed Low-Rank Adaptation).
+Fine-tune PhoBERT-base using DoRA (Weight-Decomposed Low-Rank Adaptation).
 
 DoRA decomposes pretrained weights into magnitude and direction components,
 then applies LoRA only to the directional part — yielding better performance
@@ -94,7 +94,7 @@ def compute_metrics(eval_pred):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="Fine-tune PhoBERT-base-v2 with DoRA.")
+    parser = argparse.ArgumentParser(description="Fine-tune PhoBERT-base with DoRA.")
     parser.add_argument("-e",  "--epochs",       type=int,   default=20,   help="Max training epochs.")
     parser.add_argument("-b",  "--batch-size",   type=int,   default=4,    help="Per-device batch size (4 GB VRAM).")
     parser.add_argument("-ga", "--gradient-accumulation", type=int, default=8, help="Gradient accumulation steps.")
@@ -147,7 +147,7 @@ def main():
     test_ds  = Dataset.from_pandas(test_df[cols].reset_index(drop=True))
 
     # ── Tokenizer ──────────────────────────────────────────────────────────────
-    model_name = "vinai/phobert-base-v2"
+    model_name = "vinai/phobert-base"
     tokenizer  = AutoTokenizer.from_pretrained(model_name)
 
     def tokenize_fn(examples):
@@ -164,7 +164,7 @@ def main():
     test_ds  = test_ds.map(tokenize_fn,  batched=True).rename_column("label", "labels")
 
     # ── Model + DoRA ───────────────────────────────────────────────────────────
-    print(">>> Initializing PhoBERT-base-v2 with DoRA...")
+    print(">>> Initializing PhoBERT-base with DoRA...")
     model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
     # DoRA = LoRA with use_dora=True.

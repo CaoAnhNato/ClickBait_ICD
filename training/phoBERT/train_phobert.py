@@ -1,6 +1,6 @@
 """
 train_phobert.py
-Fine-tune PhoBERT-base-v2 for Vietnamese Clickbait Detection.
+Fine-tune PhoBERT-base for Vietnamese Clickbait Detection.
 
 Output (per run) written to result/results_phoBERT/phobert_base/:
   ├── best_model/                  # Best checkpoint weights + tokenizer
@@ -100,7 +100,7 @@ def compute_metrics(eval_pred):
 
 def main():
     parser = argparse.ArgumentParser(
-        description="Fine-tune PhoBERT-base-v2 for Clickbait Detection."
+        description="Fine-tune PhoBERT-base for Clickbait Detection."
     )
     parser.add_argument("-e",  "--epochs",       type=int,   default=10,  help="Number of training epochs.")
     parser.add_argument("-b",  "--batch-size",   type=int,   default=8,   help="Batch size per device (optimized for 4GB VRAM).")
@@ -146,7 +146,7 @@ def main():
     test_df  = preprocess_df(pd.read_csv(test_path))
 
     # ── Tokenizer ──────────────────────────────────────────────────────────────
-    model_name = "vinai/phobert-base-v2"
+    model_name = "vinai/phobert-base"
     tokenizer  = AutoTokenizer.from_pretrained(model_name)
 
     print(">>> Tokenizing datasets...")

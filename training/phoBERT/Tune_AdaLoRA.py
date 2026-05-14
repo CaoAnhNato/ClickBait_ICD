@@ -1,6 +1,6 @@
 """
 Tune_AdaLoRA.py
-Fine-tune PhoBERT-base-v2 using AdaLoRA (Adaptive Budget Allocation for
+Fine-tune PhoBERT-base using AdaLoRA (Adaptive Budget Allocation for
 Parameter-Efficient Fine-Tuning).
 
 AdaLoRA adaptively allocates the rank budget across weight matrices based on
@@ -97,7 +97,7 @@ def compute_metrics(eval_pred):
 # ──────────────────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="Fine-tune PhoBERT-base-v2 with AdaLoRA.")
+    parser = argparse.ArgumentParser(description="Fine-tune PhoBERT-base with AdaLoRA.")
     parser.add_argument("-e",  "--epochs",         type=int,   default=20,   help="Max training epochs.")
     parser.add_argument("-b",  "--batch-size",     type=int,   default=4,    help="Per-device batch size (4 GB VRAM).")
     parser.add_argument("-ga", "--gradient-accumulation", type=int, default=8, help="Gradient accumulation steps.")
@@ -150,7 +150,7 @@ def main():
     test_ds  = Dataset.from_pandas(test_df[cols].reset_index(drop=True))
 
     # ── Tokenizer ──────────────────────────────────────────────────────────────
-    model_name = "vinai/phobert-base-v2"
+    model_name = "vinai/phobert-base"
     tokenizer  = AutoTokenizer.from_pretrained(model_name)
 
     def tokenize_fn(examples):
@@ -179,7 +179,7 @@ def main():
     )
 
     # ── Model + AdaLoRA ────────────────────────────────────────────────────────
-    print(">>> Initializing PhoBERT-base-v2 with AdaLoRA...")
+    print(">>> Initializing PhoBERT-base with AdaLoRA...")
     model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
     adalora_config = AdaLoraConfig(
