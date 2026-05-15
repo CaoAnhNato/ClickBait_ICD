@@ -1,14 +1,13 @@
 {
   "add_cross_attention": false,
   "architectures": [
-    "RobertaForSequenceClassification"
+    "PhoBertWithCoAttentionPooling"
   ],
   "attention_probs_dropout_prob": 0.1,
   "bos_token_id": 0,
   "classifier_dropout": null,
   "dtype": "float32",
   "eos_token_id": 2,
-  "gradient_checkpointing": false,
   "hidden_act": "gelu",
   "hidden_dropout_prob": 0.1,
   "hidden_size": 768,
@@ -21,7 +20,7 @@
   "num_attention_heads": 12,
   "num_hidden_layers": 12,
   "pad_token_id": 1,
-  "problem_type": "single_label_classification",
+  "position_embedding_type": "absolute",
   "tie_word_embeddings": true,
   "tokenizer_class": "PhobertTokenizer",
   "transformers_version": "5.5.0",
