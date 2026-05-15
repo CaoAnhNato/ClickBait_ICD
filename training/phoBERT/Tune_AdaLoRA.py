@@ -168,13 +168,14 @@ def main():
 
     # ── Estimate pruning schedule from dataset size ────────────────────────────
     steps_per_epoch = len(train_ds) // (args.batch_size * args.gradient_accumulation)
+    total_step = steps_per_epoch * args.epochs  # Required by newer PEFT versions
     # Warm-up for ~2 epochs before pruning starts, finish by epoch 6
     tinit   = steps_per_epoch * 2
     tfinal  = steps_per_epoch * 6
     deltaT  = max(1, steps_per_epoch // 4)   # prune 4× per epoch
 
     print(
-        f">>> AdaLoRA schedule: tinit={tinit}, tfinal={tfinal}, deltaT={deltaT} "
+        f">>> AdaLoRA schedule: total_step={total_step}, tinit={tinit}, tfinal={tfinal}, deltaT={deltaT} "
         f"(steps_per_epoch≈{steps_per_epoch})"
     )
 
@@ -185,6 +186,7 @@ def main():
     adalora_config = AdaLoraConfig(
         r=args.target_rank,          # Target average rank after pruning
         init_r=args.init_rank,       # Initial rank (higher → more params at start)
+        total_step=total_step,       # Total training steps (required by PEFT >= 0.8)
         tinit=tinit,                 # Steps to start pruning
         tfinal=tfinal,               # Steps to stop pruning
         deltaT=deltaT,               # Pruning interval (steps)
@@ -250,46 +252,63 @@ def main():
     )
     print("\nClassification Report:\n", report_str)
 
-    # 1. Save classification report CSV ----------------------------------------
-    report_df = pd.DataFrame(report_dict).transpose()
-    report_csv_path = os.path.join(output_dir, "classification_report.csv")
-    report_df.to_csv(report_csv_path)
-    print(f">>> Classification report saved → {report_csv_path}")
-
-    # 2. Save best model weights + tokenizer ------------------------------------
-    trainer.save_model(best_model_dir)
-    tokenizer.save_pretrained(best_model_dir)
-    print(f">>> Best model saved → {best_model_dir}")
-
-    # 3. Save config (hyperparams + final metrics) ------------------------------
-    final_metrics = {
-        k: float(v) for k, v in report_dict.get("macro avg", {}).items()
-        if k in ("precision", "recall", "f1-score")
-    }
-    config_data = {
-        "model": model_name,
-        "method": "AdaLoRA",
-        "target_rank": args.target_rank,
-        "init_rank": args.init_rank,
-        "lora_alpha": args.lora_alpha,
-        "target_modules": ["query", "key", "value"],
-        "modules_to_save": ["classifier"],
-        "tinit": tinit,
-        "tfinal": tfinal,
-        "deltaT": deltaT,
-        "epochs": args.epochs,
-        "batch_size": args.batch_size,
-        "gradient_accumulation_steps": args.gradient_accumulation,
-        "learning_rate": args.learning_rate,
-        "max_length": args.max_length,
-        "early_stopping_patience": args.patience,
-        "test_metrics": final_metrics,
-        "train_runtime_seconds": round(train_result.metrics.get("train_runtime", 0), 2),
-    }
+    # Check for improvement before saving --------------------------------------
     config_path = os.path.join(output_dir, "config.json")
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config_data, f, ensure_ascii=False, indent=2)
-    print(f">>> Config saved → {config_path}")
+    new_f1 = report_dict.get("macro avg", {}).get("f1-score", 0.0)
+    old_f1 = 0.0
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                old_config = json.load(f)
+                old_f1 = old_config.get("test_metrics", {}).get("f1-score", 0.0)
+        except Exception:
+            pass
+
+    if new_f1 > old_f1:
+        print(f"\n>>> Improvement detected: {old_f1:.4f} -> {new_f1:.4f}. Saving results...")
+
+        # 1. Save classification report CSV ----------------------------------------
+        report_df = pd.DataFrame(report_dict).transpose()
+        report_csv_path = os.path.join(output_dir, "classification_report.csv")
+        report_df.to_csv(report_csv_path)
+        print(f">>> Classification report saved → {report_csv_path}")
+
+        # 2. Save best model weights + tokenizer ------------------------------------
+        trainer.save_model(best_model_dir)
+        tokenizer.save_pretrained(best_model_dir)
+        print(f">>> Best model saved → {best_model_dir}")
+
+        # 3. Save config (hyperparams + final metrics) ------------------------------
+        final_metrics = {
+            k: float(v) for k, v in report_dict.get("macro avg", {}).items()
+            if k in ("precision", "recall", "f1-score")
+        }
+        config_data = {
+            "model": model_name,
+            "method": "AdaLoRA",
+            "target_rank": args.target_rank,
+            "init_rank": args.init_rank,
+            "lora_alpha": args.lora_alpha,
+            "target_modules": ["query", "key", "value"],
+            "modules_to_save": ["classifier"],
+            "total_step": total_step,
+            "tinit": tinit,
+            "tfinal": tfinal,
+            "deltaT": deltaT,
+            "epochs": args.epochs,
+            "batch_size": args.batch_size,
+            "gradient_accumulation_steps": args.gradient_accumulation,
+            "learning_rate": args.learning_rate,
+            "max_length": args.max_length,
+            "early_stopping_patience": args.patience,
+            "test_metrics": final_metrics,
+            "train_runtime_seconds": round(train_result.metrics.get("train_runtime", 0), 2),
+        }
+        with open(config_path, "w", encoding="utf-8") as f:
+            json.dump(config_data, f, ensure_ascii=False, indent=2)
+        print(f">>> Config saved → {config_path}")
+    else:
+        print(f"\n>>> No improvement detected: {new_f1:.4f} <= {old_f1:.4f}. Skipping save.")
 
     print("\n>>> Done.")
 

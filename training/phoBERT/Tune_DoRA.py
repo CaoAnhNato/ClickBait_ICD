@@ -234,43 +234,59 @@ def main():
     )
     print("\nClassification Report:\n", report_str)
 
-    # 1. Save classification report CSV ----------------------------------------
-    report_df = pd.DataFrame(report_dict).transpose()
-    report_csv_path = os.path.join(output_dir, "classification_report.csv")
-    report_df.to_csv(report_csv_path)
-    print(f">>> Classification report saved → {report_csv_path}")
-
-    # 2. Save best model weights + tokenizer ------------------------------------
-    trainer.save_model(best_model_dir)
-    tokenizer.save_pretrained(best_model_dir)
-    print(f">>> Best model saved → {best_model_dir}")
-
-    # 3. Save config (hyperparams + final metrics) ------------------------------
-    final_metrics = {
-        k: float(v) for k, v in report_dict.get("macro avg", {}).items()
-        if k in ("precision", "recall", "f1-score")
-    }
-    config_data = {
-        "model": model_name,
-        "method": "DoRA",
-        "lora_rank": args.lora_rank,
-        "lora_alpha": args.lora_alpha,
-        "lora_dropout": args.lora_dropout,
-        "target_modules": ["query", "key", "value", "dense"],
-        "use_dora": True,
-        "epochs": args.epochs,
-        "batch_size": args.batch_size,
-        "gradient_accumulation_steps": args.gradient_accumulation,
-        "learning_rate": args.learning_rate,
-        "max_length": args.max_length,
-        "early_stopping_patience": args.patience,
-        "test_metrics": final_metrics,
-        "train_runtime_seconds": round(train_result.metrics.get("train_runtime", 0), 2),
-    }
+    # Check for improvement before saving --------------------------------------
     config_path = os.path.join(output_dir, "config.json")
-    with open(config_path, "w", encoding="utf-8") as f:
-        json.dump(config_data, f, ensure_ascii=False, indent=2)
-    print(f">>> Config saved → {config_path}")
+    new_f1 = report_dict.get("macro avg", {}).get("f1-score", 0.0)
+    old_f1 = 0.0
+    if os.path.exists(config_path):
+        try:
+            with open(config_path, "r", encoding="utf-8") as f:
+                old_config = json.load(f)
+                old_f1 = old_config.get("test_metrics", {}).get("f1-score", 0.0)
+        except Exception:
+            pass
+
+    if new_f1 > old_f1:
+        print(f"\n>>> Improvement detected: {old_f1:.4f} -> {new_f1:.4f}. Saving results...")
+
+        # 1. Save classification report CSV ----------------------------------------
+        report_df = pd.DataFrame(report_dict).transpose()
+        report_csv_path = os.path.join(output_dir, "classification_report.csv")
+        report_df.to_csv(report_csv_path)
+        print(f">>> Classification report saved → {report_csv_path}")
+
+        # 2. Save best model weights + tokenizer ------------------------------------
+        trainer.save_model(best_model_dir)
+        tokenizer.save_pretrained(best_model_dir)
+        print(f">>> Best model saved → {best_model_dir}")
+
+        # 3. Save config (hyperparams + final metrics) ------------------------------
+        final_metrics = {
+            k: float(v) for k, v in report_dict.get("macro avg", {}).items()
+            if k in ("precision", "recall", "f1-score")
+        }
+        config_data = {
+            "model": model_name,
+            "method": "DoRA",
+            "lora_rank": args.lora_rank,
+            "lora_alpha": args.lora_alpha,
+            "lora_dropout": args.lora_dropout,
+            "target_modules": ["query", "key", "value", "dense"],
+            "use_dora": True,
+            "epochs": args.epochs,
+            "batch_size": args.batch_size,
+            "gradient_accumulation_steps": args.gradient_accumulation,
+            "learning_rate": args.learning_rate,
+            "max_length": args.max_length,
+            "early_stopping_patience": args.patience,
+            "test_metrics": final_metrics,
+            "train_runtime_seconds": round(train_result.metrics.get("train_runtime", 0), 2),
+        }
+        with open(config_path, "w", encoding="utf-8") as f:
+            json.dump(config_data, f, ensure_ascii=False, indent=2)
+        print(f">>> Config saved → {config_path}")
+    else:
+        print(f"\n>>> No improvement detected: {new_f1:.4f} <= {old_f1:.4f}. Skipping save.")
 
     print("\n>>> Done.")
 
