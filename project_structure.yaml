@@ -144,6 +144,16 @@ directories:
         files:
           - Tune_LoRA.py
           - Tune_LLRD.py
+      phobert_base_v2:
+        description: "Training code for PhoBERT base v2 models."
+        files:
+          - Tune_LoRA.py
+          - Tune_LLRD.py
+      phobert_large:
+        description: "Training code for PhoBERT large models."
+        files:
+          - Tune_LoRA.py
+          - Tune_LLRD.py
       vELECTRA:
         description: "Training code for vELECTRA models."
         files:
