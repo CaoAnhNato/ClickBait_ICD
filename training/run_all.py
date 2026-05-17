@@ -9,7 +9,7 @@ def main():
     parser.add_argument("-ga", "--gradient-accumulation", type=int, default=4, help="Gradient accumulation steps.")
     args = parser.parse_args()
 
-    models = ["mBERT", "XLMR", "videberta", "viBERT", "vELECTRA"]
+    models = ["mBERT", "XLMR", "videberta", "viBERT", "vELECTRA", "phobert_base_v2", "phobert_large"]
     scripts = ["Tune_LoRA.py", "Tune_LLRD.py"]
 
     base_dir = os.path.dirname(os.path.abspath(__file__))

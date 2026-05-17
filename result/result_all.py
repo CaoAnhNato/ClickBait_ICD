@@ -4,7 +4,7 @@ import pandas as pd
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    models = ["mBERT", "XLMR", "videberta", "viBERT", "vELECTRA"]
+    models = ["mBERT", "XLMR", "videberta", "viBERT", "vELECTRA", "phobert_base_v2", "phobert_large"]
     scenarios = ["lora_base", "llrd_base"]
 
     results = []
