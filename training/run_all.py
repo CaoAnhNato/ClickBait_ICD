@@ -1,6 +1,7 @@
 import os
 import subprocess
 import argparse
+import sys
 
 def main():
     parser = argparse.ArgumentParser(description="Run all training scripts for clickbait detection.")
@@ -28,7 +29,7 @@ def main():
             print(f"{'='*60}\\n")
             
             cmd = [
-                "python", script_path,
+                sys.executable, script_path,
                 "--epochs", str(args.epochs),
                 "--batch-size", str(args.batch_size),
                 "--gradient-accumulation", str(args.gradient_accumulation)
