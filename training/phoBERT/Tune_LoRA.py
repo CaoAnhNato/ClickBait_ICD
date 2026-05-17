@@ -255,6 +255,8 @@ def main():
             k: float(v) for k, v in report_dict.get("macro avg", {}).items()
             if k in ("precision", "recall", "f1-score")
         }
+        final_metrics["accuracy"] = float(report_dict.get("accuracy", 0.0))
+        final_metrics["f1_clickbait"] = float(report_dict.get("clickbait", {}).get("f1-score", 0.0))
         config_data = {
             "model": model_name,
             "method": "LoRA",

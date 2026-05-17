@@ -244,6 +244,7 @@ def main():
     parser.add_argument("-b",  "--batch-size",   type=int,   default=8,   help="Batch size per device (optimized for 4GB VRAM).")
     parser.add_argument("-ga", "--gradient-accumulation", type=int, default=4, help="Gradient accumulation steps.")
     parser.add_argument("-lr", "--learning-rate", type=float, default=2e-5, help="Learning rate.")
+    parser.add_argument("-ld", "--layer-decay",  type=float, default=0.95, help="Layer-wise learning rate decay factor.")
     parser.add_argument("-m",  "--max-length",   type=int,   default=256, help="Maximum sequence length.")
     parser.add_argument("-fl", "--freeze-layers", type=int,  default=0,   help="Number of encoder layers to freeze (0-12).")
     parser.add_argument("-p",  "--patience",     type=int,   default=5,   help="Patience for early stopping.")
@@ -253,7 +254,7 @@ def main():
     train_path = "data/processed/cleaned/train_best_cleaned.csv"
     val_path   = "data/processed/cleaned/validate_best_cleaned.csv"
     test_path  = "data/processed/cleaned/test_best_cleaned.csv"
-    output_dir = "result/results_phoBERT/phobert_base"
+    output_dir = "result/results_phoBERT/phobert_base_improve"
     best_model_dir = os.path.join(output_dir, "best_model")
     os.makedirs(output_dir, exist_ok=True)
     os.makedirs(best_model_dir, exist_ok=True)
@@ -303,8 +304,8 @@ def main():
 
     # ── Model ──────────────────────────────────────────────────────────────────
     print(f">>> Initializing PhoBERT Baseline (AutoModelForSequenceClassification): {model_name}")
-    # model = PhoBertWithCoAttentionPooling.from_pretrained(model_name, num_labels=2)
-    model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
+    model = PhoBertWithCoAttentionPooling.from_pretrained(model_name, num_labels=2)
+    #model = AutoModelForSequenceClassification.from_pretrained(model_name, num_labels=2)
 
     if args.freeze_layers > 0:
         print(f">>> Freezing embeddings and first {args.freeze_layers} encoder layers...")
@@ -338,6 +339,43 @@ def main():
         remove_unused_columns=True,
     )
 
+    # ── Optimizer with LLRD ────────────────────────────────────────────────────
+    def get_optimizer_grouped_parameters(model, learning_rate, weight_decay, layer_decay):
+        no_decay = ["bias", "LayerNorm.weight", "LayerNorm.bias"]
+        optimizer_grouped_parameters = []
+        num_layers = model.config.num_hidden_layers
+        
+        for name, param in model.named_parameters():
+            if not param.requires_grad:
+                continue
+                
+            if name.startswith("roberta.embeddings"):
+                depth = num_layers + 1
+            elif name.startswith("roberta.encoder.layer."):
+                layer_idx = int(name.split(".")[3])
+                depth = num_layers - layer_idx
+            else:
+                depth = 0
+                
+            lr = learning_rate * (layer_decay ** depth)
+            wd = 0.0 if any(nd in name for nd in no_decay) else weight_decay
+            
+            optimizer_grouped_parameters.append({
+                "params": [param],
+                "lr": lr,
+                "weight_decay": wd
+            })
+            
+        return optimizer_grouped_parameters
+
+    optimizer_grouped_parameters = get_optimizer_grouped_parameters(
+        model, 
+        learning_rate=args.learning_rate, 
+        weight_decay=training_args.weight_decay, 
+        layer_decay=args.layer_decay
+    )
+    optimizer = torch.optim.AdamW(optimizer_grouped_parameters, lr=args.learning_rate)
+
     # ── Trainer ────────────────────────────────────────────────────────────────
     trainer = Trainer(
         model=model,
@@ -346,6 +384,7 @@ def main():
         eval_dataset=val_dataset,
         data_collator=DataCollatorWithPadding(tokenizer=tokenizer),
         compute_metrics=compute_metrics,
+        optimizers=(optimizer, None),
         callbacks=[EarlyStoppingCallback(early_stopping_patience=args.patience)],
     )
 
@@ -399,12 +438,15 @@ def main():
             k: float(v) for k, v in report_dict.get("macro avg", {}).items()
             if k in ("precision", "recall", "f1-score")
         }
+        final_metrics["accuracy"] = float(report_dict.get("accuracy", 0.0))
+        final_metrics["f1_clickbait"] = float(report_dict.get("clickbait", {}).get("f1-score", 0.0))
         config_data = {
             "model": model_name,
             "epochs": args.epochs,
             "batch_size": args.batch_size,
             "gradient_accumulation_steps": args.gradient_accumulation,
             "learning_rate": args.learning_rate,
+            "layer_decay": args.layer_decay,
             "max_length": args.max_length,
             "freeze_layers": args.freeze_layers,
             "early_stopping_patience": args.patience,
