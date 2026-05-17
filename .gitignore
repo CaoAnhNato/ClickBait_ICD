@@ -15,7 +15,10 @@ scaler.pt
 scheduler.pt
 training_args.bin
 trainer_state.json
+best_model/
 
 # User specific exclusions
 test/
-project_structure.yaml
+
+# Ablation framework
+data/processed/evidence/
